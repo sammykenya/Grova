@@ -2,10 +2,10 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { 
   Home, 
-  Bot, 
-  Users, 
-  MapPin, 
-  User 
+  QrCode, 
+  TrendingUp, 
+  UserCheck, 
+  MoreHorizontal 
 } from "lucide-react";
 
 interface BottomNavigationProps {
@@ -23,28 +23,28 @@ export default function BottomNavigation({ currentPage }: BottomNavigationProps)
       key: 'home'
     },
     { 
-      path: '/ai-coach', 
-      icon: Bot, 
-      label: 'AI Coach',
-      key: 'ai-coach'
+      path: '/qr-payments', 
+      icon: QrCode, 
+      label: 'QR Pay',
+      key: 'qr-payments'
     },
     { 
-      path: '/community', 
-      icon: Users, 
-      label: 'Community',
-      key: 'community'
+      path: '/investments', 
+      icon: TrendingUp, 
+      label: 'Invest',
+      key: 'investments'
     },
     { 
-      path: '/agents', 
-      icon: MapPin, 
-      label: 'Agents',
-      key: 'agents'
+      path: '/advisors', 
+      icon: UserCheck, 
+      label: 'Advisors',
+      key: 'advisors'
     },
     { 
-      path: '#', 
-      icon: User, 
-      label: 'Profile',
-      key: 'profile'
+      path: '/more', 
+      icon: MoreHorizontal, 
+      label: 'More',
+      key: 'more'
     },
   ];
 

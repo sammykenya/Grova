@@ -61,17 +61,50 @@ Respond with JSON in this format: { "tip": "main advice", "category": "savings|b
     };
   } catch (error) {
     console.error("OpenAI API error:", error);
-    // Fallback tip
-    return {
-      tip: "Start building your emergency fund by saving small amounts regularly. Even 50 KES per week can make a difference over time.",
-      category: "savings",
-      actionable_steps: [
-        "Set aside a small amount each day",
-        "Use a separate account for emergency savings",
-        "Track your progress weekly"
-      ],
-      confidence: 0.9,
-    };
+    
+    // Enhanced fallback tips array
+    const fallbackTips = [
+      {
+        tip: "Build your emergency fund by saving just 50 KES daily - that's 1,500 KES monthly for financial security!",
+        category: "savings",
+        actionable_steps: ["Save 50 KES every morning", "Use M-Pesa lock savings", "Track progress with a savings journal"],
+        confidence: 0.9
+      },
+      {
+        tip: "Join a community savings group (chama) to multiply your investment power through pooled resources.",
+        category: "investment", 
+        actionable_steps: ["Find 10 trusted friends", "Contribute 1,000 KES monthly", "Rotate payouts every month"],
+        confidence: 0.8
+      },
+      {
+        tip: "Use the 50/30/20 rule: 50% needs, 30% wants, 20% savings and debt payments.",
+        category: "budgeting",
+        actionable_steps: ["Calculate monthly income", "List all expenses by category", "Allocate money before spending"],
+        confidence: 0.9
+      },
+      {
+        tip: "Start a small business with just 5,000 KES - sell airtime, snacks, or phone accessories in your area.",
+        category: "investment",
+        actionable_steps: ["Research local demand", "Start with small capital", "Track daily profits and losses"],
+        confidence: 0.7
+      },
+      {
+        tip: "Set up automatic savings: Save 10% of every mobile money transaction you receive.",
+        category: "savings",
+        actionable_steps: ["Enable M-Pesa auto-save", "Set 10% save rate", "Review monthly progress"],
+        confidence: 0.8
+      },
+      {
+        tip: "Avoid high-interest loans by building a community lending circle with trusted friends.",
+        category: "emergency",
+        actionable_steps: ["Form group of 5-10 people", "Contribute equally monthly", "Create emergency fund rules"],
+        confidence: 0.9
+      }
+    ];
+    
+    // Return random tip from enhanced fallbacks
+    const randomTip = fallbackTips[Math.floor(Math.random() * fallbackTips.length)];
+    return randomTip;
   }
 }
 

@@ -10,6 +10,10 @@ import SendMoney from "@/pages/send-money";
 import AICoach from "@/pages/ai-coach";
 import CommunityTreasury from "@/pages/community-treasury";
 import AgentLocator from "@/pages/agent-locator";
+import QRPayments from "@/pages/qr-payments";
+import Investments from "@/pages/investments";
+import Advisors from "@/pages/advisors";
+import More from "@/pages/more";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -23,6 +27,10 @@ function Router() {
         <>
           <Route path="/" component={Home} />
           <Route path="/send" component={SendMoney} />
+          <Route path="/qr-payments" component={QRPayments} />
+          <Route path="/investments" component={Investments} />
+          <Route path="/advisors" component={Advisors} />
+          <Route path="/more" component={More} />
           <Route path="/ai-coach" component={AICoach} />
           <Route path="/community" component={CommunityTreasury} />
           <Route path="/agents" component={AgentLocator} />
