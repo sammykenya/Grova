@@ -1,0 +1,235 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
+
+  /* UniFi Brand Colors */
+  --unifi-blue: hsl(207, 90%, 54%);
+  --unifi-emerald: hsl(161, 95%, 35%);
+  --unifi-purple: hsl(252, 83%, 57%);
+  --fiat-green: hsl(155, 89%, 38%);
+  --crypto-amber: hsl(42, 96%, 48%);
+  --credits-purple: hsl(263, 79%, 65%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .unifi-blue {
+    color: var(--unifi-blue);
+  }
+  
+  .bg-unifi-blue {
+    background-color: var(--unifi-blue);
+  }
+  
+  .border-unifi-blue {
+    border-color: var(--unifi-blue);
+  }
+  
+  .text-fiat-green {
+    color: var(--fiat-green);
+  }
+  
+  .bg-fiat-green {
+    background-color: var(--fiat-green);
+  }
+  
+  .border-fiat-green {
+    border-color: var(--fiat-green);
+  }
+  
+  .text-crypto-amber {
+    color: var(--crypto-amber);
+  }
+  
+  .bg-crypto-amber {
+    background-color: var(--crypto-amber);
+  }
+  
+  .border-crypto-amber {
+    border-color: var(--crypto-amber);
+  }
+  
+  .text-credits-purple {
+    color: var(--credits-purple);
+  }
+  
+  .bg-credits-purple {
+    background-color: var(--credits-purple);
+  }
+  
+  .border-credits-purple {
+    border-color: var(--credits-purple);
+  }
+
+  .mobile-container {
+    max-width: 448px; /* 28rem */
+    margin: 0 auto;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  .wallet-tab-active {
+    border-bottom: 2px solid;
+  }
+
+  .nav-item-active {
+    border-top: 2px solid var(--unifi-blue);
+  }
+}
+
+/* Loading animations */
+.animate-pulse-slow {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Voice recording animation */
+.voice-recording {
+  animation: voice-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes voice-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+/* Status bar styles */
+.status-bar {
+  background: linear-gradient(135deg, hsl(240, 10%, 3.9%) 0%, hsl(0, 0%, 0%) 100%);
+}
+
+/* Balance card gradient */
+.balance-gradient {
+  background: linear-gradient(135deg, var(--unifi-blue) 0%, var(--unifi-purple) 100%);
+}
+
+/* Community card gradient */
+.community-gradient {
+  background: linear-gradient(135deg, var(--unifi-purple) 0%, var(--unifi-blue) 100%);
+}
+
+/* AI coach gradient */
+.ai-coach-gradient {
+  background: linear-gradient(135deg, var(--unifi-purple) 0%, hsl(323, 83%, 57%) 100%);
+}
+
+/* Glassmorphism effect for cards */
+.glass-card {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Transaction status indicators */
+.status-completed {
+  color: var(--fiat-green);
+}
+
+.status-pending {
+  color: var(--crypto-amber);
+}
+
+.status-failed {
+  color: var(--destructive);
+}
+
+/* Offline indicator */
+.offline-mode {
+  background: linear-gradient(45deg, hsl(0, 84%, 60%) 0%, hsl(42, 96%, 48%) 100%);
+}
+
+/* Voice button states */
+.voice-inactive {
+  color: hsl(0, 0%, 64%);
+}
+
+.voice-active {
+  color: var(--unifi-purple);
+  animation: voice-pulse 2s ease-in-out infinite;
+}
+
+/* Mesh network indicator */
+.mesh-active {
+  color: var(--unifi-emerald);
+}
+
+.mesh-inactive {
+  color: hsl(0, 0%, 64%);
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--muted);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
