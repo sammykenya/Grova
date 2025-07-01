@@ -14,6 +14,8 @@ import QRPayments from "@/pages/qr-payments";
 import Investments from "@/pages/investments";
 import Advisors from "@/pages/advisors";
 import More from "@/pages/more";
+import FoundersRoom from "@/pages/founders-room";
+import Banking from "@/pages/banking";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -31,6 +33,8 @@ function Router() {
           <Route path="/investments" component={Investments} />
           <Route path="/advisors" component={Advisors} />
           <Route path="/more" component={More} />
+          <Route path="/founders-room" component={FoundersRoom} />
+          <Route path="/banking" component={Banking} />
           <Route path="/ai-coach" component={AICoach} />
           <Route path="/community" component={CommunityTreasury} />
           <Route path="/agents" component={AgentLocator} />

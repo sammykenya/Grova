@@ -33,12 +33,20 @@ export default function More() {
 
   const mainFeatures = [
     {
-      title: "AI Financial Coach",
-      description: "Get personalized financial advice powered by AI",
-      icon: Bot,
-      path: "/ai-coach",
+      title: "Founders Investor Room",
+      description: "Submit ideas, get funding, connect with investors",
+      icon: Zap,
+      path: "/founders-room",
       color: "from-purple-500 to-purple-600",
-      badge: "Smart"
+      badge: "Hot"
+    },
+    {
+      title: "Banking & Finance",
+      description: "Connect with banks, SACCOs, and financial institutions",
+      icon: Building,
+      path: "/banking",
+      color: "from-blue-500 to-blue-600",
+      badge: "Trusted"
     },
     {
       title: "QR Payments",
@@ -53,20 +61,26 @@ export default function More() {
       description: "Build wealth with smart investments",
       icon: TrendingUp,
       path: "/investments",
-      color: "from-blue-500 to-blue-600",
+      color: "from-indigo-500 to-indigo-600",
       badge: "Grow"
-    },
+    }
+  ];
+
+  const communityFeatures = [
     {
       title: "Financial Advisors", 
       description: "Connect with certified professionals",
       icon: UserCheck,
       path: "/advisors",
-      color: "from-orange-500 to-orange-600",
-      badge: "Expert"
-    }
-  ];
-
-  const communityFeatures = [
+      color: "text-orange-600"
+    },
+    {
+      title: "AI Financial Coach",
+      description: "Get personalized financial advice powered by AI",
+      icon: Bot,
+      path: "/ai-coach",
+      color: "text-purple-600"
+    },
     {
       title: "Community Treasury",
       description: "Join savings groups and community funds",

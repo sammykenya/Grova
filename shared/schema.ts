@@ -145,6 +145,95 @@ export const financialGoals = pgTable("financial_goals", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Startup Ideas and Funding (Founders Investor Room)
+export const startupIdeas = pgTable("startup_ideas", {
+  id: serial("id").primaryKey(),
+  creatorId: varchar("creator_id").notNull().references(() => users.id),
+  title: varchar("title").notNull(),
+  description: text("description").notNull(),
+  category: varchar("category").notNull(),
+  fundingGoal: decimal("funding_goal", { precision: 15, scale: 2 }).notNull(),
+  currentFunding: decimal("current_funding", { precision: 15, scale: 2 }).default("0.00"),
+  currency: varchar("currency").default("KES"),
+  minimumInvestment: decimal("minimum_investment", { precision: 15, scale: 2 }).default("1000.00"),
+  equity: decimal("equity_percentage", { precision: 5, scale: 2 }),
+  businessPlan: text("business_plan"),
+  pitchVideo: varchar("pitch_video_url"),
+  documents: text("documents").array(),
+  stage: varchar("stage").default("idea"),
+  status: varchar("status").default("open"),
+  deadline: timestamp("deadline"),
+  tags: text("tags").array(),
+  likesCount: integer("likes_count").default(0),
+  viewsCount: integer("views_count").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const investments = pgTable("investments", {
+  id: serial("id").primaryKey(),
+  investorId: varchar("investor_id").notNull().references(() => users.id),
+  ideaId: integer("idea_id").notNull().references(() => startupIdeas.id),
+  amount: decimal("amount", { precision: 15, scale: 2 }).notNull(),
+  currency: varchar("currency").default("KES"),
+  equityPercentage: decimal("equity_percentage", { precision: 5, scale: 2 }),
+  status: varchar("status").default("pending"),
+  paymentMethod: varchar("payment_method"),
+  terms: text("terms"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const ideaComments = pgTable("idea_comments", {
+  id: serial("id").primaryKey(),
+  ideaId: integer("idea_id").notNull().references(() => startupIdeas.id),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  content: text("content").notNull(),
+  parentId: integer("parent_id"),
+  likesCount: integer("likes_count").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const ideaLikes = pgTable("idea_likes", {
+  id: serial("id").primaryKey(),
+  ideaId: integer("idea_id").notNull().references(() => startupIdeas.id),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Financial Institutions Integration
+export const financialInstitutions = pgTable("financial_institutions", {
+  id: serial("id").primaryKey(),
+  name: varchar("name").notNull(),
+  type: varchar("type").notNull(),
+  country: varchar("country").default("KE"),
+  swiftCode: varchar("swift_code"),
+  routingNumber: varchar("routing_number"),
+  apiEndpoint: varchar("api_endpoint"),
+  logoUrl: varchar("logo_url"),
+  supportedServices: text("supported_services").array(),
+  isActive: boolean("is_active").default(true),
+  fees: text("fees"),
+  exchangeRates: text("exchange_rates"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const userBankAccounts = pgTable("user_bank_accounts", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  institutionId: integer("institution_id").notNull().references(() => financialInstitutions.id),
+  accountNumber: varchar("account_number").notNull(),
+  accountName: varchar("account_name").notNull(),
+  accountType: varchar("account_type").default("savings"),
+  isVerified: boolean("is_verified").default(false),
+  isDefault: boolean("is_default").default(false),
+  balance: decimal("balance", { precision: 15, scale: 2 }),
+  currency: varchar("currency").default("KES"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // Export types
 export type UpsertUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
@@ -172,6 +261,24 @@ export type AICoachingSession = typeof aiCoachingSessions.$inferSelect;
 
 export type InsertFinancialGoal = typeof financialGoals.$inferInsert;
 export type FinancialGoal = typeof financialGoals.$inferSelect;
+
+export type InsertStartupIdea = typeof startupIdeas.$inferInsert;
+export type StartupIdea = typeof startupIdeas.$inferSelect;
+
+export type InsertInvestment = typeof investments.$inferInsert;
+export type Investment = typeof investments.$inferSelect;
+
+export type InsertIdeaComment = typeof ideaComments.$inferInsert;
+export type IdeaComment = typeof ideaComments.$inferSelect;
+
+export type InsertIdeaLike = typeof ideaLikes.$inferInsert;
+export type IdeaLike = typeof ideaLikes.$inferSelect;
+
+export type InsertFinancialInstitution = typeof financialInstitutions.$inferInsert;
+export type FinancialInstitution = typeof financialInstitutions.$inferSelect;
+
+export type InsertUserBankAccount = typeof userBankAccounts.$inferInsert;
+export type UserBankAccount = typeof userBankAccounts.$inferSelect;
 
 // Insert schemas
 export const insertWalletSchema = createInsertSchema(wallets).omit({
