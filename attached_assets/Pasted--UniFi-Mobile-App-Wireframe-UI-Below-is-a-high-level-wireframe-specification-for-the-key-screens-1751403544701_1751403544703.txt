@@ -1,0 +1,160 @@
+**UniFi Mobile App Wireframe UI**
+
+Below is a high‑level wireframe specification for the key screens of the UniFi financial app. These sketches focus on structure and user flow rather than polished visuals.
+
+---
+
+## 1. Onboarding & Authentication
+
+**Screen A: Welcome / Splash**
+
+```
++--------------------------------+
+|      UniFi Logo & Tagline      |
+|  "Finance without Borders..."  |
+|                                |
+|    [Get Started]   [Log In]    |
++--------------------------------+
+```
+
+* Simple dual-button entry.
+* Bottom hint: "Works offline & online globally".
+
+**Screen B: Sign Up / Log In**
+
+```
++--------------------------------+
+|  [ ] Phone / Email              |
+|  [ ] Password                   |
+|  [  Login  ] [ Sign up ]        |
+|--------------------------------|
+|  Or continue with:             |
+|  [Google]  [Facebook]  [Apple]  |
++--------------------------------+uni
+```
+
+* Standard fields with social options.
+* Biometric prompt after login if device supports.
+
+---
+
+## 2. Dashboard / Home
+
+```
++-------------------------------------------------+
+|  ☰  UniFi         Balance: KES 14,500 ▼         |
++-------------------------------------------------+
+|  Quick Actions:  [Send] [Request] [Convert] [Mesh]|
++-------------------------------------------------+
+|  Wallet Switcher: [Fiat] [Crypto] [Credits]      |
++-------------------------------------------------+
+|  Recent Activity:                               |
+|   • GIFT → Joy (50 KES)     2h ago               |
+|   • Received BTC → 0.002    Yesterday            |
+|   • Community Fund +1,000   3d ago                |
++-------------------------------------------------+
+|  Bottom Nav: Home | AI Coach | Vault | Agents | More |
++-------------------------------------------------+
+```
+
+* Top bar shows current wallet & balance with dropdown.
+* Quick Actions row for primary tasks.
+* Recent activity feed for transparency.
+* Persistent bottom navigation.
+
+---
+
+## 3. Send / Transfer Screen
+
+```
++----------------------------------------------+
+| ←  Send Money    Wallet: Fiat (KES 14,500)   |
++----------------------------------------------+
+|  To: [search contacts or enter phone]         |
+|  Amount: [----]  KES                          |
+|                                              |
+|  ☐ Use Mesh (Offline)    ☐ Smart Convert     |
+|                                              |
+|  [Continue]                                   |
++----------------------------------------------+
+|  Recent Recipients: [Achieng] [John] [Musa]   |
++----------------------------------------------+
+```
+
+* Toggle between online and mesh (offline) transfers.
+* Smart Convert option applies crypto arbitrage.
+
+---
+
+## 4. AI Coach (Financial Insights)
+
+```
++--------------------------------------------+
+| ← AI Coach                                |
++--------------------------------------------+
+|  Today’s Tip: “Save 10% of income.” [💡]   |
+|                                            |
+|  📊 Spending Summary:                     |
+|   - Food: 35%  - Transport: 20%            |
+|                                            |
+|  ▶️ [Play Voice Advice]                    |
+|                                            |
+|  ❓ Ask a question: [Type or speak...]     |
++--------------------------------------------+
+```
+
+* Voice playback & text advice.
+* AI suggests personalized tips and answers user queries.
+
+---
+
+## 5. Community Treasury / Chama Screen
+
+```
++-----------------------------------------------+
+| ← Community Fund: Jua Chama                   |
++-----------------------------------------------+
+|  Total Pool: KES 500,000                       |
+|  Next Disbursement: Aug 5, 2025                |
+|                                               |
+|  Members: [👤Amina] [👤Joseph] [👤Fatima] [+3]   |
+|                                               |
+|  [Request Loan]  [Contribute]  [Vote Proposals]|
++-----------------------------------------------+
+|  Recent Proposals:                             |
+|   • Fund solar lamp project – 12 votes         |
+|   • Bulk maize purchase – 8 votes              |
++-----------------------------------------------+
+```
+
+* Dashboard for group savings and democratic decisions.
+
+---
+
+## 6. Offline Agent / Cash‑In Cash‑Out Node
+
+```
++------------------------------------+
+| ← Agents Map  |  Search Agents      |
++------------------------------------+
+|  • Map View with nearby agents      |
+|  • List View:                       |
+|    • Mama Wambui – 0.5km            |
+|      [Cash In] [Cash Out]           |
+|    • Cyber Café Nairobi – 1.2km     |
+|      [Cash In] [Cash Out]           |
++------------------------------------+
+```
+
+* Locator for physical nodes.
+* Allows offline card tapping or USSD bridging.
+
+---
+
+### Notes:
+
+* **Consistency**: Use a clean sans-serif font, simple iconography, and high-contrast buttons.
+* **Accessibility**: All screens support voice prompts and large tap targets (min. 44×44 px).
+* **Offline Graceful Fallback**: Show status indicator if offline; queue actions locally.
+
+*Next Steps*: Turn these wireframes into clickable prototypes (Figma/Sketch) or hand sketches for user testing before visual design and development.
