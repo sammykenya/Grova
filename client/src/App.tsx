@@ -16,6 +16,10 @@ import Advisors from "@/pages/advisors";
 import More from "@/pages/more";
 import FoundersRoom from "@/pages/founders-room";
 import Banking from "@/pages/banking";
+import FinancialCalculator from "@/pages/financial-calculator";
+import BudgetPlanner from "@/pages/budget-planner";
+import CurrencyExchange from "@/pages/currency-exchange";
+import CryptoTracker from "@/pages/crypto-tracker";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -35,6 +39,10 @@ function Router() {
           <Route path="/more" component={More} />
           <Route path="/founders-room" component={FoundersRoom} />
           <Route path="/banking" component={Banking} />
+          <Route path="/financial-calculator" component={FinancialCalculator} />
+          <Route path="/budget-planner" component={BudgetPlanner} />
+          <Route path="/currency-exchange" component={CurrencyExchange} />
+          <Route path="/crypto-tracker" component={CryptoTracker} />
           <Route path="/ai-coach" component={AICoach} />
           <Route path="/community" component={CommunityTreasury} />
           <Route path="/agents" component={AgentLocator} />

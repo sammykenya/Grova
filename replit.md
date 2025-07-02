@@ -135,6 +135,10 @@ UniFi is a revolutionary financial application designed to compete with global f
 - Professional portrait assets integrated into advisor profiles
 - Recharts integration for investment analytics and portfolio visualization  
 - Camera API integration for QR code scanning functionality
+- Complete Financial Calculator with loan, investment, and savings calculations
+- Comprehensive Budget Planner with category tracking and progress visualization
+- Real-time Currency Exchange with live rates for African and global currencies
+- Advanced Crypto Tracker with portfolio management and market data
 - Enhanced TypeScript typing for all new components
 - Improved responsive design across all new features
 - Fallback systems for offline functionality

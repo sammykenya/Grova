@@ -102,28 +102,28 @@ export default function More() {
       title: "Financial Calculator",
       description: "Calculate loans, investments, and savings",
       icon: Calculator,
-      action: () => alert("Financial calculator coming soon!"),
+      path: "/financial-calculator",
       color: "text-purple-600"
     },
     {
       title: "Budget Planner",
       description: "Plan and track your monthly budget",
       icon: Target,
-      action: () => alert("Budget planner coming soon!"),
+      path: "/budget-planner",
       color: "text-indigo-600"
     },
     {
       title: "Currency Exchange",
       description: "Real-time exchange rates and conversion",
       icon: Globe2,
-      action: () => alert("Currency exchange coming soon!"),
+      path: "/currency-exchange",
       color: "text-yellow-600"
     },
     {
       title: "Crypto Tracker",
       description: "Track cryptocurrency prices and portfolio",
       icon: Coins,
-      action: () => alert("Crypto tracker coming soon!"),
+      path: "/crypto-tracker",
       color: "text-orange-600"
     }
   ];
@@ -269,17 +269,15 @@ export default function More() {
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {toolsAndUtilities.map((tool, index) => (
-              <Card 
-                key={index} 
-                className="hover:shadow-lg transition-shadow cursor-pointer text-center"
-                onClick={tool.action}
-              >
-                <CardContent className="pt-6 pb-4">
-                  <tool.icon className={`w-8 h-8 ${tool.color} mx-auto mb-2`} />
-                  <h3 className="font-medium text-sm mb-1">{tool.title}</h3>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">{tool.description}</p>
-                </CardContent>
-              </Card>
+              <Link key={index} href={tool.path}>
+                <Card className="hover:shadow-lg transition-shadow cursor-pointer text-center">
+                  <CardContent className="pt-6 pb-4">
+                    <tool.icon className={`w-8 h-8 ${tool.color} mx-auto mb-2`} />
+                    <h3 className="font-medium text-sm mb-1">{tool.title}</h3>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">{tool.description}</p>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
         </div>
