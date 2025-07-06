@@ -1,7 +1,4 @@
-The user wants to update the UI style of the AgentLocator component to match the main project's style, focusing on background gradients, button styles, and card appearances.
-```
 
-```replit_final_file
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
@@ -10,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { 
@@ -207,10 +205,10 @@ export default function AgentLocator() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[hsl(207,90%,54%)] mx-auto mb-4"></div>
-          <p>Finding nearby agents...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Finding nearby agents...</p>
         </div>
       </div>
     );
@@ -231,101 +229,173 @@ export default function AgentLocator() {
             </h1>
           </div>
 
-      <div className="p-4 space-y-4 pb-20">
-        {/* Location Status */}
-        {locationError && (
-          <Card className="border-yellow-200 bg-yellow-50">
-            <CardContent className="p-4">
-              <div className="flex items-center space-x-2 text-yellow-700">
-                <MapPin className="w-4 h-4" />
-                <p className="text-sm">Location access denied. Showing all agents.</p>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+          {/* Search */}
+          <div className="relative mb-4">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+            <Input
+              placeholder="Search by name or location..."
+              value={searchLocation}
+              onChange={(e) => setSearchLocation(e.target.value)}
+              className="pl-10 bg-card/50 border-primary/20 focus:border-primary/40"
+            />
+          </div>
 
-        {/* View Toggle */}
-        <div className="flex bg-slate-100 rounded-lg p-1">
-          <Button
-            variant={viewMode === 'list' ? 'default' : 'ghost'}
-            onClick={() => setViewMode('list')}
-            className={`flex-1 py-2 px-4 rounded-md font-medium ${
-              viewMode === 'list' 
-                ? 'bg-white text-[hsl(207,90%,54%)] shadow-sm' 
-                : 'text-slate-600'
-            }`}
-          >
-            <List className="w-4 h-4 mr-2" />
-            List
-          </Button>
-          <Button
-            variant={viewMode === 'map' ? 'default' : 'ghost'}
-            onClick={() => setViewMode('map')}
-            className={`flex-1 py-2 px-4 rounded-md font-medium ${
-              viewMode === 'map' 
-                ? 'bg-white text-[hsl(207,90%,54%)] shadow-sm' 
-                : 'text-slate-600'
-            }`}
-          >
-            <Map className="w-4 h-4 mr-2" />
-            Map
-          </Button>
-        </div>
+          {/* Location Status */}
+          {locationError && (
+            <Card className="border-yellow-200 bg-yellow-50/50 mb-4">
+              <CardContent className="p-4">
+                <div className="flex items-center space-x-2 text-yellow-700">
+                  <MapPin className="w-4 h-4" />
+                  <p className="text-sm">Location access denied. Showing all agents.</p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
-        {/* Agent List */}
-        <div className="space-y-3">
-          {sortedAgents.length > 0 ? (
-            sortedAgents.map((agent: any) => (
-              
-              <Card key={agent.id} className="mb-4 border-0 shadow-lg bg-gradient-to-r from-card via-card to-muted/5 hover:shadow-xl transition-all duration-300">
-                <CardContent className="p-4">
-                  <div className="flex items-start gap-4">
-                    <Avatar className="h-12 w-12 ring-2 ring-primary/20">
-                      <AvatarFallback className="bg-gradient-to-br from-primary to-unifi-blue text-white font-semibold">
-                        {agent.businessName.split(' ').map(n => n[0]).join('')}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-semibold text-foreground">{agent.businessName}</h3>
-                        <Badge variant="secondary" className="text-xs bg-primary/10 text-primary border-primary/20">
-                          {formatDistance(agent)}
-                        </Badge>
-                      </div>
-                      <p className="text-sm text-muted-foreground mb-2">{agent.services}</p>
-                      <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                        <span className="flex items-center gap-1">
-                          <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                          {formatRating(agent.rating || 0, agent.totalRatings || 0)}
-                        </span>
-                        <span>{agent.totalRatings} reviews</span>
+          {/* View Toggle */}
+          <div className="flex bg-muted/50 rounded-lg p-1 mb-4">
+            <Button
+              variant={viewMode === 'list' ? 'default' : 'ghost'}
+              onClick={() => setViewMode('list')}
+              className={`flex-1 py-2 px-4 rounded-md font-medium transition-all ${
+                viewMode === 'list' 
+                  ? 'bg-gradient-to-r from-primary to-unifi-blue text-white shadow-md' 
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <List className="w-4 h-4 mr-2" />
+              List
+            </Button>
+            <Button
+              variant={viewMode === 'map' ? 'default' : 'ghost'}
+              onClick={() => setViewMode('map')}
+              className={`flex-1 py-2 px-4 rounded-md font-medium transition-all ${
+                viewMode === 'map' 
+                  ? 'bg-gradient-to-r from-primary to-unifi-blue text-white shadow-md' 
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              <Map className="w-4 h-4 mr-2" />
+              Map
+            </Button>
+          </div>
+
+          {/* Agent List */}
+          <div className="space-y-3">
+            {sortedAgents.length > 0 ? (
+              sortedAgents.map((agent: any) => (
+                <Card key={agent.id} className="border-0 shadow-lg bg-gradient-to-r from-card via-card to-muted/5 hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
+                  <CardContent className="p-4">
+                    <div className="flex items-start gap-4">
+                      <Avatar className="h-12 w-12 ring-2 ring-primary/20">
+                        <AvatarFallback className="bg-gradient-to-br from-primary to-unifi-blue text-white font-semibold">
+                          {agent.businessName.split(' ').map((n: string) => n[0]).join('')}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-semibold text-foreground">{agent.businessName}</h3>
+                          <div className="flex items-center gap-1">
+                            {agent.isOnline ? (
+                              <Wifi className="h-3 w-3 text-green-500" />
+                            ) : (
+                              <WifiOff className="h-3 w-3 text-red-500" />
+                            )}
+                            <Badge variant="secondary" className="text-xs bg-primary/10 text-primary border-primary/20">
+                              {formatDistance(agent)}
+                            </Badge>
+                          </div>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-2">{agent.location}</p>
+                        <div className="flex items-center gap-4 text-xs text-muted-foreground mb-3">
+                          <span className="flex items-center gap-1">
+                            <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                            {formatRating(agent.rating || 0, agent.totalRatings || 0)}
+                          </span>
+                          <span>{agent.totalRatings || 0} reviews</span>
+                        </div>
+                        <div className="flex gap-2">
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button size="sm" className="bg-gradient-to-r from-primary to-unifi-blue hover:opacity-90 transition-opacity text-white">
+                                Book Agent
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent className="bg-gradient-to-br from-background to-muted/20">
+                              <DialogHeader>
+                                <DialogTitle className="bg-gradient-to-r from-primary to-unifi-blue bg-clip-text text-transparent">
+                                  Book {agent.businessName}
+                                </DialogTitle>
+                              </DialogHeader>
+                              <div className="space-y-4">
+                                <div>
+                                  <Label htmlFor="service-type">Service Type</Label>
+                                  <select 
+                                    id="service-type"
+                                    value={serviceType}
+                                    onChange={(e) => setServiceType(e.target.value)}
+                                    className="w-full mt-1 p-2 border rounded-md bg-background"
+                                  >
+                                    <option value="">Select service</option>
+                                    <option value="cash_in">Cash In</option>
+                                    <option value="cash_out">Cash Out</option>
+                                    <option value="consultation">Consultation</option>
+                                  </select>
+                                </div>
+                                <div>
+                                  <Label htmlFor="notes">Notes (Optional)</Label>
+                                  <textarea
+                                    id="notes"
+                                    value={bookingNotes}
+                                    onChange={(e) => setBookingNotes(e.target.value)}
+                                    placeholder="Any specific requirements..."
+                                    className="w-full mt-1 p-2 border rounded-md bg-background"
+                                    rows={3}
+                                  />
+                                </div>
+                                <Button 
+                                  onClick={handleConfirmBooking} 
+                                  className="w-full bg-gradient-to-r from-primary to-unifi-blue hover:opacity-90"
+                                >
+                                  Confirm Booking
+                                </Button>
+                              </div>
+                            </DialogContent>
+                          </Dialog>
+                          <Button size="sm" variant="outline" className="border-primary/20 hover:bg-primary/10">
+                            <Phone className="h-3 w-3 mr-1" />
+                            Contact
+                          </Button>
+                        </div>
                       </div>
                     </div>
-                    <Button size="sm" className="bg-gradient-to-r from-primary to-unifi-blue hover:opacity-90 transition-opacity">
-                      Contact
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))
-          ) : (
-            <div className="text-center py-8">
-              <MapPin className="w-12 h-12 text-slate-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No Agents Found</h3>
-              <p className="text-slate-600 mb-4">
-                There are no cash agents available in your area at the moment.
-              </p>
-              <Button 
-                onClick={() => refetch()}
-                className="bg-[hsl(207,90%,54%)] text-white mr-2"
-              >
-                Refresh
-              </Button>
-              <Button className="bg-green-600 text-white">
-                Become an Agent
-              </Button>
-            </div>
-          )}
+                  </CardContent>
+                </Card>
+              ))
+            ) : (
+              <div className="text-center py-12">
+                <div className="bg-gradient-to-br from-muted/50 to-muted/20 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-4">
+                  <MapPin className="w-12 h-12 text-muted-foreground" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2 text-foreground">No Agents Found</h3>
+                <p className="text-muted-foreground mb-6 max-w-sm mx-auto">
+                  There are no cash agents available in your area at the moment. Try expanding your search or check back later.
+                </p>
+                <div className="flex gap-3 justify-center">
+                  <Button 
+                    onClick={() => refetch()}
+                    className="bg-gradient-to-r from-primary to-unifi-blue hover:opacity-90"
+                  >
+                    <Navigation className="h-4 w-4 mr-2" />
+                    Refresh
+                  </Button>
+                  <Button variant="outline" className="border-primary/20 hover:bg-primary/10">
+                    Become an Agent
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
