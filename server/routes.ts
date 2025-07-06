@@ -311,9 +311,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Community Treasury Routes
-  app.get('/api/community/groups', async (req, res) => {
+  app.get('/api/community/groups', isAuthenticated, async (req: any, res) => {
     try {
-      const groups = await storage.getCommunityGroups();
+      const userId = req.user.claims.sub;
+      const groups = await storage.getCommunityGroups(userId);
       res.json(groups);
     } catch (error) {
       console.error('Error fetching community groups:', error);
