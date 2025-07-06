@@ -1,35 +1,139 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from "react";
+import { Link } from "wouter";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
+import BottomNavigation from "@/components/bottom-navigation";
+import { useToast } from "@/hooks/use-toast";
 import { 
-  Bot, 
-  Users, 
-  MapPin, 
+  ArrowLeft, 
   Settings, 
-  CreditCard, 
+  User, 
   Gift, 
   Smartphone, 
-  TrendingUp,
-  Shield,
-  Bell,
+  CreditCard, 
+  Building, 
+  Shield, 
+  Bell, 
   HelpCircle,
-  LogOut,
   Star,
-  Zap,
-  Calculator,
-  Target,
-  Globe2,
-  Coins,
-  Building,
-  UserCheck,
-  QrCode
+  Heart,
+  MapPin,
+  Phone,
+  Globe,
+  ExternalLink,
+  CheckCircle,
+  Copy
 } from "lucide-react";
-import { Link } from "wouter";
-import BottomNavigation from "@/components/bottom-navigation";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function More() {
   const { user } = useAuth();
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [activeModal, setActiveModal] = useState<string | null>(null);
+  const [referralCode, setReferralCode] = useState("GROVA-USER-2025");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [topupAmount, setTopupAmount] = useState("");
+  const [billType, setBillType] = useState("");
+  const [billAccount, setBillAccount] = useState("");
+  const [billAmount, setBillAmount] = useState("");
+  const [loanAmount, setLoanAmount] = useState("");
+  const [loanPurpose, setLoanPurpose] = useState("");
+  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [biometricEnabled, setBiometricEnabled] = useState(false);
+  const [supportMessage, setSupportMessage] = useState("");
+  const { toast } = useToast();
+
+  const handleCopyReferralCode = () => {
+    navigator.clipboard.writeText(referralCode);
+    toast({
+      title: "Copied!",
+      description: "Referral code copied to clipboard",
+    });
+  };
+
+  const handleTopup = () => {
+    if (!phoneNumber || !topupAmount) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all fields",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Top-up Successful",
+      description: `KSh ${topupAmount} airtime sent to ${phoneNumber}`,
+    });
+    setActiveModal(null);
+    setPhoneNumber("");
+    setTopupAmount("");
+  };
+
+  const handleBillPayment = () => {
+    if (!billType || !billAccount || !billAmount) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all fields",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Bill Payment Successful",
+      description: `Paid KSh ${billAmount} for ${billType}`,
+    });
+    setActiveModal(null);
+    setBillType("");
+    setBillAccount("");
+    setBillAmount("");
+  };
+
+  const handleLoanApplication = () => {
+    if (!loanAmount || !loanPurpose) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all fields",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Loan Application Submitted",
+      description: "Your loan application is being processed",
+    });
+    setActiveModal(null);
+    setLoanAmount("");
+    setLoanPurpose("");
+  };
+
+  const handleSupportSubmit = () => {
+    if (!supportMessage) {
+      toast({
+        title: "Missing Information",
+        description: "Please enter your message",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Support Request Sent",
+      description: "Our team will get back to you soon",
+    });
+    setActiveModal(null);
+    setSupportMessage("");
+  };
 
   const mainFeatures = [
     {
@@ -133,28 +237,28 @@ export default function More() {
       title: "Security Settings",
       description: "Manage passwords and two-factor authentication",
       icon: Shield,
-      action: () => alert("Security settings coming soon!"),
+      action: () => setActiveModal("security"),
       color: "text-red-600"
     },
     {
       title: "Notifications",
       description: "Control your notification preferences",
       icon: Bell,
-      action: () => alert("Notification settings coming soon!"),
+      action: () => setActiveModal("notifications"),
       color: "text-blue-600"
     },
     {
       title: "App Settings",
       description: "Customize your app experience",
       icon: Settings,
-      action: () => alert("App settings coming soon!"),
+      action: () => setActiveModal("app"),
       color: "text-gray-600"
     },
     {
       title: "Help & Support",
       description: "Get help and contact support",
       icon: HelpCircle,
-      action: () => alert("Help center coming soon!"),
+      action: () => setActiveModal("support"),
       color: "text-green-600"
     }
   ];
@@ -165,28 +269,28 @@ export default function More() {
       description: "Earn rewards for successful referrals",
       icon: Gift,
       badge: "Earn KSh 500",
-      action: () => alert("Referral program coming soon!")
+      action: () => setActiveModal("referral")
     },
     {
       title: "Mobile Top-up",
       description: "Buy airtime and data bundles",
       icon: Smartphone,
       badge: "Instant",
-      action: () => alert("Mobile top-up coming soon!")
+      action: () => setActiveModal("topup")
     },
     {
       title: "Bill Payments",
       description: "Pay utilities and subscription services",
       icon: CreditCard,
       badge: "Convenient",
-      action: () => alert("Bill payments coming soon!")
+      action: () => setActiveModal("bill")
     },
     {
       title: "Loan Services",
       description: "Access micro-loans and credit facilities",
       icon: Building,
       badge: "Quick Approval",
-      action: () => alert("Loan services coming soon!")
+      action: () => setActiveModal("loan")
     }
   ];
 
@@ -383,6 +487,240 @@ export default function More() {
           </div>
         </div>
       </div>
+
+      {/* Referral Modal */}
+      <Dialog open={activeModal === "referral"} onOpenChange={(open) => open ? setActiveModal("referral") : setActiveModal(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Refer Friends</DialogTitle>
+          </DialogHeader>
+          <div className="text-center">
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
+              Share your referral code with friends and earn rewards!
+            </p>
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Input
+                type="text"
+                value={referralCode}
+                readOnly
+                className="text-center"
+              />
+              <Button variant="secondary" size="sm" onClick={handleCopyReferralCode}>
+                <Copy className="w-4 h-4 mr-2" />
+                Copy
+              </Button>
+            </div>
+            <Button onClick={() => setActiveModal(null)}>Close</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Mobile Top-up Modal */}
+      <Dialog open={activeModal === "topup"} onOpenChange={(open) => open ? setActiveModal("topup") : setActiveModal(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Mobile Top-up</DialogTitle>
+          </DialogHeader>
+          <Label htmlFor="phoneNumber">Phone Number</Label>
+          <Input
+            type="tel"
+            id="phoneNumber"
+            placeholder="Enter phone number"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            className="mb-4"
+          />
+          <Label htmlFor="topupAmount">Amount (KSh)</Label>
+          <Input
+            type="number"
+            id="topupAmount"
+            placeholder="Enter amount"
+            value={topupAmount}
+            onChange={(e) => setTopupAmount(e.target.value)}
+            className="mb-4"
+          />
+          <div className="flex justify-end gap-2">
+            <Button variant="secondary" onClick={() => setActiveModal(null)}>
+              Cancel
+            </Button>
+            <Button onClick={handleTopup}>Top-up</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Bill Payment Modal */}
+      <Dialog open={activeModal === "bill"} onOpenChange={(open) => open ? setActiveModal("bill") : setActiveModal(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Bill Payment</DialogTitle>
+          </DialogHeader>
+          <Label htmlFor="billType">Bill Type</Label>
+          <Select onValueChange={(value) => setBillType(value)}>
+            <SelectTrigger className="mb-4">
+              <SelectValue placeholder="Select bill type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="electricity">Electricity</SelectItem>
+              <SelectItem value="water">Water</SelectItem>
+              <SelectItem value="internet">Internet</SelectItem>
+            </SelectContent>
+          </Select>
+          <Label htmlFor="billAccount">Account Number</Label>
+          <Input
+            type="text"
+            id="billAccount"
+            placeholder="Enter account number"
+            value={billAccount}
+            onChange={(e) => setBillAccount(e.target.value)}
+            className="mb-4"
+          />
+          <Label htmlFor="billAmount">Amount (KSh)</Label>
+          <Input
+            type="number"
+            id="billAmount"
+            placeholder="Enter amount"
+            value={billAmount}
+            onChange={(e) => setBillAmount(e.target.value)}
+            className="mb-4"
+          />
+          <div className="flex justify-end gap-2">
+            <Button variant="secondary" onClick={() => setActiveModal(null)}>
+              Cancel
+            </Button>
+            <Button onClick={handleBillPayment}>Pay Bill</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Loan Services Modal */}
+      <Dialog open={activeModal === "loan"} onOpenChange={(open) => open ? setActiveModal("loan") : setActiveModal(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Loan Application</DialogTitle>
+          </DialogHeader>
+          <Label htmlFor="loanAmount">Loan Amount (KSh)</Label>
+          <Input
+            type="number"
+            id="loanAmount"
+            placeholder="Enter amount"
+            value={loanAmount}
+            onChange={(e) => setLoanAmount(e.target.value)}
+            className="mb-4"
+          />
+          <Label htmlFor="loanPurpose">Purpose of Loan</Label>
+          <Textarea
+            id="loanPurpose"
+            placeholder="Describe the purpose of the loan"
+            value={loanPurpose}
+            onChange={(e) => setLoanPurpose(e.target.value)}
+            className="mb-4"
+          />
+          <div className="flex justify-end gap-2">
+            <Button variant="secondary" onClick={() => setActiveModal(null)}>
+              Cancel
+            </Button>
+            <Button onClick={handleLoanApplication}>Apply for Loan</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Security Settings Modal */}
+      <Dialog open={activeModal === "security"} onOpenChange={(open) => open ? setActiveModal("security") : setActiveModal(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Security Settings</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="biometric">Enable Biometric Login</Label>
+              <Switch
+                id="biometric"
+                checked={biometricEnabled}
+                onCheckedChange={(checked) => setBiometricEnabled(checked)}
+              />
+            </div>
+          </div>
+          <div className="flex justify-end gap-2 mt-4">
+            <Button variant="secondary" onClick={() => setActiveModal(null)}>
+              Cancel
+            </Button>
+            <Button onClick={() => setActiveModal(null)}>Save</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Notification Settings Modal */}
+      <Dialog open={activeModal === "notifications"} onOpenChange={(open) => open ? setActiveModal("notifications") : setActiveModal(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Notification Settings</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="notifications">Enable Notifications</Label>
+              <Switch
+                id="notifications"
+                checked={notificationsEnabled}
+                onCheckedChange={(checked) => setNotificationsEnabled(checked)}
+              />
+            </div>
+          </div>
+          <div className="flex justify-end gap-2 mt-4">
+            <Button variant="secondary" onClick={() => setActiveModal(null)}>
+              Cancel
+            </Button>
+            <Button onClick={() => setActiveModal(null)}>Save</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* App Settings Modal */}
+      <Dialog open={activeModal === "app"} onOpenChange={(open) => open ? setActiveModal("app") : setActiveModal(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>App Settings</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="darkMode">Dark Mode</Label>
+              <Switch
+                id="darkMode"
+                checked={isDarkMode}
+                onCheckedChange={(checked) => setIsDarkMode(checked)}
+              />
+            </div>
+          </div>
+          <div className="flex justify-end gap-2 mt-4">
+            <Button variant="secondary" onClick={() => setActiveModal(null)}>
+              Cancel
+            </Button>
+            <Button onClick={() => setActiveModal(null)}>Save</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Help & Support Modal */}
+      <Dialog open={activeModal === "support"} onOpenChange={(open) => open ? setActiveModal("support") : setActiveModal(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Help & Support</DialogTitle>
+          </DialogHeader>
+          <Label htmlFor="supportMessage">Enter your message</Label>
+          <Textarea
+            id="supportMessage"
+            placeholder="Describe your issue"
+            value={supportMessage}
+            onChange={(e) => setSupportMessage(e.target.value)}
+            className="mb-4"
+          />
+          <div className="flex justify-end gap-2">
+            <Button variant="secondary" onClick={() => setActiveModal(null)}>
+              Cancel
+            </Button>
+            <Button onClick={handleSupportSubmit}>Submit</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <BottomNavigation currentPage="more" />
     </div>

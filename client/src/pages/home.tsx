@@ -10,6 +10,8 @@ import BottomNavigation from "@/components/bottom-navigation";
 import Sidebar from "@/components/sidebar";
 import TransactionCard from "@/components/transaction-card";
 import VoiceModal from "@/components/voice-modal";
+import RequestMoneyModal from "@/components/request-money-modal";
+import ConvertMoneyModal from "@/components/convert-money-modal";
 import { 
   Menu, 
   Globe, 
@@ -32,6 +34,8 @@ export default function Home() {
   const [balanceVisible, setBalanceVisible] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [voiceModalOpen, setVoiceModalOpen] = useState(false);
+  const [requestModalOpen, setRequestModalOpen] = useState(false);
+  const [convertModalOpen, setConvertModalOpen] = useState(false);
   const [isVoiceEnabled, setIsVoiceEnabled] = useState(false);
   const { toast } = useToast();
 
@@ -199,11 +203,17 @@ export default function Home() {
               <span className="text-xs">Send</span>
             </Button>
           </Link>
-          <Button className="flex flex-col items-center space-y-2 bg-white/10 p-3 rounded-xl h-auto">
+          <Button 
+            onClick={() => setRequestModalOpen(true)}
+            className="flex flex-col items-center space-y-2 bg-white/10 p-3 rounded-xl h-auto"
+          >
             <QrCode className="w-5 h-5" />
             <span className="text-xs">Request</span>
           </Button>
-          <Button className="flex flex-col items-center space-y-2 bg-white/10 p-3 rounded-xl h-auto">
+          <Button 
+            onClick={() => setConvertModalOpen(true)}
+            className="flex flex-col items-center space-y-2 bg-white/10 p-3 rounded-xl h-auto"
+          >
             <ArrowLeftRight className="w-5 h-5" />
             <span className="text-xs">Convert</span>
           </Button>
@@ -337,6 +347,20 @@ export default function Home() {
       <VoiceModal 
         isOpen={voiceModalOpen} 
         onClose={() => setVoiceModalOpen(false)} 
+      />
+
+      {/* Request Money Modal */}
+      <RequestMoneyModal
+        isOpen={requestModalOpen}
+        onClose={() => setRequestModalOpen(false)}
+        userWallets={wallets}
+      />
+
+      {/* Convert Money Modal */}
+      <ConvertMoneyModal
+        isOpen={convertModalOpen}
+        onClose={() => setConvertModalOpen(false)}
+        userWallets={wallets}
       />
     </div>
   );
