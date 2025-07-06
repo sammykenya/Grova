@@ -254,429 +254,395 @@ export default function Banking() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900">
-      <div className="max-w-6xl mx-auto px-4 py-6 pb-20">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-6">
-          <Link href="/more">
-            <Button variant="outline" size="sm">
-              <ArrowLeft className="w-4 h-4" />
-            </Button>
-          </Link>
-          <div className="flex-1">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
-              Banking & Financial Services
+    <div className="mobile-container">
+      <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background p-4 pb-20">
+        <div className="max-w-md mx-auto">
+          <div className="flex items-center gap-4 mb-6 pt-2">
+            <Link href="/more">
+              <Button variant="ghost" size="icon" className="hover:bg-primary/10">
+                <ArrowLeft className="h-5 w-5" />
+              </Button>
+            </Link>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-unifi-blue bg-clip-text text-transparent">
+              Banking & Finance
             </h1>
-            <p className="text-gray-600 dark:text-gray-300">
-              Connect with banks, SACCOs, and financial institutions across Africa
-            </p>
           </div>
+
+          {/* Connected Accounts Summary */}
+          {/*
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <Card className="bg-gradient-to-r from-blue-500 to-blue-600 text-white border-0">
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-blue-100">Connected Banks</p>
+                    <p className="text-2xl font-bold">3</p>
+                  </div>
+                  <Building2 className="w-8 h-8 text-blue-200" />
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="bg-gradient-to-r from-green-500 to-green-600 text-white border-0">
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-green-100">Total Balance</p>
+                    <p className="text-2xl font-bold">KES 84K</p>
+                  </div>
+                  <DollarSign className="w-8 h-8 text-green-200" />
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="bg-gradient-to-r from-purple-500 to-purple-600 text-white border-0">
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-purple-100">Available Services</p>
+                    <p className="text-2xl font-bold">24</p>
+                  </div>
+                  <Shield className="w-8 h-8 text-purple-200" />
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="bg-gradient-to-r from-orange-500 to-orange-600 text-white border-0">
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-orange-100">Active Loans</p>
+                    <p className="text-2xl font-bold">2</p>
+                  </div>
+                  <TrendingUp className="w-8 h-8 text-orange-200" />
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+          */}
+
+          {/* Search */}
+          <div className="relative mb-6">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+            <Input
+              placeholder="Search banks, SACCOs, or financial services..."
+              className="pl-10"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid w-full grid-cols-4">
+              <TabsTrigger value="banks">Banks</TabsTrigger>
+              <TabsTrigger value="saccos">SACCOs</TabsTrigger>
+              <TabsTrigger value="microfinance">Microfinance</TabsTrigger>
+              <TabsTrigger value="digital">Digital Wallets</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="banks" className="space-y-4">
+              <div className="text-center mb-6">
+                <Building2 className="w-12 h-12 text-blue-500 mx-auto mb-2" />
+                <h3 className="text-lg font-semibold">Commercial Banks</h3>
+                <p className="text-gray-600 text-sm">Major banks offering comprehensive financial services</p>
+              </div>
+              {filteredInstitutions.map((institution) => (
+                <Card key={institution.id} className="mb-4 border-0 shadow-lg bg-gradient-to-r from-card via-card to-muted/5 hover:shadow-xl transition-all duration-300">
+                  <CardContent className="p-4">
+                    <div className="flex items-start gap-4">
+                      <Avatar className="h-12 w-12 ring-2 ring-primary/20">
+                        <AvatarFallback className="bg-gradient-to-br from-primary to-unifi-blue text-white font-semibold">
+                          {institution.name.split(' ').map(n => n[0]).join('')}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-semibold">{institution.name}</h3>
+                          <Badge
+                            variant={institution.isConnected ? "default" : "secondary"}
+                            className={`text-xs ${
+                              institution.isConnected
+                                ? "bg-gradient-to-r from-green-500 to-green-600 text-white border-0"
+                                : "bg-primary/10 text-primary border-primary/20"
+                            }`}
+                          >
+                            {institution.isConnected ? "Connected" : "Available"}
+                          </Badge>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-2">{institution.type}</p>
+                        <p className="text-xs text-muted-foreground">{institution.description}</p>
+                      </div>
+                      <Button
+                        size="sm"
+                        variant={institution.isConnected ? "outline" : "default"}
+                        onClick={() => {
+                          setSelectedInstitution(institution);
+                          setShowConnectModal(true);
+                        }}
+                        className={!institution.isConnected ? "bg-gradient-to-r from-primary to-unifi-blue hover:opacity-90 transition-opacity" : ""}
+                      >
+                        {institution.isConnected ? "Manage" : "Connect"}
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </TabsContent>
+
+            <TabsContent value="saccos" className="space-y-4">
+              <div className="text-center mb-6">
+                <Users className="w-12 h-12 text-green-500 mx-auto mb-2" />
+                <h3 className="text-lg font-semibold">Savings & Credit Cooperatives</h3>
+                <p className="text-gray-600 text-sm">Member-owned financial institutions</p>
+              </div>
+              {filteredInstitutions.map((institution) => (
+                <Card key={institution.id} className="hover:shadow-lg transition-shadow">
+                  <CardContent className="pt-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-4">
+                        <div className="text-3xl">{institution.logo}</div>
+                        <div>
+                          <h3 className="font-semibold text-lg">{institution.name}</h3>
+                          <p className="text-sm text-gray-600">{institution.type}</p>
+                          <div className="flex items-center gap-1 mt-1">
+                            <Star className="w-4 h-4 text-yellow-500 fill-current" />
+                            <span className="text-sm font-medium">{institution.rating}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        {institution.isConnected ? (
+                          <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                            <CheckCircle className="w-3 h-3 mr-1" />
+                            Connected
+                          </Badge>
+                        ) : (
+                          <Button
+                            onClick={() => {
+                              setSelectedInstitution(institution);
+                              setShowConnectModal(true);
+                            }}
+                            className="bg-green-600 hover:bg-green-700"
+                          >
+                            <Plus className="w-4 h-4 mr-2" />
+                            Connect
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+
+                    <p className="text-gray-700 dark:text-gray-300 mb-4">{institution.description}</p>
+
+                    {institution.specialOffers && (
+                      <div className="bg-green-50 dark:bg-green-900 p-3 rounded-lg mb-4">
+                        <p className="text-sm font-medium text-green-800 dark:text-green-200">
+                          🎁 Member Benefit: {institution.specialOffers}
+                        </p>
+                      </div>
+                    )}
+
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                      <div>
+                        <p className="text-gray-500">Member Fees</p>
+                        <p className="font-medium">{institution.fees}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500">Processing Time</p>
+                        <p className="font-medium">{institution.processingTime}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500">Locations</p>
+                        <p className="font-medium">{institution.countries.join(", ")}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500">Services</p>
+                        <p className="font-medium">{institution.services.length} available</p>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2 mt-4">
+                      {institution.services.map((service, index) => (
+                        <Badge key={index} variant="outline" className="text-xs">
+                          {service}
+                        </Badge>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </TabsContent>
+
+            <TabsContent value="microfinance" className="space-y-4">
+              <div className="text-center mb-6">
+                <PiggyBank className="w-12 h-12 text-purple-500 mx-auto mb-2" />
+                <h3 className="text-lg font-semibold">Microfinance Institutions</h3>
+                <p className="text-gray-600 text-sm">Supporting small businesses and entrepreneurs</p>
+              </div>
+              {filteredInstitutions.map((institution) => (
+                <Card key={institution.id} className="hover:shadow-lg transition-shadow">
+                  <CardContent className="pt-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-4">
+                        <div className="text-3xl">{institution.logo}</div>
+                        <div>
+                          <h3 className="font-semibold text-lg">{institution.name}</h3>
+                          <p className="text-sm text-gray-600">{institution.type}</p>
+                          <div className="flex items-center gap-1 mt-1">
+                            <Star className="w-4 h-4 text-yellow-500 fill-current" />
+                            <span className="text-sm font-medium">{institution.rating}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        {institution.isConnected ? (
+                          <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                            <CheckCircle className="w-3 h-3 mr-1" />
+                            Connected
+                          </Badge>
+                        ) : (
+                          <Button
+                            onClick={() => {
+                              setSelectedInstitution(institution);
+                              setShowConnectModal(true);
+                            }}
+                            className="bg-purple-600 hover:bg-purple-700"
+                          >
+                            <Plus className="w-4 h-4 mr-2" />
+                            Connect
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+
+                    <p className="text-gray-700 dark:text-gray-300 mb-4">{institution.description}</p>
+
+                    {institution.specialOffers && (
+                      <div className="bg-purple-50 dark:bg-purple-900 p-3 rounded-lg mb-4">
+                        <p className="text-sm font-medium text-purple-800 dark:text-purple-200">
+                          💡 Special Program: {institution.specialOffers}
+                        </p>
+                      </div>
+                    )}
+
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                      <div>
+                        <p className="text-gray-500">Service Fees</p>
+                        <p className="font-medium">{institution.fees}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500">Processing Time</p>
+                        <p className="font-medium">{institution.processingTime}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500">Coverage</p>
+                        <p className="font-medium">{institution.countries.join(", ")}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500">Programs</p>
+                        <p className="font-medium">{institution.services.length} available</p>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2 mt-4">
+                      {institution.services.map((service, index) => (
+                        <Badge key={index} variant="outline" className="text-xs">
+                          {service}
+                        </Badge>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </TabsContent>
+
+            <TabsContent value="digital" className="space-y-4">
+              <div className="text-center mb-6">
+                <Coins className="w-12 h-12 text-orange-500 mx-auto mb-2" />
+                <h3 className="text-lg font-semibold">Digital Wallets & Crypto</h3>
+                <p className="text-gray-600 text-sm">Global payment solutions and cryptocurrency</p>
+              </div>
+              {filteredInstitutions.map((institution) => (
+                <Card key={institution.id} className="hover:shadow-lg transition-shadow">
+                  <CardContent className="pt-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-4">
+                        <div className="text-3xl">{institution.logo}</div>
+                        <div>
+                          <h3 className="font-semibold text-lg">{institution.name}</h3>
+                          <p className="text-sm text-gray-600">{institution.type}</p>
+                          <div className="flex items-center gap-1 mt-1">
+                            <Star className="w-4 h-4 text-yellow-500 fill-current" />
+                            <span className="text-sm font-medium">{institution.rating}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        {institution.isConnected ? (
+                          <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                            <CheckCircle className="w-3 h-3 mr-1" />
+                            Connected
+                          </Badge>
+                        ) : (
+                          <Button
+                            onClick={() => {
+                              setSelectedInstitution(institution);
+                              setShowConnectModal(true);
+                            }}
+                            className="bg-orange-600 hover:bg-orange-700"
+                          >
+                            <Plus className="w-4 h-4 mr-2" />
+                            Connect
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+
+                    <p className="text-gray-700 dark:text-gray-300 mb-4">{institution.description}</p>
+
+                    {institution.specialOffers && (
+                      <div className="bg-orange-50 dark:bg-orange-900 p-3 rounded-lg mb-4">
+                        <p className="text-sm font-medium text-orange-800 dark:text-orange-200">
+                          🚀 Exclusive: {institution.specialOffers}
+                        </p>
+                      </div>
+                    )}
+
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                      <div>
+                        <p className="text-gray-500">Transaction Fees</p>
+                        <p className="font-medium">{institution.fees}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500">Processing Time</p>
+                        <p className="font-medium">{institution.processingTime}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500">Availability</p>
+                        <p className="font-medium">{institution.countries.join(", ")}</p>
+                      </div>
+                      <div>
+                        <p className="text-gray-500">Features</p>
+                        <p className="font-medium">{institution.services.length} available</p>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2 mt-4">
+                      {institution.services.map((service, index) => (
+                        <Badge key={index} variant="outline" className="text-xs">
+                          {service}
+                        </Badge>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </TabsContent>
+          </Tabs>
+
+          <ConnectAccountModal />
         </div>
-
-        {/* Connected Accounts Summary */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <Card className="bg-gradient-to-r from-blue-500 to-blue-600 text-white border-0">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-blue-100">Connected Banks</p>
-                  <p className="text-2xl font-bold">3</p>
-                </div>
-                <Building2 className="w-8 h-8 text-blue-200" />
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="bg-gradient-to-r from-green-500 to-green-600 text-white border-0">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-green-100">Total Balance</p>
-                  <p className="text-2xl font-bold">KES 84K</p>
-                </div>
-                <DollarSign className="w-8 h-8 text-green-200" />
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="bg-gradient-to-r from-purple-500 to-purple-600 text-white border-0">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-purple-100">Available Services</p>
-                  <p className="text-2xl font-bold">24</p>
-                </div>
-                <Shield className="w-8 h-8 text-purple-200" />
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="bg-gradient-to-r from-orange-500 to-orange-600 text-white border-0">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-orange-100">Active Loans</p>
-                  <p className="text-2xl font-bold">2</p>
-                </div>
-                <TrendingUp className="w-8 h-8 text-orange-200" />
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Search */}
-        <div className="relative mb-6">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-          <Input
-            placeholder="Search banks, SACCOs, or financial services..."
-            className="pl-10"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="banks">Banks</TabsTrigger>
-            <TabsTrigger value="saccos">SACCOs</TabsTrigger>
-            <TabsTrigger value="microfinance">Microfinance</TabsTrigger>
-            <TabsTrigger value="digital">Digital Wallets</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="banks" className="space-y-4">
-            <div className="text-center mb-6">
-              <Building2 className="w-12 h-12 text-blue-500 mx-auto mb-2" />
-              <h3 className="text-lg font-semibold">Commercial Banks</h3>
-              <p className="text-gray-600 text-sm">Major banks offering comprehensive financial services</p>
-            </div>
-            {filteredInstitutions.map((institution) => (
-              <Card key={institution.id} className="hover:shadow-lg transition-shadow">
-                <CardContent className="pt-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-4">
-                      <div className="text-3xl">{institution.logo}</div>
-                      <div>
-                        <h3 className="font-semibold text-lg">{institution.name}</h3>
-                        <p className="text-sm text-gray-600">{institution.type}</p>
-                        <div className="flex items-center gap-1 mt-1">
-                          <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                          <span className="text-sm font-medium">{institution.rating}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      {institution.isConnected ? (
-                        <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                          <CheckCircle className="w-3 h-3 mr-1" />
-                          Connected
-                        </Badge>
-                      ) : (
-                        <Button 
-                          onClick={() => {
-                            setSelectedInstitution(institution);
-                            setShowConnectModal(true);
-                          }}
-                          className="bg-blue-600 hover:bg-blue-700"
-                        >
-                          <Plus className="w-4 h-4 mr-2" />
-                          Connect
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                  
-                  <p className="text-gray-700 dark:text-gray-300 mb-4">{institution.description}</p>
-                  
-                  {institution.specialOffers && (
-                    <div className="bg-yellow-50 dark:bg-yellow-900 p-3 rounded-lg mb-4">
-                      <p className="text-sm font-medium text-yellow-800 dark:text-yellow-200">
-                        🎉 Special Offer: {institution.specialOffers}
-                      </p>
-                    </div>
-                  )}
-                  
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                    <div>
-                      <p className="text-gray-500">Transaction Fees</p>
-                      <p className="font-medium">{institution.fees}</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-500">Processing Time</p>
-                      <p className="font-medium">{institution.processingTime}</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-500">Countries</p>
-                      <p className="font-medium">{institution.countries.join(", ")}</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-500">Services</p>
-                      <p className="font-medium">{institution.services.length} available</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    {institution.services.map((service, index) => (
-                      <Badge key={index} variant="outline" className="text-xs">
-                        {service}
-                      </Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </TabsContent>
-
-          <TabsContent value="saccos" className="space-y-4">
-            <div className="text-center mb-6">
-              <Users className="w-12 h-12 text-green-500 mx-auto mb-2" />
-              <h3 className="text-lg font-semibold">Savings & Credit Cooperatives</h3>
-              <p className="text-gray-600 text-sm">Member-owned financial institutions</p>
-            </div>
-            {filteredInstitutions.map((institution) => (
-              <Card key={institution.id} className="hover:shadow-lg transition-shadow">
-                <CardContent className="pt-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-4">
-                      <div className="text-3xl">{institution.logo}</div>
-                      <div>
-                        <h3 className="font-semibold text-lg">{institution.name}</h3>
-                        <p className="text-sm text-gray-600">{institution.type}</p>
-                        <div className="flex items-center gap-1 mt-1">
-                          <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                          <span className="text-sm font-medium">{institution.rating}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      {institution.isConnected ? (
-                        <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                          <CheckCircle className="w-3 h-3 mr-1" />
-                          Connected
-                        </Badge>
-                      ) : (
-                        <Button 
-                          onClick={() => {
-                            setSelectedInstitution(institution);
-                            setShowConnectModal(true);
-                          }}
-                          className="bg-green-600 hover:bg-green-700"
-                        >
-                          <Plus className="w-4 h-4 mr-2" />
-                          Connect
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                  
-                  <p className="text-gray-700 dark:text-gray-300 mb-4">{institution.description}</p>
-                  
-                  {institution.specialOffers && (
-                    <div className="bg-green-50 dark:bg-green-900 p-3 rounded-lg mb-4">
-                      <p className="text-sm font-medium text-green-800 dark:text-green-200">
-                        🎁 Member Benefit: {institution.specialOffers}
-                      </p>
-                    </div>
-                  )}
-                  
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                    <div>
-                      <p className="text-gray-500">Member Fees</p>
-                      <p className="font-medium">{institution.fees}</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-500">Processing Time</p>
-                      <p className="font-medium">{institution.processingTime}</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-500">Locations</p>
-                      <p className="font-medium">{institution.countries.join(", ")}</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-500">Services</p>
-                      <p className="font-medium">{institution.services.length} available</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    {institution.services.map((service, index) => (
-                      <Badge key={index} variant="outline" className="text-xs">
-                        {service}
-                      </Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </TabsContent>
-
-          <TabsContent value="microfinance" className="space-y-4">
-            <div className="text-center mb-6">
-              <PiggyBank className="w-12 h-12 text-purple-500 mx-auto mb-2" />
-              <h3 className="text-lg font-semibold">Microfinance Institutions</h3>
-              <p className="text-gray-600 text-sm">Supporting small businesses and entrepreneurs</p>
-            </div>
-            {filteredInstitutions.map((institution) => (
-              <Card key={institution.id} className="hover:shadow-lg transition-shadow">
-                <CardContent className="pt-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-4">
-                      <div className="text-3xl">{institution.logo}</div>
-                      <div>
-                        <h3 className="font-semibold text-lg">{institution.name}</h3>
-                        <p className="text-sm text-gray-600">{institution.type}</p>
-                        <div className="flex items-center gap-1 mt-1">
-                          <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                          <span className="text-sm font-medium">{institution.rating}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      {institution.isConnected ? (
-                        <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                          <CheckCircle className="w-3 h-3 mr-1" />
-                          Connected
-                        </Badge>
-                      ) : (
-                        <Button 
-                          onClick={() => {
-                            setSelectedInstitution(institution);
-                            setShowConnectModal(true);
-                          }}
-                          className="bg-purple-600 hover:bg-purple-700"
-                        >
-                          <Plus className="w-4 h-4 mr-2" />
-                          Connect
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                  
-                  <p className="text-gray-700 dark:text-gray-300 mb-4">{institution.description}</p>
-                  
-                  {institution.specialOffers && (
-                    <div className="bg-purple-50 dark:bg-purple-900 p-3 rounded-lg mb-4">
-                      <p className="text-sm font-medium text-purple-800 dark:text-purple-200">
-                        💡 Special Program: {institution.specialOffers}
-                      </p>
-                    </div>
-                  )}
-                  
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                    <div>
-                      <p className="text-gray-500">Service Fees</p>
-                      <p className="font-medium">{institution.fees}</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-500">Processing Time</p>
-                      <p className="font-medium">{institution.processingTime}</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-500">Coverage</p>
-                      <p className="font-medium">{institution.countries.join(", ")}</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-500">Programs</p>
-                      <p className="font-medium">{institution.services.length} available</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    {institution.services.map((service, index) => (
-                      <Badge key={index} variant="outline" className="text-xs">
-                        {service}
-                      </Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </TabsContent>
-
-          <TabsContent value="digital" className="space-y-4">
-            <div className="text-center mb-6">
-              <Coins className="w-12 h-12 text-orange-500 mx-auto mb-2" />
-              <h3 className="text-lg font-semibold">Digital Wallets & Crypto</h3>
-              <p className="text-gray-600 text-sm">Global payment solutions and cryptocurrency</p>
-            </div>
-            {filteredInstitutions.map((institution) => (
-              <Card key={institution.id} className="hover:shadow-lg transition-shadow">
-                <CardContent className="pt-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-4">
-                      <div className="text-3xl">{institution.logo}</div>
-                      <div>
-                        <h3 className="font-semibold text-lg">{institution.name}</h3>
-                        <p className="text-sm text-gray-600">{institution.type}</p>
-                        <div className="flex items-center gap-1 mt-1">
-                          <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                          <span className="text-sm font-medium">{institution.rating}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      {institution.isConnected ? (
-                        <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                          <CheckCircle className="w-3 h-3 mr-1" />
-                          Connected
-                        </Badge>
-                      ) : (
-                        <Button 
-                          onClick={() => {
-                            setSelectedInstitution(institution);
-                            setShowConnectModal(true);
-                          }}
-                          className="bg-orange-600 hover:bg-orange-700"
-                        >
-                          <Plus className="w-4 h-4 mr-2" />
-                          Connect
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                  
-                  <p className="text-gray-700 dark:text-gray-300 mb-4">{institution.description}</p>
-                  
-                  {institution.specialOffers && (
-                    <div className="bg-orange-50 dark:bg-orange-900 p-3 rounded-lg mb-4">
-                      <p className="text-sm font-medium text-orange-800 dark:text-orange-200">
-                        🚀 Exclusive: {institution.specialOffers}
-                      </p>
-                    </div>
-                  )}
-                  
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                    <div>
-                      <p className="text-gray-500">Transaction Fees</p>
-                      <p className="font-medium">{institution.fees}</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-500">Processing Time</p>
-                      <p className="font-medium">{institution.processingTime}</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-500">Availability</p>
-                      <p className="font-medium">{institution.countries.join(", ")}</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-500">Features</p>
-                      <p className="font-medium">{institution.services.length} available</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    {institution.services.map((service, index) => (
-                      <Badge key={index} variant="outline" className="text-xs">
-                        {service}
-                      </Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </TabsContent>
-        </Tabs>
-
-        <ConnectAccountModal />
       </div>
 
       <BottomNavigation currentPage="more" />
     </div>
   );
 }
+
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"

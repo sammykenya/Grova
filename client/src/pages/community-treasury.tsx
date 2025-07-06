@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Link } from "wouter";
@@ -414,26 +413,19 @@ export default function CommunityTreasury() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Header */}
-      <div className="bg-white border-b border-slate-200 p-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
+    <div className="mobile-container">
+      <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background p-4 pb-20">
+        <div className="max-w-md mx-auto">
+          <div className="flex items-center gap-4 mb-6 pt-2">
             <Link href="/more">
-              <Button variant="ghost" className="text-[hsl(207,90%,54%)] p-0">
-                <ArrowLeft className="w-5 h-5" />
+              <Button variant="ghost" size="icon" className="hover:bg-primary/10">
+                <ArrowLeft className="h-5 w-5" />
               </Button>
             </Link>
-            <div>
-              <h2 className="text-xl font-semibold">{currentGroup.name}</h2>
-              <p className="text-sm text-slate-500">Community Treasury</p>
-            </div>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-unifi-blue bg-clip-text text-transparent">
+              Community Treasury
+            </h1>
           </div>
-          <Button variant="ghost" size="sm">
-            <Settings className="w-4 h-4" />
-          </Button>
-        </div>
-      </div>
 
       <div className="p-4 space-y-6 pb-20">
         {/* Announcements Banner */}
@@ -899,7 +891,7 @@ export default function CommunityTreasury() {
                           {proposal.status}
                         </Badge>
                       </div>
-                      
+
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-4 text-sm">
                           <span className="text-green-600">
@@ -911,7 +903,7 @@ export default function CommunityTreasury() {
                             {proposal.votesAgainst} against
                           </span>
                         </div>
-                        
+
                         {proposal.status === 'active' && (
                           <div className="flex space-x-2">
                             <Button size="sm" variant="outline" className="text-green-600">
@@ -925,7 +917,7 @@ export default function CommunityTreasury() {
                           </div>
                         )}
                       </div>
-                      
+
                       <p className="text-xs text-slate-500 mt-2">
                         Proposed on {formatDate(proposal.createdAt)}
                       </p>
@@ -960,7 +952,7 @@ export default function CommunityTreasury() {
                     <p className="text-xs text-slate-500">2 hours ago • KES 5,000</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
                     <Vote className="w-4 h-4 text-blue-600" />
@@ -970,7 +962,7 @@ export default function CommunityTreasury() {
                     <p className="text-xs text-slate-500">1 day ago • By John Doe</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
                     <Megaphone className="w-4 h-4 text-purple-600" />
@@ -980,7 +972,7 @@ export default function CommunityTreasury() {
                     <p className="text-xs text-slate-500">2 days ago • By Admin</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
                     <UserPlus className="w-4 h-4 text-orange-600" />
@@ -990,7 +982,7 @@ export default function CommunityTreasury() {
                     <p className="text-xs text-slate-500">3 days ago</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
                     <Target className="w-4 h-4 text-green-600" />

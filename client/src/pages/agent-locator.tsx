@@ -1,3 +1,7 @@
+The user wants to update the UI style of the AgentLocator component to match the main project's style, focusing on background gradients, button styles, and card appearances.
+```
+
+```replit_final_file
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
@@ -213,34 +217,19 @@ export default function AgentLocator() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Header */}
-      <div className="bg-white border-b border-slate-200 p-4">
-        <div className="flex items-center space-x-3 mb-4">
-          <Link href="/more">
-            <Button variant="ghost" className="text-[hsl(207,90%,54%)] p-0">
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
-          </Link>
-          <h2 className="text-xl font-semibold">Cash Agents</h2>
-          {userLocation && (
-            <Badge variant="secondary" className="text-xs">
-              <Navigation className="w-3 h-3 mr-1" />
-              Location enabled
-            </Badge>
-          )}
-        </div>
-        <div className="relative">
-          <Input
-            type="text"
-            placeholder="Search agents or location..."
-            value={searchLocation}
-            onChange={(e) => setSearchLocation(e.target.value)}
-            className="w-full px-4 py-3 pr-10 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[hsl(207,90%,54%)] focus:border-transparent"
-          />
-          <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
-        </div>
-      </div>
+    <div className="mobile-container">
+      <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-background p-4 pb-20">
+        <div className="max-w-md mx-auto">
+          <div className="flex items-center gap-4 mb-6 pt-2">
+            <Link href="/more">
+              <Button variant="ghost" size="icon" className="hover:bg-primary/10">
+                <ArrowLeft className="h-5 w-5" />
+              </Button>
+            </Link>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-unifi-blue bg-clip-text text-transparent">
+              Agent Locator
+            </h1>
+          </div>
 
       <div className="p-4 space-y-4 pb-20">
         {/* Location Status */}
@@ -287,148 +276,35 @@ export default function AgentLocator() {
         <div className="space-y-3">
           {sortedAgents.length > 0 ? (
             sortedAgents.map((agent: any) => (
-              <Card key={agent.id} className="hover:shadow-md transition-shadow">
+              
+              <Card key={agent.id} className="mb-4 border-0 shadow-lg bg-gradient-to-r from-card via-card to-muted/5 hover:shadow-xl transition-all duration-300">
                 <CardContent className="p-4">
-                  <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-start gap-4">
+                    <Avatar className="h-12 w-12 ring-2 ring-primary/20">
+                      <AvatarFallback className="bg-gradient-to-br from-primary to-unifi-blue text-white font-semibold">
+                        {agent.businessName.split(' ').map(n => n[0]).join('')}
+                      </AvatarFallback>
+                    </Avatar>
                     <div className="flex-1">
-                      <h3 className="font-semibold">{agent.businessName}</h3>
-                      <p className="text-sm text-slate-500 flex items-center">
-                        <MapPin className="w-3 h-3 mr-1" />
-                        {agent.location}
-                      </p>
-                      <p className="text-xs text-slate-400">
-                        {formatDistance(agent)}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <div className={`flex items-center text-sm mb-1 ${
-                        agent.isOnline ? 'text-green-600' : 'text-red-600'
-                      }`}>
-                        {agent.isOnline ? (
-                          <Wifi className="w-3 h-3 mr-1" />
-                        ) : (
-                          <WifiOff className="w-3 h-3 mr-1" />
-                        )}
-                        {agent.isOnline ? 'Online' : 'Offline'}
-                      </div>
-                      <div className="text-sm text-slate-500 flex items-center">
-                        <Star className="w-3 h-3 mr-1 text-yellow-500" />
-                        {formatRating(agent.rating || 0, agent.totalRatings || 0)}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-2 mb-3">
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button
-                          disabled={!agent.isOnline}
-                          onClick={() => {
-                            setSelectedAgent(agent);
-                            setTransactionType('cash_in');
-                          }}
-                          className={`text-sm font-medium ${
-                            agent.isOnline 
-                              ? 'bg-green-600 text-white hover:bg-green-700' 
-                              : 'bg-slate-300 text-slate-500 cursor-not-allowed'
-                          }`}
-                        >
-                          Cash In
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Cash In - {agent.businessName}</DialogTitle>
-                        </DialogHeader>
-                        <div className="space-y-4">
-                          <div>
-                            <Label htmlFor="amount">Amount (KES)</Label>
-                            <Input
-                              id="amount"
-                              type="number"
-                              value={transactionAmount}
-                              onChange={(e) => setTransactionAmount(e.target.value)}
-                              placeholder="Enter amount"
-                            />
-                          </div>
-                          <div className="flex items-center space-x-2 text-sm text-slate-600">
-                            <MapPin className="w-4 h-4" />
-                            <span>{agent.location}</span>
-                          </div>
-                          <div className="flex items-center space-x-2 text-sm text-slate-600">
-                            <Clock className="w-4 h-4" />
-                            <span>Available now</span>
-                          </div>
-                          <Button 
-                            onClick={() => handleTransaction(agent, 'cash_in')}
-                            className="w-full bg-green-600 hover:bg-green-700"
-                          >
-                            Confirm Cash In
-                          </Button>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button
-                          disabled={!agent.isOnline}
-                          onClick={() => {
-                            setSelectedAgent(agent);
-                            setTransactionType('cash_out');
-                          }}
-                          className={`text-sm font-medium ${
-                            agent.isOnline 
-                              ? 'bg-blue-600 text-white hover:bg-blue-700' 
-                              : 'bg-slate-300 text-slate-500 cursor-not-allowed'
-                          }`}
-                        >
-                          Cash Out
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Cash Out - {agent.businessName}</DialogTitle>
-                        </DialogHeader>
-                        <div className="space-y-4">
-                          <div>
-                            <Label htmlFor="amount">Amount (KES)</Label>
-                            <Input
-                              id="amount"
-                              type="number"
-                              value={transactionAmount}
-                              onChange={(e) => setTransactionAmount(e.target.value)}
-                              placeholder="Enter amount"
-                            />
-                          </div>
-                          <div className="flex items-center space-x-2 text-sm text-slate-600">
-                            <MapPin className="w-4 h-4" />
-                            <span>{agent.location}</span>
-                          </div>
-                          <div className="flex items-center space-x-2 text-sm text-slate-600">
-                            <Clock className="w-4 h-4" />
-                            <span>Available now</span>
-                          </div>
-                          <Button 
-                            onClick={() => handleTransaction(agent, 'cash_out')}
-                            className="w-full bg-blue-600 hover:bg-blue-700"
-                          >
-                            Confirm Cash Out
-                          </Button>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-                  </div>
-
-                  {agent.services && (
-                    <div className="flex flex-wrap gap-1">
-                      {agent.services.map((service: string, index: number) => (
-                        <Badge key={index} variant="secondary" className="text-xs">
-                          {service}
+                      <div className="flex items-center gap-2 mb-1">
+                        <h3 className="font-semibold text-foreground">{agent.businessName}</h3>
+                        <Badge variant="secondary" className="text-xs bg-primary/10 text-primary border-primary/20">
+                          {formatDistance(agent)}
                         </Badge>
-                      ))}
+                      </div>
+                      <p className="text-sm text-muted-foreground mb-2">{agent.services}</p>
+                      <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                          {formatRating(agent.rating || 0, agent.totalRatings || 0)}
+                        </span>
+                        <span>{agent.totalRatings} reviews</span>
+                      </div>
                     </div>
-                  )}
+                    <Button size="sm" className="bg-gradient-to-r from-primary to-unifi-blue hover:opacity-90 transition-opacity">
+                      Contact
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             ))
