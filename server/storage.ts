@@ -104,10 +104,10 @@ export interface IStorage {
   getUserInvestments(userId: string): Promise<Investment[]>;
   updateIdeaFunding(ideaId: number, additionalFunding: number): Promise<void>;
 
-  async getMentors(): Promise<any>;
-  async createMentor(mentorData: any): Promise<any>;
-  async getMentorshipSessions(userId: string): Promise<any>;
-  async createMentorshipSession(sessionData: any): Promise<any>;
+  getMentors(): Promise<any>;
+  createMentor(mentorData: any): Promise<any>;
+  getMentorshipSessions(userId: string): Promise<any>;
+  createMentorshipSession(sessionData: any): Promise<any>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -517,73 +517,10 @@ export class DatabaseStorage implements IStorage {
 
   // Startup ideas and investments
   async getStartupIdeas(): Promise<StartupIdea[]> {
-    let ideas = await db
+    const ideas = await db
       .select()
       .from(startupIdeas)
       .orderBy(desc(startupIdeas.createdAt));
-
-    // If no ideas exist, create sample ones
-    if (ideas.length === 0) {
-      const sampleIdeas = [
-        {
-          creatorId: 'demo-founder-1',
-          title: 'GreenPay - Eco-Friendly Mobile Payments',
-          description: 'A mobile payment platform that plants trees for every transaction, promoting environmental sustainability while providing seamless payment solutions.',
-          category: 'fintech',
-          fundingGoal: '2000000',
-          currentFunding: '450000',
-          currency: 'KES',
-          minimumInvestment: '50000',
-          equity: '15',
-          stage: 'seed',
-          status: 'open',
-          tags: ['payments', 'environment', 'mobile', 'sustainability'],
-          likesCount: 24,
-          viewsCount: 156
-        },
-        {
-          creatorId: 'demo-founder-2',
-          title: 'FarmConnect - Direct Farm-to-Market Platform',
-          description: 'Connecting smallholder farmers directly with urban markets, eliminating middlemen and ensuring fair prices for both farmers and consumers.',
-          category: 'agritech',
-          fundingGoal: '1500000',
-          currentFunding: '300000',
-          currency: 'KES',
-          minimumInvestment: '25000',
-          equity: '20',
-          stage: 'seed',
-          status: 'open',
-          tags: ['agriculture', 'marketplace', 'farmers', 'food'],
-          likesCount: 18,
-          viewsCount: 89
-        },
-        {
-          creatorId: 'demo-founder-3',
-          title: 'HealthTracker AI - Personalized Health Monitoring',
-          description: 'AI-powered health monitoring app that provides personalized health insights and early disease detection using smartphone sensors.',
-          category: 'healthtech',
-          fundingGoal: '3000000',
-          currentFunding: '750000',
-          currency: 'KES',
-          minimumInvestment: '75000',
-          equity: '12',
-          stage: 'seed',
-          status: 'open',
-          tags: ['health', 'AI', 'monitoring', 'prevention'],
-          likesCount: 31,
-          viewsCount: 203
-        }
-      ];
-
-      for (const ideaData of sampleIdeas) {
-        await db.insert(startupIdeas).values(ideaData);
-      }
-
-      ideas = await db
-        .select()
-        .from(startupIdeas)
-        .orderBy(desc(startupIdeas.createdAt));
-    }
 
     return ideas;
   }
@@ -613,7 +550,7 @@ export class DatabaseStorage implements IStorage {
       .where(eq(startupIdeas.id, ideaId));
 
     if (idea) {
-      const currentFunding = parseFloat(idea.currentFunding);
+      const currentFunding = parseFloat(idea.currentFunding || '0');
       const newFunding = (currentFunding + additionalFunding).toString();
 
       await db
@@ -621,7 +558,7 @@ export class DatabaseStorage implements IStorage {
         .set({ 
           currentFunding: newFunding, 
           updatedAt: new Date(),
-          viewsCount: idea.viewsCount + 1
+          viewsCount: (idea.viewsCount || 0) + 1
         })
         .where(eq(startupIdeas.id, ideaId));
     }

@@ -31,7 +31,8 @@ import {
   Briefcase,
   Award,
   Filter,
-  Search
+  Search,
+  Activity
 } from "lucide-react";
 
 interface StartupIdea {
@@ -89,7 +90,7 @@ export default function FoundersRoom() {
   const { toast } = useToast();
 
   // Fetch startup ideas
-  const { data: startupIdeas = [], isLoading, refetch } = useQuery({
+  const { data: startupIdeas = [], isLoading, refetch } = useQuery<StartupIdea[]>({
     queryKey: ['/api/startup-ideas'],
     retry: false,
   });
