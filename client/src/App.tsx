@@ -16,7 +16,6 @@ import Advisors from "@/pages/advisors";
 import More from "@/pages/more";
 import FoundersRoom from "@/pages/founders-room";
 import Mentorship from "@/pages/mentorship";
-import AICoach from "@/pages/ai-coach";
 import Banking from "@/pages/banking";
 import FinancialCalculator from "@/pages/financial-calculator";
 import BudgetPlanner from "@/pages/budget-planner";

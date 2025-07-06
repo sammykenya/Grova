@@ -305,11 +305,11 @@ export type AICoachingSession = typeof aiCoachingSessions.$inferSelect;
 export type InsertFinancialGoal = typeof financialGoals.$inferInsert;
 export type FinancialGoal = typeof financialGoals.$inferSelect;
 
-export type InsertStartupIdea = typeof startupIdeas.$inferInsert;
 export type StartupIdea = typeof startupIdeas.$inferSelect;
+export type InsertStartupIdea = typeof startupIdeas.$inferInsert;
 
-export type InsertInvestment = typeof investments.$inferInsert;
 export type Investment = typeof investments.$inferSelect;
+export type InsertInvestment = typeof investments.$inferInsert;
 
 export type InsertIdeaComment = typeof ideaComments.$inferInsert;
 export type IdeaComment = typeof ideaComments.$inferSelect;
