@@ -997,6 +997,8 @@ export default function CommunityTreasury() {
           </TabsContent>
         </Tabs>
       </div>
+        </div>
+      </div>
     </div>
   );
 }
