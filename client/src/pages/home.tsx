@@ -120,110 +120,111 @@ export default function Home() {
   const currentWalletData = getCurrentWalletData();
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Status Bar */}
-      <div className="status-bar text-white text-xs px-4 py-1 flex justify-between items-center">
-        <span className="flex items-center gap-1">
-          <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-          <span>Online</span>
-        </span>
-        <span>9:41 AM</span>
-        <span className="flex items-center gap-1">
-          <div className="w-4 h-2 bg-white rounded-sm"></div>
-          <Wifi className="w-3 h-3" />
-        </span>
-      </div>
+    <div className="min-h-screen bg-white">
+      {/* Hero Zone - Bold Blue Background */}
+      <div className="bg-grova-blue text-white">
+        {/* Status Bar */}
+        <div className="text-white text-xs px-6 py-2 flex justify-between items-center opacity-90">
+          <span className="flex items-center gap-1">
+            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+            <span>Online</span>
+          </span>
+          <span>9:41 AM</span>
+          <span className="flex items-center gap-1">
+            <div className="w-4 h-2 bg-white rounded-sm"></div>
+            <Wifi className="w-3 h-3" />
+          </span>
+        </div>
 
-      {/* Header */}
-      <header className="bg-white border-b border-slate-200 px-4 py-3">
-        <div className="flex items-center justify-between">
-          <Button
-            variant="ghost"
-            onClick={() => setSidebarOpen(true)}
-            className="text-slate-600 p-0"
-          >
-            <Menu className="w-5 h-5" />
-          </Button>
-
-          <div className="flex items-center space-x-2">
-            <Globe className="text-[hsl(207,90%,54%)] w-5 h-5" />
-            <span className="font-bold text-lg">Grova</span>
-          </div>
-
-          <div className="flex items-center space-x-3">
+        {/* Header - Clean Navigation */}
+        <header className="px-6 py-4">
+          <div className="flex items-center justify-between">
             <Button
               variant="ghost"
-              onClick={() => setIsVoiceEnabled(!isVoiceEnabled)}
-              className={`p-0 ${isVoiceEnabled ? 'text-[hsl(252,83%,57%)]' : 'text-slate-400'} hover:text-[hsl(252,83%,57%)]`}
+              onClick={() => setSidebarOpen(true)}
+              className="text-white p-0 hover:bg-white/10"
             >
-              <Mic className="w-4 h-4" />
+              <Menu className="w-6 h-6" />
             </Button>
-            <Button variant="ghost" className="text-slate-600 relative p-0">
-              <Bell className="w-4 h-4" />
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                2
-              </span>
-            </Button>
-          </div>
-        </div>
-      </header>
 
-      {/* Balance Card */}
-      <div className="px-4 py-6 balance-gradient text-white">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <p className="text-blue-200 text-sm">Total Balance</p>
-            <div className="flex items-center space-x-2">
-              <span className="text-3xl font-bold">
-                {balanceVisible ? getTotalBalance() : '••••••'}
-              </span>
+            <div className="flex items-center space-x-3">
+              <Globe className="w-6 h-6" />
+              <span className="grova-headline text-white text-xl">Grova</span>
+              <span className="grova-body text-white/80 text-xs">by BoldStreet Partners</span>
+            </div>
+
+            <div className="flex items-center space-x-4">
               <Button
                 variant="ghost"
-                onClick={() => setBalanceVisible(!balanceVisible)}
-                className="text-blue-200 p-0"
+                onClick={() => setIsVoiceEnabled(!isVoiceEnabled)}
+                className={`p-0 hover:bg-white/10 ${isVoiceEnabled ? 'text-grova-orange' : 'text-white/70'}`}
               >
-                {balanceVisible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+                <Mic className="w-5 h-5" />
+              </Button>
+              <Button variant="ghost" className="text-white relative p-0 hover:bg-white/10">
+                <Bell className="w-5 h-5" />
+                <span className="absolute -top-1 -right-1 bg-grova-orange text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  2
+                </span>
               </Button>
             </div>
           </div>
-          <Button
-            variant="outline"
-            className="bg-white/20 border-white/30 text-white hover:bg-white/30"
-          >
-            <span className="text-sm mr-1">Switch</span>
-            <ArrowLeftRight className="w-3 h-3" />
-          </Button>
-        </div>
+        </header>
 
-        {/* Quick Actions */}
-        <div className="grid grid-cols-4 gap-3">
-          <Link href="/send">
-            <Button className="flex flex-col items-center space-y-2 bg-white/10 p-3 rounded-xl h-auto">
-              <Send className="w-5 h-5" />
-              <span className="text-xs">Send</span>
+        {/* Balance Zone - Generous Whitespace */}
+        <div className="px-6 py-8">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <p className="grova-body text-white/80 mb-2">Total Balance</p>
+              <div className="flex items-center space-x-3">
+                <span className="grova-data text-white text-4xl font-black">
+                  {balanceVisible ? getTotalBalance() : '••••••'}
+                </span>
+                <Button
+                  variant="ghost"
+                  onClick={() => setBalanceVisible(!balanceVisible)}
+                  className="text-white/80 p-0 hover:bg-white/10"
+                >
+                  {balanceVisible ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
+                </Button>
+              </div>
+            </div>
+            <Button className="grova-button-secondary bg-white/20 border-white/30 text-white hover:bg-white/30">
+              <ArrowLeftRight className="w-4 h-4 mr-2" />
+              Switch
             </Button>
-          </Link>
-          <Button 
-            onClick={() => setRequestModalOpen(true)}
-            className="flex flex-col items-center space-y-2 bg-white/10 p-3 rounded-xl h-auto"
-          >
-            <QrCode className="w-5 h-5" />
-            <span className="text-xs">Request</span>
-          </Button>
-          <Button 
-            onClick={() => setConvertModalOpen(true)}
-            className="flex flex-col items-center space-y-2 bg-white/10 p-3 rounded-xl h-auto"
-          >
-            <ArrowLeftRight className="w-5 h-5" />
-            <span className="text-xs">Convert</span>
-          </Button>
-          <Button 
-            onClick={() => setVoiceModalOpen(true)}
-            className="flex flex-col items-center space-y-2 bg-white/10 p-3 rounded-xl h-auto"
-          >
-            <Wifi className="w-5 h-5" />
-            <span className="text-xs">Mesh</span>
-          </Button>
+          </div>
+
+          {/* Quick Actions - Geometric & Clean */}
+          <div className="grid grid-cols-4 gap-4">
+            <Link href="/send">
+              <div className="flex flex-col items-center space-y-2 bg-white/10 p-4 rounded-2xl cursor-pointer hover:bg-white/20 transition-all">
+                <Send className="w-6 h-6" />
+                <span className="grova-body text-white">Send</span>
+              </div>
+            </Link>
+            <div 
+              onClick={() => setRequestModalOpen(true)}
+              className="flex flex-col items-center space-y-2 bg-white/10 p-4 rounded-2xl cursor-pointer hover:bg-white/20 transition-all"
+            >
+              <QrCode className="w-6 h-6" />
+              <span className="grova-body text-white">Request</span>
+            </div>
+            <div 
+              onClick={() => setConvertModalOpen(true)}
+              className="flex flex-col items-center space-y-2 bg-white/10 p-4 rounded-2xl cursor-pointer hover:bg-white/20 transition-all"
+            >
+              <ArrowLeftRight className="w-6 h-6" />
+              <span className="grova-body text-white">Convert</span>
+            </div>
+            <div 
+              onClick={() => setVoiceModalOpen(true)}
+              className="flex flex-col items-center space-y-2 bg-grova-orange p-4 rounded-2xl cursor-pointer hover:bg-orange-600 transition-all"
+            >
+              <Wifi className="w-6 h-6" />
+              <span className="grova-body text-white">Mesh</span>
+            </div>
+          </div>
         </div>
       </div>
 
