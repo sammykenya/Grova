@@ -42,7 +42,14 @@ function Router() {
           <Route path="/mentorship" component={Mentorship} />
           <Route path="/ai-coach" component={AICoach} />
           <Route path="/community" component={CommunityTreasury} />
+          <Route path="/community-treasury" component={CommunityTreasury} />
           <Route path="/agents" component={AgentLocator} />
+          <Route path="/agent-locator" component={AgentLocator} />
+          <Route path="/banking" component={Banking} />
+          <Route path="/financial-calculator" component={FinancialCalculator} />
+          <Route path="/budget-planner" component={BudgetPlanner} />
+          <Route path="/currency-exchange" component={CurrencyExchange} />
+          <Route path="/crypto-tracker" component={CryptoTracker} />
         </>
       )}
       <Route component={NotFound} />
