@@ -26,6 +26,12 @@ import {
   type InsertAICoachingSession,
   type FinancialGoal,
   type InsertFinancialGoal,
+  communityMessages,
+  communityAnnouncements,
+  type CommunityMessage,
+  type InsertCommunityMessage,
+  type CommunityAnnouncement,
+  type InsertCommunityAnnouncement,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, sql, asc } from "drizzle-orm";
@@ -68,6 +74,13 @@ export interface IStorage {
   getUserFinancialGoals(userId: string): Promise<FinancialGoal[]>;
   createFinancialGoal(goal: InsertFinancialGoal): Promise<FinancialGoal>;
   updateFinancialGoalProgress(goalId: number, currentAmount: string): Promise<void>;
+
+  // Community messaging operations
+  getCommunityMessages(groupId: number, limit?: number): Promise<CommunityMessage[]>;
+  createCommunityMessage(message: InsertCommunityMessage): Promise<CommunityMessage>;
+  getCommunityAnnouncements(groupId: number): Promise<CommunityAnnouncement[]>;
+  createCommunityAnnouncement(announcement: InsertCommunityAnnouncement): Promise<CommunityAnnouncement>;
+  markAnnouncementAsViewed(announcementId: number, userId: string): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -244,11 +257,82 @@ export class DatabaseStorage implements IStorage {
 
   // Cash agent operations
   async getCashAgents(latitude?: number, longitude?: number, radius = 10): Promise<CashAgent[]> {
-    // For simplicity, return all agents. In production, implement geospatial queries
-    return await db
+    let agents = await db
       .select()
       .from(cashAgents)
       .orderBy(asc(cashAgents.businessName));
+
+    // If no agents exist, create sample ones
+    if (agents.length === 0) {
+      const sampleAgents = [
+        {
+          userId: 'agent-1',
+          businessName: 'QuickCash Mart',
+          location: 'Westlands, Nairobi',
+          latitude: '-1.2670',
+          longitude: '36.8070',
+          rating: '4.5',
+          totalRatings: 156,
+          isOnline: true,
+          services: ['cash_in', 'cash_out']
+        },
+        {
+          userId: 'agent-2',
+          businessName: 'Express Money Services',
+          location: 'CBD, Nairobi',
+          latitude: '-1.2840',
+          longitude: '36.8210',
+          rating: '4.2',
+          totalRatings: 89,
+          isOnline: true,
+          services: ['cash_in', 'cash_out', 'bill_payments']
+        },
+        {
+          userId: 'agent-3',
+          businessName: 'Family Store & Cash',
+          location: 'Kasarani, Nairobi',
+          latitude: '-1.2200',
+          longitude: '36.8980',
+          rating: '4.7',
+          totalRatings: 203,
+          isOnline: false,
+          services: ['cash_in', 'cash_out']
+        },
+        {
+          userId: 'agent-4',
+          businessName: 'Metro Cash Point',
+          location: 'Kilimani, Nairobi',
+          latitude: '-1.2890',
+          longitude: '36.7830',
+          rating: '4.3',
+          totalRatings: 67,
+          isOnline: true,
+          services: ['cash_in', 'cash_out', 'mobile_money']
+        },
+        {
+          userId: 'agent-5',
+          businessName: 'Swift Pay Hub',
+          location: 'Parklands, Nairobi',
+          latitude: '-1.2630',
+          longitude: '36.8150',
+          rating: '4.6',
+          totalRatings: 134,
+          isOnline: true,
+          services: ['cash_in', 'cash_out', 'forex']
+        }
+      ];
+
+      for (const agentData of sampleAgents) {
+        await db.insert(cashAgents).values(agentData);
+      }
+
+      agents = await db
+        .select()
+        .from(cashAgents)
+        .orderBy(asc(cashAgents.businessName));
+    }
+
+    return agents;
   }
 
   async createCashAgent(agent: InsertCashAgent): Promise<CashAgent> {
@@ -297,6 +381,52 @@ export class DatabaseStorage implements IStorage {
       .update(financialGoals)
       .set({ currentAmount, updatedAt: new Date() })
       .where(eq(financialGoals.id, goalId));
+  }
+
+  // Community messaging operations
+  async getCommunityMessages(groupId: number, limit = 50): Promise<CommunityMessage[]> {
+    return await db
+      .select()
+      .from(communityMessages)
+      .where(eq(communityMessages.groupId, groupId))
+      .orderBy(desc(communityMessages.createdAt))
+      .limit(limit);
+  }
+
+  async createCommunityMessage(message: InsertCommunityMessage): Promise<CommunityMessage> {
+    const [newMessage] = await db.insert(communityMessages).values(message).returning();
+    return newMessage;
+  }
+
+  async getCommunityAnnouncements(groupId: number): Promise<CommunityAnnouncement[]> {
+    return await db
+      .select()
+      .from(communityAnnouncements)
+      .where(and(eq(communityAnnouncements.groupId, groupId), eq(communityAnnouncements.isActive, true)))
+      .orderBy(desc(communityAnnouncements.createdAt));
+  }
+
+  async createCommunityAnnouncement(announcement: InsertCommunityAnnouncement): Promise<CommunityAnnouncement> {
+    const [newAnnouncement] = await db.insert(communityAnnouncements).values(announcement).returning();
+    return newAnnouncement;
+  }
+
+  async markAnnouncementAsViewed(announcementId: number, userId: string): Promise<void> {
+    const [announcement] = await db
+      .select()
+      .from(communityAnnouncements)
+      .where(eq(communityAnnouncements.id, announcementId));
+
+    if (announcement) {
+      const viewedBy = announcement.viewedBy as string[] || [];
+      if (!viewedBy.includes(userId)) {
+        viewedBy.push(userId);
+        await db
+          .update(communityAnnouncements)
+          .set({ viewedBy, updatedAt: new Date() })
+          .where(eq(communityAnnouncements.id, announcementId));
+      }
+    }
   }
 }
 

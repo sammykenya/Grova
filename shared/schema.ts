@@ -145,6 +145,35 @@ export const financialGoals = pgTable("financial_goals", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Community messages and announcements
+export const communityMessages = pgTable("community_messages", {
+  id: serial("id").primaryKey(),
+  groupId: integer("group_id").notNull().references(() => communityGroups.id),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  message: text("message").notNull(),
+  messageType: varchar("message_type").notNull().default('message'), // 'message', 'announcement', 'system'
+  isAnnouncement: boolean("is_announcement").default(false),
+  isPinned: boolean("is_pinned").default(false),
+  replyToId: integer("reply_to_id"),
+  attachments: jsonb("attachments"), // for file attachments
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const communityAnnouncements = pgTable("community_announcements", {
+  id: serial("id").primaryKey(),
+  groupId: integer("group_id").notNull().references(() => communityGroups.id),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  title: varchar("title").notNull(),
+  content: text("content").notNull(),
+  priority: varchar("priority").default('normal'), // 'low', 'normal', 'high', 'urgent'
+  isActive: boolean("is_active").default(true),
+  expiresAt: timestamp("expires_at"),
+  viewedBy: jsonb("viewed_by").default('[]'), // array of user IDs who viewed
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // Startup Ideas and Funding (Founders Investor Room)
 export const startupIdeas = pgTable("startup_ideas", {
   id: serial("id").primaryKey(),
@@ -280,6 +309,12 @@ export type FinancialInstitution = typeof financialInstitutions.$inferSelect;
 export type InsertUserBankAccount = typeof userBankAccounts.$inferInsert;
 export type UserBankAccount = typeof userBankAccounts.$inferSelect;
 
+export type InsertCommunityMessage = typeof communityMessages.$inferInsert;
+export type CommunityMessage = typeof communityMessages.$inferSelect;
+
+export type InsertCommunityAnnouncement = typeof communityAnnouncements.$inferInsert;
+export type CommunityAnnouncement = typeof communityAnnouncements.$inferSelect;
+
 // Insert schemas
 export const insertWalletSchema = createInsertSchema(wallets).omit({
   id: true,
@@ -317,6 +352,18 @@ export const insertAICoachingSessionSchema = createInsertSchema(aiCoachingSessio
 });
 
 export const insertFinancialGoalSchema = createInsertSchema(financialGoals).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertCommunityMessageSchema = createInsertSchema(communityMessages).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertCommunityAnnouncementSchema = createInsertSchema(communityAnnouncements).omit({
   id: true,
   createdAt: true,
   updatedAt: true,

@@ -314,7 +314,7 @@ export default function Home() {
                   <Users className="text-purple-600 w-4 h-4 mr-2" />
                   {communityGroups[0].name}
                 </h3>
-                <Link href="/community">
+                <Link href="/community-treasury">
                   <span className="text-[hsl(207,90%,54%)] text-sm cursor-pointer">
                     View
                   </span>

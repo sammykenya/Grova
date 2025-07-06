@@ -15,7 +15,9 @@ import {
   insertCommunityProposalSchema,
   insertCashAgentSchema,
   insertAICoachingSessionSchema,
-  insertFinancialGoalSchema
+  insertFinancialGoalSchema,
+  insertCommunityMessageSchema,
+  insertCommunityAnnouncementSchema
 } from "@shared/schema";
 import { z } from "zod";
 
@@ -364,6 +366,82 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error creating financial goal:", error);
       res.status(500).json({ message: "Failed to create financial goal" });
+    }
+  });
+
+  // Community Messages
+  app.get('/api/community/groups/:groupId/messages', isAuthenticated, async (req: any, res) => {
+    try {
+      const groupId = parseInt(req.params.groupId);
+      const limit = parseInt(req.query.limit as string) || 50;
+      const messages = await storage.getCommunityMessages(groupId, limit);
+      res.json(messages);
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+      res.status(500).json({ message: "Failed to fetch messages" });
+    }
+  });
+
+  app.post('/api/community/groups/:groupId/messages', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const groupId = parseInt(req.params.groupId);
+      
+      const messageData = insertCommunityMessageSchema.parse({
+        ...req.body,
+        groupId,
+        userId
+      });
+
+      const message = await storage.createCommunityMessage(messageData);
+      res.json(message);
+    } catch (error) {
+      console.error("Error creating message:", error);
+      res.status(500).json({ message: "Failed to create message" });
+    }
+  });
+
+  // Community Announcements
+  app.get('/api/community/groups/:groupId/announcements', isAuthenticated, async (req: any, res) => {
+    try {
+      const groupId = parseInt(req.params.groupId);
+      const announcements = await storage.getCommunityAnnouncements(groupId);
+      res.json(announcements);
+    } catch (error) {
+      console.error("Error fetching announcements:", error);
+      res.status(500).json({ message: "Failed to fetch announcements" });
+    }
+  });
+
+  app.post('/api/community/groups/:groupId/announcements', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const groupId = parseInt(req.params.groupId);
+      
+      const announcementData = insertCommunityAnnouncementSchema.parse({
+        ...req.body,
+        groupId,
+        userId
+      });
+
+      const announcement = await storage.createCommunityAnnouncement(announcementData);
+      res.json(announcement);
+    } catch (error) {
+      console.error("Error creating announcement:", error);
+      res.status(500).json({ message: "Failed to create announcement" });
+    }
+  });
+
+  app.post('/api/community/announcements/:announcementId/view', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const announcementId = parseInt(req.params.announcementId);
+      
+      await storage.markAnnouncementAsViewed(announcementId, userId);
+      res.json({ message: "Announcement marked as viewed" });
+    } catch (error) {
+      console.error("Error marking announcement as viewed:", error);
+      res.status(500).json({ message: "Failed to mark announcement as viewed" });
     }
   });
 
