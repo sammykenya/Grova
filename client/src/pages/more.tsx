@@ -200,7 +200,7 @@ export default function More() {
       title: "Community Treasury",
       description: "Join savings groups and community funds",
       icon: Users,
-      path: "/community-treasury",
+      path: "/community",
       color: "text-blue-600"
     },
     {

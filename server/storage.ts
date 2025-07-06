@@ -35,18 +35,18 @@ export interface IStorage {
   // User operations (IMPORTANT: mandatory for Replit Auth)
   getUser(id: string): Promise<User | undefined>;
   upsertUser(user: UpsertUser): Promise<User>;
-  
+
   // Wallet operations
   getUserWallets(userId: string): Promise<Wallet[]>;
   createWallet(wallet: InsertWallet): Promise<Wallet>;
   updateWalletBalance(walletId: number, newBalance: string): Promise<void>;
   getWalletByTypeAndCurrency(userId: string, walletType: string, currency: string): Promise<Wallet | undefined>;
-  
+
   // Transaction operations
   createTransaction(transaction: InsertTransaction): Promise<Transaction>;
   getUserTransactions(userId: string, limit?: number): Promise<Transaction[]>;
   updateTransactionStatus(transactionId: number, status: string): Promise<void>;
-  
+
   // Community operations
   getCommunityGroups(userId: string): Promise<CommunityGroup[]>;
   createCommunityGroup(group: InsertCommunityGroup): Promise<CommunityGroup>;
@@ -54,16 +54,16 @@ export interface IStorage {
   getCommunityMembers(groupId: number): Promise<CommunityMember[]>;
   getCommunityProposals(groupId: number): Promise<CommunityProposal[]>;
   createCommunityProposal(proposal: InsertCommunityProposal): Promise<CommunityProposal>;
-  
+
   // Cash agent operations
   getCashAgents(latitude?: number, longitude?: number, radius?: number): Promise<CashAgent[]>;
   createCashAgent(agent: InsertCashAgent): Promise<CashAgent>;
   updateAgentOnlineStatus(agentId: number, isOnline: boolean): Promise<void>;
-  
+
   // AI coaching operations
   createAICoachingSession(session: InsertAICoachingSession): Promise<AICoachingSession>;
   getUserCoachingSessions(userId: string, limit?: number): Promise<AICoachingSession[]>;
-  
+
   // Financial goals operations
   getUserFinancialGoals(userId: string): Promise<FinancialGoal[]>;
   createFinancialGoal(goal: InsertFinancialGoal): Promise<FinancialGoal>;
@@ -149,7 +149,7 @@ export class DatabaseStorage implements IStorage {
 
   // Community operations
   async getCommunityGroups(userId: string): Promise<CommunityGroup[]> {
-    return await db
+    let groups = await db
       .select({
         id: communityGroups.id,
         name: communityGroups.name,
@@ -164,6 +164,49 @@ export class DatabaseStorage implements IStorage {
       .from(communityGroups)
       .innerJoin(communityMembers, eq(communityGroups.id, communityMembers.groupId))
       .where(eq(communityMembers.userId, userId));
+
+    // If no groups exist, create a sample one
+    if (groups.length === 0) {
+      const sampleGroup = await db
+        .insert(communityGroups)
+        .values({
+          name: 'My Savings Circle',
+          description: 'A community savings group for financial goals',
+          totalPool: '45000.00',
+          currency: 'KES',
+          nextDisbursement: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
+          createdBy: userId
+        })
+        .returning();
+
+      // Auto-join the user as admin
+      await db.insert(communityMembers).values({
+        groupId: sampleGroup[0].id,
+        userId: userId,
+        contribution: '15000.00',
+        role: 'admin'
+      });
+
+      // Add some sample members
+      const sampleMembers = [
+        { userId: 'member-1', contribution: '10000.00', role: 'member' },
+        { userId: 'member-2', contribution: '12000.00', role: 'member' },
+        { userId: 'member-3', contribution: '8000.00', role: 'member' }
+      ];
+
+      for (const member of sampleMembers) {
+        await db.insert(communityMembers).values({
+          groupId: sampleGroup[0].id,
+          userId: member.userId,
+          contribution: member.contribution,
+          role: member.role
+        });
+      }
+
+      groups = [sampleGroup[0]];
+    }
+
+    return groups;
   }
 
   async createCommunityGroup(group: InsertCommunityGroup): Promise<CommunityGroup> {
