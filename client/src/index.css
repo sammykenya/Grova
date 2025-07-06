@@ -63,6 +63,7 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
+    font-family: 'Lato', system-ui, Avenir, Helvetica, Arial, sans-serif;
   }
 }
 
@@ -70,47 +71,47 @@
   .unifi-blue {
     color: var(--unifi-blue);
   }
-  
+
   .bg-unifi-blue {
     background-color: var(--unifi-blue);
   }
-  
+
   .border-unifi-blue {
     border-color: var(--unifi-blue);
   }
-  
+
   .text-fiat-green {
     color: var(--fiat-green);
   }
-  
+
   .bg-fiat-green {
     background-color: var(--fiat-green);
   }
-  
+
   .border-fiat-green {
     border-color: var(--fiat-green);
   }
-  
+
   .text-crypto-amber {
     color: var(--crypto-amber);
   }
-  
+
   .bg-crypto-amber {
     background-color: var(--crypto-amber);
   }
-  
+
   .border-crypto-amber {
     border-color: var(--crypto-amber);
   }
-  
+
   .text-credits-purple {
     color: var(--credits-purple);
   }
-  
+
   .bg-credits-purple {
     background-color: var(--credits-purple);
   }
-  
+
   .border-credits-purple {
     border-color: var(--credits-purple);
   }

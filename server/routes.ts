@@ -42,7 +42,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/wallets/initialize', isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.user.claims.sub;
-      
+
       // Check if user already has wallets
       const existingWallets = await storage.getUserWallets(userId);
       if (existingWallets.length > 0) {
@@ -86,11 +86,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const userId = req.user.claims.sub;
       const transactionData = insertTransactionSchema.parse(req.body);
-      
+
       // Validate that the user owns the from wallet
       const wallets = await storage.getUserWallets(userId);
       const fromWallet = wallets.find(w => w.id === transactionData.fromWalletId);
-      
+
       if (!fromWallet) {
         return res.status(403).json({ message: "Unauthorized: Invalid from wallet" });
       }
@@ -98,7 +98,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Check balance
       const amount = parseFloat(transactionData.amount);
       const balance = parseFloat(fromWallet.balance);
-      
+
       if (balance < amount) {
         return res.status(400).json({ message: "Insufficient balance" });
       }
@@ -139,10 +139,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const userId = req.user.claims.sub;
       const language = (req.query.language as string) || 'en';
-      
+
       // Get user's recent transactions for context
       const transactions = await storage.getUserTransactions(userId, 30);
-      
+
       const tip = await generateFinancialTip({
         transactions,
         userId,
@@ -209,7 +209,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const userId = req.user.claims.sub;
       const language = (req.query.language as string) || 'en';
-      
+
       const transactions = await storage.getUserTransactions(userId, 50);
       const analysis = await analyzeSpendingPatterns(transactions, language);
 
@@ -237,15 +237,87 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Community Groups
-  app.get('/api/community/groups', isAuthenticated, async (req: any, res) => {
+  // Mentorship Routes
+  app.get('/api/mentors', async (req, res) => {
     try {
-      const userId = req.user.claims.sub;
-      const groups = await storage.getCommunityGroups(userId);
+      const mentors = await storage.getMentors();
+      res.json(mentors);
+    } catch (error) {
+      console.error('Error fetching mentors:', error);
+      res.status(500).json({ message: 'Failed to fetch mentors' });
+    }
+  });
+
+  app.post('/api/mentors/register', async (req, res) => {
+    try {
+      const userId = req.headers['x-replit-user-id'];
+      if (!userId) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+
+      const { expertise, experienceYears, hourlyRate, availability, bio } = req.body;
+      const mentor = await storage.createMentor({
+        userId,
+        expertise,
+        experienceYears,
+        hourlyRate,
+        availability,
+        bio
+      });
+
+      res.json(mentor);
+    } catch (error) {
+      console.error('Error registering mentor:', error);
+      res.status(500).json({ message: 'Failed to register mentor' });
+    }
+  });
+
+  app.get('/api/mentorship/sessions', async (req, res) => {
+    try {
+      const userId = req.headers['x-replit-user-id'];
+      if (!userId) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+
+      const sessions = await storage.getMentorshipSessions(userId);
+      res.json(sessions);
+    } catch (error) {
+      console.error('Error fetching mentorship sessions:', error);
+      res.status(500).json({ message: 'Failed to fetch mentorship sessions' });
+    }
+  });
+
+  app.post('/api/mentorship/book', async (req, res) => {
+    try {
+      const userId = req.headers['x-replit-user-id'];
+      if (!userId) {
+        return res.status(401).json({ message: 'Unauthorized' });
+      }
+
+      const { mentorId, sessionDate, durationMinutes, topic } = req.body;
+      const session = await storage.createMentorshipSession({
+        mentorId,
+        menteeId: userId,
+        sessionDate,
+        durationMinutes,
+        topic
+      });
+
+      res.json(session);
+    } catch (error) {
+      console.error('Error booking mentorship session:', error);
+      res.status(500).json({ message: 'Failed to book mentorship session' });
+    }
+  });
+
+  // Community Treasury Routes
+  app.get('/api/community/groups', async (req, res) => {
+    try {
+      const groups = await storage.getCommunityGroups();
       res.json(groups);
     } catch (error) {
-      console.error("Error fetching community groups:", error);
-      res.status(500).json({ message: "Failed to fetch community groups" });
+      console.error('Error fetching community groups:', error);
+      res.status(500).json({ message: 'Failed to fetch community groups' });
     }
   });
 
@@ -258,7 +330,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
       const group = await storage.createCommunityGroup(groupData);
-      
+
       // Auto-join creator as admin
       await storage.joinCommunityGroup(group.id, userId);
 
@@ -295,7 +367,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const userId = req.user.claims.sub;
       const groupId = parseInt(req.params.groupId);
-      
+
       const proposalData = insertCommunityProposalSchema.parse({
         ...req.body,
         groupId,
@@ -489,7 +561,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const userId = req.user.claims.sub;
       const groupId = parseInt(req.params.groupId);
-      
+
       const messageData = insertCommunityMessageSchema.parse({
         ...req.body,
         groupId,
@@ -520,7 +592,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const userId = req.user.claims.sub;
       const groupId = parseInt(req.params.groupId);
-      
+
       const announcementData = insertCommunityAnnouncementSchema.parse({
         ...req.body,
         groupId,
@@ -539,7 +611,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const userId = req.user.claims.sub;
       const announcementId = parseInt(req.params.announcementId);
-      
+
       await storage.markAnnouncementAsViewed(announcementId, userId);
       res.json({ message: "Announcement marked as viewed" });
     } catch (error) {
@@ -562,7 +634,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Check if user is a member of the group
       const members = await storage.getCommunityMembers(groupId);
       const member = members.find(m => m.userId === userId);
-      
+
       if (!member) {
         return res.status(403).json({ message: "You are not a member of this group" });
       }

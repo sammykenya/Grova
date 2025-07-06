@@ -543,8 +543,12 @@ export default function FoundersRoom() {
                   Connect with experienced entrepreneurs and industry experts.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                  <Button variant="outline">Find a Mentor</Button>
-                  <Button variant="outline">Become a Mentor</Button>
+                  <Link href="/mentorship">
+                    <Button variant="outline" className="w-full">Find a Mentor</Button>
+                  </Link>
+                  <Link href="/mentorship">
+                    <Button variant="outline" className="w-full">Become a Mentor</Button>
+                  </Link>
                 </div>
               </CardContent>
             </Card>

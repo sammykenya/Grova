@@ -103,6 +103,11 @@ export interface IStorage {
   createInvestment(investment: InsertInvestment): Promise<Investment>;
   getUserInvestments(userId: string): Promise<Investment[]>;
   updateIdeaFunding(ideaId: number, additionalFunding: number): Promise<void>;
+
+  async getMentors(): Promise<any>;
+  async createMentor(mentorData: any): Promise<any>;
+  async getMentorshipSessions(userId: string): Promise<any>;
+  async createMentorshipSession(sessionData: any): Promise<any>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -460,7 +465,7 @@ export class DatabaseStorage implements IStorage {
     if (member) {
       const currentContribution = parseFloat(member.contribution);
       const newContribution = (currentContribution + additionalAmount).toString();
-      
+
       await db
         .update(communityMembers)
         .set({ contribution: newContribution })
@@ -477,7 +482,7 @@ export class DatabaseStorage implements IStorage {
     if (group) {
       const currentPool = parseFloat(group.totalPool);
       const newPool = (currentPool + additionalAmount).toString();
-      
+
       await db
         .update(communityGroups)
         .set({ totalPool: newPool, updatedAt: new Date() })
@@ -599,7 +604,7 @@ export class DatabaseStorage implements IStorage {
     if (idea) {
       const currentFunding = parseFloat(idea.currentFunding);
       const newFunding = (currentFunding + additionalFunding).toString();
-      
+
       await db
         .update(startupIdeas)
         .set({ 
@@ -609,6 +614,53 @@ export class DatabaseStorage implements IStorage {
         })
         .where(eq(startupIdeas.id, ideaId));
     }
+  }
+
+  async getMentors(): Promise<any> {
+    const result = await this.db.execute(sql`
+      SELECT m.*, u.name, u.email
+      FROM mentors m
+      LEFT JOIN users u ON m.user_id = u.id
+      WHERE m.status = 'active'
+      ORDER BY m.rating DESC, m.created_at DESC
+    `);
+    return result.rows;
+  }
+
+  async createMentor(mentorData: any): Promise<any> {
+    const { userId, expertise, experienceYears, hourlyRate, availability, bio } = mentorData;
+
+    const result = await this.db.execute(sql`
+      INSERT INTO mentors (user_id, expertise, experience_years, hourly_rate, availability, bio)
+      VALUES (${userId}, ${expertise}, ${experienceYears}, ${hourlyRate}, ${availability}, ${bio})
+      RETURNING *
+    `);
+
+    return result.rows[0];
+  }
+
+  async getMentorshipSessions(userId: string): Promise<any> {
+    const result = await this.db.execute(sql`
+      SELECT ms.*, m.*, u.name as mentor_name
+      FROM mentorship_sessions ms
+      LEFT JOIN mentors m ON ms.mentor_id = m.id
+      LEFT JOIN users u ON m.user_id = u.id
+      WHERE ms.mentee_id = ${userId}
+      ORDER BY ms.session_date DESC
+    `);
+    return result.rows;
+  }
+
+  async createMentorshipSession(sessionData: any): Promise<any> {
+    const { mentorId, menteeId, sessionDate, durationMinutes, topic } = sessionData;
+
+    const result = await this.db.execute(sql`
+      INSERT INTO mentorship_sessions (mentor_id, mentee_id, session_date, duration_minutes, topic)
+      VALUES (${mentorId}, ${menteeId}, ${sessionDate}, ${durationMinutes}, ${topic})
+      RETURNING *
+    `);
+
+    return result.rows[0];
   }
 }
 
