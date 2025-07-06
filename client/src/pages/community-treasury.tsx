@@ -425,6 +425,37 @@ export default function CommunityTreasury() {
             <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-unifi-blue bg-clip-text text-transparent">
               Community Treasury
             </h1>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="ghost" size="icon" className="relative">
+                  <Bell className="h-5 w-5" />
+                  <div className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full flex items-center justify-center">
+                    <span className="text-xs text-white">3</span>
+                  </div>
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Group Notifications</DialogTitle>
+                </DialogHeader>
+                <ScrollArea className="h-64">
+                  <div className="space-y-3">
+                    <div className="p-3 bg-blue-50 rounded-lg">
+                      <p className="text-sm font-medium">New member joined</p>
+                      <p className="text-xs text-slate-600">Mike Kiprotich joined the group • 2 hours ago</p>
+                    </div>
+                    <div className="p-3 bg-green-50 rounded-lg">
+                      <p className="text-sm font-medium">Proposal approved</p>
+                      <p className="text-xs text-slate-600">Emergency Fund Setup passed with 8 votes • 1 day ago</p>
+                    </div>
+                    <div className="p-3 bg-yellow-50 rounded-lg">
+                      <p className="text-sm font-medium">Contribution reminder</p>
+                      <p className="text-xs text-slate-600">Monthly contribution due in 3 days • 2 days ago</p>
+                    </div>
+                  </div>
+                </ScrollArea>
+              </DialogContent>
+            </Dialog>
           </div>
 
       <div className="p-4 space-y-6 pb-20">
@@ -457,12 +488,234 @@ export default function CommunityTreasury() {
 
         {/* Main Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="discover">Discover</TabsTrigger>
             <TabsTrigger value="chat">Chat</TabsTrigger>
             <TabsTrigger value="proposals">Proposals</TabsTrigger>
             <TabsTrigger value="activity">Activity</TabsTrigger>
           </TabsList>
+
+          {/* Discover Groups Tab */}
+          <TabsContent value="discover" className="space-y-4">
+            <div className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-lg p-4 mb-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Users className="w-5 h-5 text-purple-600" />
+                <h3 className="font-semibold text-purple-800">Discover Communities</h3>
+              </div>
+              <p className="text-sm text-purple-700">Find and join saving groups that match your goals</p>
+            </div>
+
+            {/* Search and Filter */}
+            <div className="flex gap-3 mb-4">
+              <Input
+                placeholder="Search groups by name or purpose..."
+                className="flex-1"
+              />
+              <Select>
+                <SelectTrigger className="w-32">
+                  <SelectValue placeholder="Filter" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Groups</SelectItem>
+                  <SelectItem value="emergency">Emergency Fund</SelectItem>
+                  <SelectItem value="investment">Investment</SelectItem>
+                  <SelectItem value="business">Business</SelectItem>
+                  <SelectItem value="education">Education</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Available Groups */}
+            <div className="space-y-4">
+              {/* Public Groups */}
+              <Card className="border-green-200">
+                <CardHeader>
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <CardTitle className="text-lg">Nairobi Emergency Fund</CardTitle>
+                      <CardDescription>Community emergency savings group for Nairobi residents</CardDescription>
+                    </div>
+                    <Badge className="bg-green-100 text-green-800">Open</Badge>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="grid grid-cols-3 gap-4 text-sm">
+                    <div>
+                      <p className="text-slate-500">Total Pool</p>
+                      <p className="font-semibold">KES 2,500,000</p>
+                    </div>
+                    <div>
+                      <p className="text-slate-500">Members</p>
+                      <p className="font-semibold">45 active</p>
+                    </div>
+                    <div>
+                      <p className="text-slate-500">Min. Contribution</p>
+                      <p className="font-semibold">KES 1,000/month</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-slate-600">
+                    <Star className="w-4 h-4 text-yellow-500" />
+                    <span>4.8 rating • 6 months active • Location: Nairobi</span>
+                  </div>
+                  <Button className="w-full bg-green-600 hover:bg-green-700">
+                    Join Group
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="border-blue-200">
+                <CardHeader>
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <CardTitle className="text-lg">SME Investment Circle</CardTitle>
+                      <CardDescription>Small business investment and support group</CardDescription>
+                    </div>
+                    <Badge className="bg-blue-100 text-blue-800">Invite Only</Badge>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="grid grid-cols-3 gap-4 text-sm">
+                    <div>
+                      <p className="text-slate-500">Total Pool</p>
+                      <p className="font-semibold">KES 5,800,000</p>
+                    </div>
+                    <div>
+                      <p className="text-slate-500">Members</p>
+                      <p className="font-semibold">20 verified</p>
+                    </div>
+                    <div>
+                      <p className="text-slate-500">Min. Investment</p>
+                      <p className="font-semibold">KES 10,000</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-slate-600">
+                    <Star className="w-4 h-4 text-yellow-500" />
+                    <span>4.9 rating • Business verified • Sector: Technology</span>
+                  </div>
+                  <Button variant="outline" className="w-full">
+                    Request Invitation
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="border-orange-200">
+                <CardHeader>
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <CardTitle className="text-lg">University Students Chama</CardTitle>
+                      <CardDescription>Student-focused saving and loan group</CardDescription>
+                    </div>
+                    <Badge className="bg-orange-100 text-orange-800">Application Required</Badge>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-3">
+                  <div className="grid grid-cols-3 gap-4 text-sm">
+                    <div>
+                      <p className="text-slate-500">Total Pool</p>
+                      <p className="font-semibold">KES 890,000</p>
+                    </div>
+                    <div>
+                      <p className="text-slate-500">Members</p>
+                      <p className="font-semibold">35 students</p>
+                    </div>
+                    <div>
+                      <p className="text-slate-500">Monthly Contribution</p>
+                      <p className="font-semibold">KES 500</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-slate-600">
+                    <Star className="w-4 h-4 text-yellow-500" />
+                    <span>4.7 rating • Student ID required • Age: 18-25</span>
+                  </div>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" className="w-full">
+                        Apply to Join
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Apply to Join University Students Chama</DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <div>
+                          <Label htmlFor="studentId">Student ID</Label>
+                          <Input id="studentId" placeholder="Enter your student ID" />
+                        </div>
+                        <div>
+                          <Label htmlFor="university">University/College</Label>
+                          <Input id="university" placeholder="Your institution" />
+                        </div>
+                        <div>
+                          <Label htmlFor="course">Course/Program</Label>
+                          <Input id="course" placeholder="Your field of study" />
+                        </div>
+                        <div>
+                          <Label htmlFor="motivation">Why do you want to join?</Label>
+                          <Textarea id="motivation" placeholder="Tell us about your saving goals" rows={3} />
+                        </div>
+                        <Button className="w-full">Submit Application</Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Create New Group */}
+            <Card className="border-dashed border-2 border-slate-300">
+              <CardContent className="p-6 text-center">
+                <Plus className="w-12 h-12 text-slate-400 mx-auto mb-3" />
+                <h3 className="font-semibold mb-2">Can't find the right group?</h3>
+                <p className="text-sm text-slate-600 mb-4">Create your own community savings group</p>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button>Create New Group</Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Create Community Group</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      <div>
+                        <Label htmlFor="groupName">Group Name</Label>
+                        <Input id="groupName" placeholder="Enter group name" />
+                      </div>
+                      <div>
+                        <Label htmlFor="groupDescription">Description</Label>
+                        <Textarea id="groupDescription" placeholder="Describe the group's purpose" rows={3} />
+                      </div>
+                      <div>
+                        <Label htmlFor="groupType">Group Type</Label>
+                        <Select>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select group type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="public">Public (Anyone can join)</SelectItem>
+                            <SelectItem value="invite">Invite Only</SelectItem>
+                            <SelectItem value="application">Application Required</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor="minContribution">Min. Monthly Contribution</Label>
+                          <Input id="minContribution" type="number" placeholder="1000" />
+                        </div>
+                        <div>
+                          <Label htmlFor="maxMembers">Max Members</Label>
+                          <Input id="maxMembers" type="number" placeholder="50" />
+                        </div>
+                      </div>
+                      <Button className="w-full">Create Group</Button>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </CardContent>
+            </Card>
+          </TabsContent>
 
           {/* Overview Tab */}
           <TabsContent value="overview" className="space-y-4">
@@ -661,10 +914,52 @@ export default function CommunityTreasury() {
                     <Users className="w-5 h-5 mr-2" />
                     Members ({members.length})
                   </span>
-                  <Button size="sm" variant="outline">
-                    <UserPlus className="w-4 h-4 mr-2" />
-                    Invite
-                  </Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button size="sm" variant="outline">
+                        <UserPlus className="w-4 h-4 mr-2" />
+                        Invite
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Invite Members</DialogTitle>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <div>
+                          <Label htmlFor="inviteMethod">Invitation Method</Label>
+                          <Select>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Choose method" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="phone">Phone Number</SelectItem>
+                              <SelectItem value="email">Email Address</SelectItem>
+                              <SelectItem value="link">Share Invite Link</SelectItem>
+                              <SelectItem value="qr">QR Code</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div>
+                          <Label htmlFor="inviteContact">Contact Information</Label>
+                          <Input id="inviteContact" placeholder="Enter phone or email" />
+                        </div>
+                        <div>
+                          <Label htmlFor="inviteMessage">Personal Message (Optional)</Label>
+                          <Textarea id="inviteMessage" placeholder="Join our savings group..." rows={2} />
+                        </div>
+                        <div className="flex gap-2">
+                          <Button className="flex-1">Send Invite</Button>
+                          <Button variant="outline">Generate Link</Button>
+                        </div>
+                        <div className="bg-blue-50 p-3 rounded-lg">
+                          <p className="text-sm text-blue-800">
+                            💡 Tip: Invited members will need to contribute the minimum amount to join
+                          </p>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">

@@ -361,12 +361,172 @@ export default function FoundersRoom() {
 
       <div className="p-4">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="browse">Browse Ideas</TabsTrigger>
+            <TabsTrigger value="hot-deals">Hot Deals</TabsTrigger>
+            <TabsTrigger value="running-deals">Running Deals</TabsTrigger>
             <TabsTrigger value="my-ideas">My Ideas</TabsTrigger>
             <TabsTrigger value="investments">Investments</TabsTrigger>
-            <TabsTrigger value="mentorship">Mentorship</TabsTrigger>
           </TabsList>
+
+          {/* Hot Deals */}
+          <TabsContent value="hot-deals" className="space-y-4">
+            <div className="bg-gradient-to-r from-red-50 to-orange-50 border border-red-200 rounded-lg p-4 mb-4">
+              <div className="flex items-center gap-2 mb-2">
+                <TrendingUp className="w-5 h-5 text-red-600" />
+                <h3 className="font-semibold text-red-800">Hot Investment Deals</h3>
+                <Badge variant="destructive" className="animate-pulse">Limited Time</Badge>
+              </div>
+              <p className="text-sm text-red-700">Exclusive deals with special terms and limited availability</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {filteredIdeas.slice(0, 3).map((idea: StartupIdea) => (
+                <Card key={idea.id} className="border-2 border-orange-200 hover:shadow-xl transition-shadow relative overflow-hidden">
+                  <div className="absolute top-0 right-0 bg-gradient-to-l from-red-500 to-orange-500 text-white px-3 py-1 text-xs font-bold">
+                    🔥 HOT DEAL
+                  </div>
+                  <CardHeader className="pt-8">
+                    <div className="flex justify-between items-start">
+                      <Badge variant="secondary">{idea.category}</Badge>
+                      <Badge className="bg-red-100 text-red-800">50% Bonus Equity</Badge>
+                    </div>
+                    <CardTitle className="text-lg">{idea.title}</CardTitle>
+                    <CardDescription className="line-clamp-2">
+                      {idea.description}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="bg-gradient-to-r from-red-100 to-orange-100 p-3 rounded-lg">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm font-semibold text-red-800">Special Offer</span>
+                        <span className="text-xs text-red-600">Ends in 2 days</span>
+                      </div>
+                      <p className="text-sm text-red-700">Invest now and get 50% bonus equity + guaranteed advisor access</p>
+                    </div>
+
+                    <div>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span>Funding Progress</span>
+                        <span>{getFundingProgress(idea.currentFunding, idea.fundingGoal).toFixed(1)}%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div 
+                          className="bg-gradient-to-r from-red-500 to-orange-500 h-2 rounded-full" 
+                          style={{ width: `${Math.min(getFundingProgress(idea.currentFunding, idea.fundingGoal), 100)}%` }}
+                        ></div>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between text-sm text-gray-500">
+                      <span>Special Min: {formatCurrency((parseFloat(idea.minimumInvestment) * 0.5).toString())}</span>
+                      <span className="text-red-600 font-semibold">Limited Spots: 5 left</span>
+                    </div>
+
+                    <Button 
+                      className="w-full bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white"
+                      onClick={() => {
+                        setSelectedIdea(idea);
+                        setShowInvestModal(true);
+                      }}
+                    >
+                      🔥 Grab Hot Deal
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          {/* Running Deals */}
+          <TabsContent value="running-deals" className="space-y-4">
+            <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-lg p-4 mb-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Activity className="w-5 h-5 text-green-600" />
+                <h3 className="font-semibold text-green-800">Currently Funding</h3>
+                <Badge className="bg-green-100 text-green-800">Active</Badge>
+              </div>
+              <p className="text-sm text-green-700">Live funding rounds with real-time progress</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {filteredIdeas.filter((idea: StartupIdea) => parseFloat(idea.currentFunding) > 0).map((idea: StartupIdea) => (
+                <Card key={idea.id} className="border-2 border-green-200 hover:shadow-lg transition-shadow">
+                  <CardHeader>
+                    <div className="flex justify-between items-start">
+                      <Badge variant="secondary">{idea.category}</Badge>
+                      <div className="flex items-center gap-1">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        <span className="text-xs text-green-600">Live</span>
+                      </div>
+                    </div>
+                    <CardTitle className="text-lg">{idea.title}</CardTitle>
+                    <CardDescription className="line-clamp-2">
+                      {idea.description}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="bg-green-50 p-3 rounded-lg">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm font-semibold text-green-800">Funding Status</span>
+                        <span className="text-xs text-green-600">12 investors joined</span>
+                      </div>
+                      <div className="flex justify-between text-sm mb-1">
+                        <span>Progress</span>
+                        <span>{getFundingProgress(idea.currentFunding, idea.fundingGoal).toFixed(1)}%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-3">
+                        <div 
+                          className="bg-gradient-to-r from-green-400 to-blue-500 h-3 rounded-full relative" 
+                          style={{ width: `${Math.min(getFundingProgress(idea.currentFunding, idea.fundingGoal), 100)}%` }}
+                        >
+                          <div className="absolute inset-0 bg-white/20 animate-pulse rounded-full"></div>
+                        </div>
+                      </div>
+                      <div className="flex justify-between text-xs mt-1 text-green-700">
+                        <span>{formatCurrency(idea.currentFunding)} raised</span>
+                        <span>{formatCurrency(idea.fundingGoal)} goal</span>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between text-sm text-gray-600">
+                      <span>Min Investment: {formatCurrency(idea.minimumInvestment)}</span>
+                      <span className="text-green-600">Time left: 15 days</span>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="flex-1"
+                        onClick={() => toast({ title: "Feature Coming Soon", description: "Live updates will be available soon" })}
+                      >
+                        Live Updates
+                      </Button>
+                      <Button 
+                        size="sm" 
+                        className="flex-1 bg-green-600 hover:bg-green-700"
+                        onClick={() => {
+                          setSelectedIdea(idea);
+                          setShowInvestModal(true);
+                        }}
+                      >
+                        Join Round
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            {filteredIdeas.filter((idea: StartupIdea) => parseFloat(idea.currentFunding) > 0).length === 0 && (
+              <div className="text-center py-12">
+                <Activity className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold mb-2">No Active Funding Rounds</h3>
+                <p className="text-gray-600 mb-6">Check back soon for new funding opportunities</p>
+              </div>
+            )}
+          </TabsContent>
 
           {/* Browse Ideas */}
           <TabsContent value="browse" className="space-y-4">
