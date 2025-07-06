@@ -85,7 +85,7 @@ export default function Home() {
   const getCurrentWalletData = () => {
     const wallet = wallets.find((w: any) => w.walletType === currentWallet);
     if (!wallet) return { balance: '0', currency: 'KES' };
-    
+
     return {
       balance: wallet.balance,
       currency: wallet.currency
@@ -105,7 +105,7 @@ export default function Home() {
 
   const getTotalBalance = () => {
     if (!wallets.length) return 'KES 0';
-    
+
     const fiatWallet = wallets.find((w: any) => w.walletType === 'fiat');
     if (fiatWallet) {
       return formatBalance(fiatWallet.balance, fiatWallet.currency);
@@ -140,10 +140,10 @@ export default function Home() {
           >
             <Menu className="w-5 h-5" />
           </Button>
-          
+
           <div className="flex items-center space-x-2">
             <Globe className="text-[hsl(207,90%,54%)] w-5 h-5" />
-            <span className="font-bold text-lg">UniFi</span>
+            <span className="font-bold text-lg">Grova</span>
           </div>
 
           <div className="flex items-center space-x-3">
@@ -272,7 +272,7 @@ export default function Home() {
                 </Button>
               </div>
             </div>
-            
+
             <div className="space-y-1">
               {transactions.length > 0 ? (
                 transactions.slice(0, 3).map((transaction: any) => (

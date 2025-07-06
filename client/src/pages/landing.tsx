@@ -24,7 +24,7 @@ export default function Landing() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     // Redirect to Replit Auth
     setTimeout(() => {
       window.location.href = "/api/login";
@@ -35,13 +35,13 @@ export default function Landing() {
     <div className="min-h-screen flex flex-col justify-center bg-gradient-to-br from-[hsl(207,90%,54%)] to-[hsl(252,83%,57%)] text-white p-8">
       <div className="text-center mb-12">
         <Globe className="w-20 h-20 mx-auto mb-6 text-blue-200" />
-        <h1 className="text-4xl font-bold mb-4">UniFi</h1>
+        <h1 className="text-4xl font-bold mb-4">Grova</h1>
         <p className="text-xl text-blue-100 leading-relaxed">
           Finance without Borders.<br />
           Access without Limits.
         </p>
       </div>
-      
+
       <div className="space-y-4 mb-8">
         <div className="flex items-center text-left bg-white/10 p-4 rounded-xl">
           <Wifi className="w-6 h-6 mr-4" />
@@ -86,7 +86,7 @@ export default function Landing() {
           <ArrowLeft className="w-5 h-5" />
         </Button>
         <h2 className="text-3xl font-bold mb-2">Welcome back</h2>
-        <p className="text-slate-600">Sign in to your UniFi account</p>
+        <p className="text-slate-600">Sign in to your Grova account</p>
       </div>
 
       <form className="space-y-6" onSubmit={handleLogin}>
@@ -101,7 +101,7 @@ export default function Landing() {
             required
           />
         </div>
-        
+
         <div>
           <Label className="block text-sm font-medium text-slate-700 mb-2">
             Password
@@ -190,6 +190,15 @@ export default function Landing() {
           Sign up
         </a>
       </p>
+    </div>
+  );
+
+  // Placeholder for Bluetooth transfer functionality (implementation not provided)
+  const BluetoothTransferScreen = () => (
+    <div className="min-h-screen bg-gray-100 p-6">
+      <h2 className="text-2xl font-bold mb-4">Bluetooth Money Transfer</h2>
+      <p>Implementation for peer-to-peer money transfer via Bluetooth will go here.</p>
+      {/* Add UI elements for selecting a nearby device, entering amount, and initiating transfer */}
     </div>
   );
 

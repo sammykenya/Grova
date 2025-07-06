@@ -15,9 +15,11 @@ import {
   Wifi, 
   Sparkles,
   Send,
-  CheckCircle
+  CheckCircle,
+  Bluetooth
 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
+import BluetoothTransferModal from "@/components/bluetooth-transfer-modal";
 
 export default function SendMoney() {
   const [recipient, setRecipient] = useState("");
@@ -25,6 +27,7 @@ export default function SendMoney() {
   const [useOffline, setUseOffline] = useState(false);
   const [useSmartConvert, setUseSmartConvert] = useState(false);
   const [step, setStep] = useState<'form' | 'confirm' | 'success'>('form');
+  const [bluetoothModalOpen, setBluetoothModalOpen] = useState(false);
   const { toast } = useToast();
 
   // Fetch wallets
@@ -309,12 +312,23 @@ export default function SendMoney() {
           </div>
         </div>
 
-        <Button 
-          type="submit"
-          className="w-full bg-[hsl(207,90%,54%)] text-white py-4 rounded-xl font-semibold text-lg"
-        >
-          Continue
-        </Button>
+        <div className="grid grid-cols-2 gap-3">
+          <Button 
+            type="submit"
+            className="w-full bg-[hsl(207,90%,54%)] text-white py-4 rounded-xl font-semibold text-lg"
+          >
+            Continue
+          </Button>
+          <Button 
+            type="button"
+            variant="outline"
+            onClick={() => setBluetoothModalOpen(true)}
+            className="w-full py-4 rounded-xl font-semibold text-lg border-[hsl(207,90%,54%)] text-[hsl(207,90%,54%)] hover:bg-[hsl(207,90%,54%)] hover:text-white"
+          >
+            <Bluetooth className="w-4 h-4 mr-2" />
+            Bluetooth
+          </Button>
+        </div>
 
         {/* Recent Recipients */}
         <div>
@@ -337,6 +351,16 @@ export default function SendMoney() {
           </div>
         </div>
       </form>
+
+      <BluetoothTransferModal
+        isOpen={bluetoothModalOpen}
+        onClose={() => setBluetoothModalOpen(false)}
+        userWallets={wallets}
+        onTransferComplete={(transferData) => {
+          console.log('Bluetooth transfer completed:', transferData);
+          // Handle transfer completion
+        }}
+      />
     </div>
   );
 }

@@ -1,8 +1,10 @@
-# UniFi Financial Platform
+# Grova - Revolutionary Financial Platform
+
+Grova is a next-generation financial platform designed to revolutionize how people in developing economies access and manage their finances. Built with cutting-edge technology and inclusive design principles, Grova bridges the gap between traditional banking and modern fintech solutions.
 
 ## Overview
 
-UniFi is a revolutionary financial application designed to compete with global fintech giants like PayPal, Bitcoin, and M-Pesa. The platform features a triple wallet system (Fiat, Crypto, Credits), AI-powered financial coaching, offline capabilities, and community banking features. Built as a full-stack TypeScript application with React frontend and Express backend.
+Grova is a revolutionary financial application designed to compete with global fintech giants like PayPal, Bitcoin, and M-Pesa. The platform features a triple wallet system (Fiat, Crypto, Credits), AI-powered financial coaching, offline capabilities, and community banking features. Built as a full-stack TypeScript application with React frontend and Express backend.
 
 ## System Architecture
 
@@ -27,7 +29,7 @@ UniFi is a revolutionary financial application designed to compete with global f
 - **Migrations**: Drizzle Kit for schema management
 - **Connection**: Connection pooling via @neondatabase/serverless
 
-## Key Components
+## Core Features
 
 ### 1. Triple Wallet System
 - **Fiat Wallet**: Traditional currencies (KES, USD, INR, etc.)
@@ -35,22 +37,28 @@ UniFi is a revolutionary financial application designed to compete with global f
 - **Credits Wallet**: Community-backed digital credits for offline economies
 - Each wallet maintains separate balances with decimal precision
 
-### 2. AI Financial Coach
+### 2. Peer-to-Peer Bluetooth Transfers
+- **Direct Device Connection**: Send money directly between devices via Bluetooth
+- **Offline Capability**: Transfer money without internet connectivity
+- **Secure Protocol**: Encrypted transfers with digital signatures
+- **Device Discovery**: Automatic scanning for nearby Grova devices
+
+### 3. AI Financial Coach
 - **Integration**: OpenAI GPT-4o for personalized financial advice
 - **Features**: Daily tips, spending analysis, voice commands, multilingual support
 - **Context-Aware**: Adapts advice for developing economies and underbanked populations
 
-### 3. Authentication System
+### 4. Authentication System
 - **Provider**: Replit Auth with OpenID Connect
 - **Session Storage**: PostgreSQL-backed sessions with 7-day TTL
 - **Security**: HTTPS-only cookies, CSRF protection
 
-### 4. Voice Interface
+### 5. Voice Interface
 - **Recognition**: Web Speech API with fallbacks for unsupported browsers
 - **Processing**: AI-powered command interpretation and response
 - **Accessibility**: Multi-language support with local dialect recognition
 
-### 5. Community Features
+### 6. Community Features
 - **Groups**: User-created financial communities
 - **Proposals**: Democratic decision-making for community funds
 - **Cash Agents**: Location-based agent network for cash-in/cash-out
