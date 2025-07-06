@@ -17,7 +17,8 @@ import {
   insertAICoachingSessionSchema,
   insertFinancialGoalSchema,
   insertCommunityMessageSchema,
-  insertCommunityAnnouncementSchema
+  insertCommunityAnnouncementSchema,
+  insertAgentBookingSchema
 } from "@shared/schema";
 import { z } from "zod";
 
@@ -341,6 +342,108 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Cash agent booking
+  app.post('/api/cash-agents/booking', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const { agentId, serviceType, notes, scheduledTime } = req.body;
+
+      if (!agentId || !serviceType) {
+        return res.status(400).json({ message: "Agent ID and service type are required" });
+      }
+
+      const booking = await storage.createAgentBooking({
+        userId,
+        agentId,
+        serviceType,
+        notes: notes || '',
+        scheduledTime: new Date(scheduledTime),
+        status: 'pending'
+      });
+
+      res.json(booking);
+    } catch (error) {
+      console.error("Error creating booking:", error);
+      res.status(500).json({ message: "Failed to create booking" });
+    }
+  });
+
+  // Get user bookings
+  app.get('/api/cash-agents/bookings', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const bookings = await storage.getUserBookings(userId);
+      res.json(bookings);
+    } catch (error) {
+      console.error("Error fetching bookings:", error);
+      res.status(500).json({ message: "Failed to fetch bookings" });
+    }
+  });
+
+  // Startup Ideas and Investments
+  app.get('/api/startup-ideas', async (req: any, res) => {
+    try {
+      const ideas = await storage.getStartupIdeas();
+      res.json(ideas);
+    } catch (error) {
+      console.error("Error fetching startup ideas:", error);
+      res.status(500).json({ message: "Failed to fetch startup ideas" });
+    }
+  });
+
+  app.post('/api/startup-ideas', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const ideaData = {
+        ...req.body,
+        creatorId: userId
+      };
+
+      const idea = await storage.createStartupIdea(ideaData);
+      res.json(idea);
+    } catch (error) {
+      console.error("Error creating startup idea:", error);
+      res.status(500).json({ message: "Failed to create startup idea" });
+    }
+  });
+
+  app.post('/api/investments', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const { ideaId, amount, terms } = req.body;
+
+      if (!ideaId || !amount || amount <= 0) {
+        return res.status(400).json({ message: "Valid idea ID and amount are required" });
+      }
+
+      const investment = await storage.createInvestment({
+        investorId: userId,
+        ideaId,
+        amount: amount.toString(),
+        terms: terms || ''
+      });
+
+      // Update the idea's current funding
+      await storage.updateIdeaFunding(ideaId, amount);
+
+      res.json(investment);
+    } catch (error) {
+      console.error("Error creating investment:", error);
+      res.status(500).json({ message: "Failed to create investment" });
+    }
+  });
+
+  app.get('/api/investments/user', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const investments = await storage.getUserInvestments(userId);
+      res.json(investments);
+    } catch (error) {
+      console.error("Error fetching user investments:", error);
+      res.status(500).json({ message: "Failed to fetch investments" });
+    }
+  });
+
   // Financial Goals
   app.get('/api/financial-goals', isAuthenticated, async (req: any, res) => {
     try {
@@ -442,6 +545,74 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error marking announcement as viewed:", error);
       res.status(500).json({ message: "Failed to mark announcement as viewed" });
+    }
+  });
+
+  // Community group contribution
+  app.post('/api/community/groups/:groupId/contribute', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const groupId = parseInt(req.params.groupId);
+      const { amount } = req.body;
+
+      if (!amount || amount <= 0) {
+        return res.status(400).json({ message: "Invalid contribution amount" });
+      }
+
+      // Check if user is a member of the group
+      const members = await storage.getCommunityMembers(groupId);
+      const member = members.find(m => m.userId === userId);
+      
+      if (!member) {
+        return res.status(403).json({ message: "You are not a member of this group" });
+      }
+
+      // Update member contribution and group total
+      await storage.updateMemberContribution(groupId, userId, amount);
+      await storage.updateGroupTotalPool(groupId, amount);
+
+      // Create transaction record
+      await storage.createTransaction({
+        fromUserId: userId,
+        amount: amount.toString(),
+        currency: 'KES',
+        type: 'community_contribution',
+        status: 'completed',
+        description: `Contribution to community group`,
+        metadata: { groupId }
+      });
+
+      res.json({ message: "Contribution processed successfully" });
+    } catch (error) {
+      console.error("Error processing contribution:", error);
+      res.status(500).json({ message: "Failed to process contribution" });
+    }
+  });
+
+  // Community loan request
+  app.post('/api/community/groups/:groupId/loan-request', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const groupId = parseInt(req.params.groupId);
+      const { amount, purpose, repaymentPeriod, interestRate } = req.body;
+
+      if (!amount || amount <= 0 || !purpose || !repaymentPeriod) {
+        return res.status(400).json({ message: "All loan request fields are required" });
+      }
+
+      // Create loan proposal
+      const proposal = await storage.createCommunityProposal({
+        groupId,
+        proposedBy: userId,
+        title: `Loan Request - KES ${amount.toLocaleString()}`,
+        description: `Loan Purpose: ${purpose}\nAmount: KES ${amount.toLocaleString()}\nRepayment Period: ${repaymentPeriod}\nInterest Rate: ${interestRate}%`,
+        amount: amount.toString()
+      });
+
+      res.json(proposal);
+    } catch (error) {
+      console.error("Error creating loan request:", error);
+      res.status(500).json({ message: "Failed to create loan request" });
     }
   });
 

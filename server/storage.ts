@@ -32,6 +32,15 @@ import {
   type InsertCommunityMessage,
   type CommunityAnnouncement,
   type InsertCommunityAnnouncement,
+  agentBookings,
+  type AgentBooking,
+  type InsertAgentBooking,
+  startupIdeas,
+  investments,
+  type StartupIdea,
+  type InsertStartupIdea,
+  type Investment,
+  type InsertInvestment,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, sql, asc } from "drizzle-orm";
@@ -81,6 +90,19 @@ export interface IStorage {
   getCommunityAnnouncements(groupId: number): Promise<CommunityAnnouncement[]>;
   createCommunityAnnouncement(announcement: InsertCommunityAnnouncement): Promise<CommunityAnnouncement>;
   markAnnouncementAsViewed(announcementId: number, userId: string): Promise<void>;
+
+  // Agent booking operations
+  createAgentBooking(booking: InsertAgentBooking): Promise<AgentBooking>;
+  getUserBookings(userId: string): Promise<AgentBooking[]>;
+  updateMemberContribution(groupId: number, userId: string, additionalAmount: number): Promise<void>;
+  updateGroupTotalPool(groupId: number, additionalAmount: number): Promise<void>;
+
+  // Startup ideas and investments
+  getStartupIdeas(): Promise<StartupIdea[]>;
+  createStartupIdea(idea: InsertStartupIdea): Promise<StartupIdea>;
+  createInvestment(investment: InsertInvestment): Promise<Investment>;
+  getUserInvestments(userId: string): Promise<Investment[]>;
+  updateIdeaFunding(ideaId: number, additionalFunding: number): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -426,6 +448,166 @@ export class DatabaseStorage implements IStorage {
           .set({ viewedBy, updatedAt: new Date() })
           .where(eq(communityAnnouncements.id, announcementId));
       }
+    }
+  }
+
+  async updateMemberContribution(groupId: number, userId: string, additionalAmount: number): Promise<void> {
+    const [member] = await db
+      .select()
+      .from(communityMembers)
+      .where(and(eq(communityMembers.groupId, groupId), eq(communityMembers.userId, userId)));
+
+    if (member) {
+      const currentContribution = parseFloat(member.contribution);
+      const newContribution = (currentContribution + additionalAmount).toString();
+      
+      await db
+        .update(communityMembers)
+        .set({ contribution: newContribution })
+        .where(and(eq(communityMembers.groupId, groupId), eq(communityMembers.userId, userId)));
+    }
+  }
+
+  async updateGroupTotalPool(groupId: number, additionalAmount: number): Promise<void> {
+    const [group] = await db
+      .select()
+      .from(communityGroups)
+      .where(eq(communityGroups.id, groupId));
+
+    if (group) {
+      const currentPool = parseFloat(group.totalPool);
+      const newPool = (currentPool + additionalAmount).toString();
+      
+      await db
+        .update(communityGroups)
+        .set({ totalPool: newPool, updatedAt: new Date() })
+        .where(eq(communityGroups.id, groupId));
+    }
+  }
+
+  // Agent booking operations
+  async createAgentBooking(booking: InsertAgentBooking): Promise<AgentBooking> {
+    const [newBooking] = await db.insert(agentBookings).values(booking).returning();
+    return newBooking;
+  }
+
+  async getUserBookings(userId: string): Promise<AgentBooking[]> {
+    return await db
+      .select()
+      .from(agentBookings)
+      .where(eq(agentBookings.userId, userId))
+      .orderBy(desc(agentBookings.createdAt));
+  }
+
+  // Startup ideas and investments
+  async getStartupIdeas(): Promise<StartupIdea[]> {
+    let ideas = await db
+      .select()
+      .from(startupIdeas)
+      .orderBy(desc(startupIdeas.createdAt));
+
+    // If no ideas exist, create sample ones
+    if (ideas.length === 0) {
+      const sampleIdeas = [
+        {
+          creatorId: 'demo-founder-1',
+          title: 'GreenPay - Eco-Friendly Mobile Payments',
+          description: 'A mobile payment platform that plants trees for every transaction, promoting environmental sustainability while providing seamless payment solutions.',
+          category: 'fintech',
+          fundingGoal: '2000000',
+          currentFunding: '450000',
+          currency: 'KES',
+          minimumInvestment: '50000',
+          equity: '15',
+          stage: 'seed',
+          status: 'open',
+          tags: ['payments', 'environment', 'mobile', 'sustainability'],
+          likesCount: 24,
+          viewsCount: 156
+        },
+        {
+          creatorId: 'demo-founder-2',
+          title: 'FarmConnect - Direct Farm-to-Market Platform',
+          description: 'Connecting smallholder farmers directly with urban markets, eliminating middlemen and ensuring fair prices for both farmers and consumers.',
+          category: 'agritech',
+          fundingGoal: '1500000',
+          currentFunding: '300000',
+          currency: 'KES',
+          minimumInvestment: '25000',
+          equity: '20',
+          stage: 'seed',
+          status: 'open',
+          tags: ['agriculture', 'marketplace', 'farmers', 'food'],
+          likesCount: 18,
+          viewsCount: 89
+        },
+        {
+          creatorId: 'demo-founder-3',
+          title: 'HealthTracker AI - Personalized Health Monitoring',
+          description: 'AI-powered health monitoring app that provides personalized health insights and early disease detection using smartphone sensors.',
+          category: 'healthtech',
+          fundingGoal: '3000000',
+          currentFunding: '750000',
+          currency: 'KES',
+          minimumInvestment: '75000',
+          equity: '12',
+          stage: 'seed',
+          status: 'open',
+          tags: ['health', 'AI', 'monitoring', 'prevention'],
+          likesCount: 31,
+          viewsCount: 203
+        }
+      ];
+
+      for (const ideaData of sampleIdeas) {
+        await db.insert(startupIdeas).values(ideaData);
+      }
+
+      ideas = await db
+        .select()
+        .from(startupIdeas)
+        .orderBy(desc(startupIdeas.createdAt));
+    }
+
+    return ideas;
+  }
+
+  async createStartupIdea(idea: InsertStartupIdea): Promise<StartupIdea> {
+    const [newIdea] = await db.insert(startupIdeas).values(idea).returning();
+    return newIdea;
+  }
+
+  async createInvestment(investment: InsertInvestment): Promise<Investment> {
+    const [newInvestment] = await db.insert(investments).values(investment).returning();
+    return newInvestment;
+  }
+
+  async getUserInvestments(userId: string): Promise<Investment[]> {
+    return await db
+      .select()
+      .from(investments)
+      .where(eq(investments.investorId, userId))
+      .orderBy(desc(investments.createdAt));
+  }
+
+  async updateIdeaFunding(ideaId: number, additionalFunding: number): Promise<void> {
+    const [idea] = await db
+      .select()
+      .from(startupIdeas)
+      .where(eq(startupIdeas.id, ideaId));
+
+    if (idea) {
+      const currentFunding = parseFloat(idea.currentFunding);
+      const newFunding = (currentFunding + additionalFunding).toString();
+      
+      await db
+        .update(startupIdeas)
+        .set({ 
+          currentFunding: newFunding, 
+          updatedAt: new Date(),
+          viewsCount: idea.viewsCount + 1
+        })
+        .where(eq(startupIdeas.id, ideaId));
     }
   }
 }

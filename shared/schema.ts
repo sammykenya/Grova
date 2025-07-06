@@ -120,6 +120,20 @@ export const cashAgents = pgTable("cash_agents", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Cash agent bookings
+export const agentBookings = pgTable("agent_bookings", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  agentId: integer("agent_id").notNull().references(() => cashAgents.id),
+  serviceType: varchar("service_type").notNull(), // 'cash_in', 'cash_out', etc.
+  notes: text("notes"),
+  scheduledTime: timestamp("scheduled_time").notNull(),
+  status: varchar("status").notNull().default('pending'), // 'pending', 'confirmed', 'completed', 'cancelled'
+  amount: decimal("amount", { precision: 15, scale: 2 }),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // AI coaching sessions and tips
 export const aiCoachingSessions = pgTable("ai_coaching_sessions", {
   id: serial("id").primaryKey(),
@@ -315,6 +329,9 @@ export type CommunityMessage = typeof communityMessages.$inferSelect;
 export type InsertCommunityAnnouncement = typeof communityAnnouncements.$inferInsert;
 export type CommunityAnnouncement = typeof communityAnnouncements.$inferSelect;
 
+export type InsertAgentBooking = typeof agentBookings.$inferInsert;
+export type AgentBooking = typeof agentBookings.$inferSelect;
+
 // Insert schemas
 export const insertWalletSchema = createInsertSchema(wallets).omit({
   id: true,
@@ -364,6 +381,12 @@ export const insertCommunityMessageSchema = createInsertSchema(communityMessages
 });
 
 export const insertCommunityAnnouncementSchema = createInsertSchema(communityAnnouncements).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertAgentBookingSchema = createInsertSchema(agentBookings).omit({
   id: true,
   createdAt: true,
   updatedAt: true,

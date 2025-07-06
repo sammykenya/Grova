@@ -208,6 +208,48 @@ export default function CommunityTreasury() {
     }
   });
 
+  // Contribution mutation
+  const contributeMutation = useMutation({
+    mutationFn: async (amount: string) => {
+      const response = await fetch(`/api/community/groups/${currentGroup.id}/contribute`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ amount: parseFloat(amount) }),
+      });
+      if (!response.ok) throw new Error('Failed to process contribution');
+      return response.json();
+    },
+    onSuccess: () => {
+      refetchGroups();
+      toast({ title: "Success", description: "Contribution processed successfully" });
+    },
+    onError: () => {
+      toast({ title: "Error", description: "Failed to process contribution", variant: "destructive" });
+    }
+  });
+
+  // Loan request mutation
+  const loanRequestMutation = useMutation({
+    mutationFn: async (loanData: any) => {
+      const response = await fetch(`/api/community/groups/${currentGroup.id}/loan-request`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(loanData),
+      });
+      if (!response.ok) throw new Error('Failed to submit loan request');
+      return response.json();
+    },
+    onSuccess: () => {
+      refetchProposals();
+      toast({ title: "Success", description: "Loan request submitted successfully" });
+    },
+    onError: () => {
+      toast({ title: "Error", description: "Failed to submit loan request", variant: "destructive" });
+    }
+  });
+
   const handleCreateProposal = () => {
     if (!newProposal.title || !newProposal.description) {
       toast({
@@ -266,11 +308,7 @@ export default function CommunityTreasury() {
       return;
     }
 
-    // In a real app, this would process the contribution
-    toast({
-      title: "Contribution Successful",
-      description: `You've contributed ${formatCurrency(contributionAmount)} to the group`,
-    });
+    contributeMutation.mutate(contributionAmount);
     setContributionAmount("");
   };
 
@@ -284,12 +322,31 @@ export default function CommunityTreasury() {
       return;
     }
 
-    // In a real app, this would process the withdrawal
-    toast({
-      title: "Withdrawal Request Submitted",
-      description: `Your withdrawal request for ${formatCurrency(withdrawalAmount)} has been submitted`,
+    // Create withdrawal proposal for group approval
+    createProposalMutation.mutate({
+      title: `Withdrawal Request - ${formatCurrency(withdrawalAmount)}`,
+      description: `Requesting withdrawal of ${formatCurrency(withdrawalAmount)} from community treasury`,
+      amount: withdrawalAmount,
     });
     setWithdrawalAmount("");
+  };
+
+  const handleLoanRequest = (loanAmount: string, purpose: string, repaymentPeriod: string) => {
+    if (!loanAmount || parseFloat(loanAmount) <= 0) {
+      toast({
+        title: "Invalid Amount",
+        description: "Please enter a valid loan amount",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    loanRequestMutation.mutate({
+      amount: parseFloat(loanAmount),
+      purpose,
+      repaymentPeriod,
+      interestRate: 5.0 // Default interest rate
+    });
   };
 
   const formatCurrency = (amount: string | number, currency: string = 'KES') => {
@@ -480,8 +537,12 @@ export default function CommunityTreasury() {
                         placeholder="Enter amount"
                       />
                     </div>
-                    <Button onClick={handleContribution} className="w-full bg-green-600 hover:bg-green-700">
-                      Contribute
+                    <Button 
+                      onClick={handleContribution} 
+                      className="w-full bg-green-600 hover:bg-green-700"
+                      disabled={contributeMutation.isPending}
+                    >
+                      {contributeMutation.isPending ? "Processing..." : "Contribute"}
                     </Button>
                   </div>
                 </DialogContent>
@@ -492,35 +553,112 @@ export default function CommunityTreasury() {
                   <Card className="cursor-pointer hover:shadow-lg transition-shadow">
                     <CardContent className="p-4 text-center">
                       <CreditCard className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-                      <p className="font-semibold">Withdraw</p>
-                      <p className="text-sm text-slate-500">Request withdrawal</p>
+                      <p className="font-semibold">Request Loan</p>
+                      <p className="text-sm text-slate-500">Borrow from pool</p>
                     </CardContent>
                   </Card>
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>Request Withdrawal</DialogTitle>
+                    <DialogTitle>Request Loan</DialogTitle>
                   </DialogHeader>
                   <div className="space-y-4">
                     <div>
-                      <Label htmlFor="withdrawalAmount">Amount (KES)</Label>
+                      <Label htmlFor="loanAmount">Loan Amount (KES)</Label>
                       <Input
-                        id="withdrawalAmount"
+                        id="loanAmount"
                         type="number"
-                        value={withdrawalAmount}
-                        onChange={(e) => setWithdrawalAmount(e.target.value)}
-                        placeholder="Enter amount"
+                        placeholder="Enter loan amount"
                       />
                     </div>
+                    <div>
+                      <Label htmlFor="loanPurpose">Purpose</Label>
+                      <Textarea
+                        id="loanPurpose"
+                        placeholder="Describe the purpose of the loan"
+                        rows={3}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="repaymentPeriod">Repayment Period</Label>
+                      <Select>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select period" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="1-month">1 Month</SelectItem>
+                          <SelectItem value="3-months">3 Months</SelectItem>
+                          <SelectItem value="6-months">6 Months</SelectItem>
+                          <SelectItem value="12-months">12 Months</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                     <p className="text-sm text-slate-600">
-                      Withdrawal requests are subject to group approval and may take 1-3 business days to process.
+                      Interest rate: 5% per annum. Loan requests require group approval.
                     </p>
-                    <Button onClick={handleWithdrawal} className="w-full bg-blue-600 hover:bg-blue-700">
-                      Request Withdrawal
+                    <Button 
+                      onClick={() => {
+                        const loanAmount = (document.getElementById('loanAmount') as HTMLInputElement)?.value;
+                        const purpose = (document.getElementById('loanPurpose') as HTMLTextAreaElement)?.value;
+                        const repaymentPeriod = document.querySelector('[id="repaymentPeriod"]')?.textContent || "3-months";
+                        handleLoanRequest(loanAmount, purpose, repaymentPeriod);
+                      }}
+                      className="w-full bg-orange-600 hover:bg-orange-700"
+                      disabled={loanRequestMutation.isPending}
+                    >
+                      {loanRequestMutation.isPending ? "Submitting..." : "Request Loan"}
                     </Button>
                   </div>
                 </DialogContent>
               </Dialog>
+            </div>
+
+            {/* Additional Quick Actions */}
+            <div className="grid grid-cols-3 gap-3 mt-4">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Card className="cursor-pointer hover:shadow-lg transition-shadow">
+                    <CardContent className="p-3 text-center">
+                      <Target className="w-6 h-6 text-indigo-600 mx-auto mb-1" />
+                      <p className="text-sm font-medium">Set Goal</p>
+                    </CardContent>
+                  </Card>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Set Savings Goal</DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor="goalAmount">Target Amount (KES)</Label>
+                      <Input id="goalAmount" type="number" placeholder="100000" />
+                    </div>
+                    <div>
+                      <Label htmlFor="goalTitle">Goal Title</Label>
+                      <Input id="goalTitle" placeholder="Emergency Fund" />
+                    </div>
+                    <div>
+                      <Label htmlFor="goalDeadline">Target Date</Label>
+                      <Input id="goalDeadline" type="date" />
+                    </div>
+                    <Button className="w-full">Set Goal</Button>
+                  </div>
+                </DialogContent>
+              </Dialog>
+
+              <Card className="cursor-pointer hover:shadow-lg transition-shadow">
+                <CardContent className="p-3 text-center">
+                  <TrendingUp className="w-6 h-6 text-purple-600 mx-auto mb-1" />
+                  <p className="text-sm font-medium">Analytics</p>
+                </CardContent>
+              </Card>
+
+              <Card className="cursor-pointer hover:shadow-lg transition-shadow">
+                <CardContent className="p-3 text-center">
+                  <Bell className="w-6 h-6 text-yellow-600 mx-auto mb-1" />
+                  <p className="text-sm font-medium">Alerts</p>
+                </CardContent>
+              </Card>
             </div>
 
             {/* Member List */}

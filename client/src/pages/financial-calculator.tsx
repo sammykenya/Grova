@@ -6,13 +6,15 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { 
+  ArrowLeft, 
   Calculator, 
-  DollarSign, 
+  CreditCard, 
   TrendingUp, 
-  PiggyBank, 
-  CreditCard,
-  ArrowLeft,
-  Info
+  Info,
+  DollarSign,
+  Target,
+  Home,
+  PiggyBank
 } from "lucide-react";
 import { Link } from "wouter";
 import BottomNavigation from "@/components/bottom-navigation";
@@ -31,20 +33,23 @@ export default function FinancialCalculator() {
   const [investmentRate, setInvestmentRate] = useState("");
   const [investmentYears, setInvestmentYears] = useState("");
   const [monthlyContribution, setMonthlyContribution] = useState("");
-  const [investmentResult, setInvestmentResult] = useState<{
-    futureValue: number;
-    totalContributions: number;
-    totalInterest: number;
-  } | null>(null);
+  const [investmentResult, setInvestmentResult] = useState<any>(null);
+  const [mortgageResult, setMortgageResult] = useState<any>(null);
+  const [retirementResult, setRetirementResult] = useState<any>(null);
 
-  const [savingsGoal, setSavingsGoal] = useState("");
-  const [savingsYears, setSavingsYears] = useState("");
-  const [savingsRate, setSavingsRate] = useState("");
-  const [savingsResult, setSavingsResult] = useState<{
-    monthlyRequired: number;
-    totalContributions: number;
-    interestEarned: number;
-  } | null>(null);
+  // Mortgage calculator state
+  const [homePrice, setHomePrice] = useState("");
+  const [downPayment, setDownPayment] = useState("");
+  const [mortgageRate, setMortgageRate] = useState("");
+  const [mortgageYears, setMortgageYears] = useState("");
+
+  // Retirement calculator state
+  const [currentAge, setCurrentAge] = useState("");
+  const [retirementAge, setRetirementAge] = useState("");
+  const [currentSavings, setCurrentSavings] = useState("");
+  const [monthlyRetirementSavings, setMonthlyRetirementSavings] = useState("");
+  const [expectedReturn, setExpectedReturn] = useState("");
+  const [retirementGoal, setRetirementGoal] = useState("");
 
   const calculateLoan = () => {
     const principal = parseFloat(loanAmount);
@@ -66,48 +71,129 @@ export default function FinancialCalculator() {
   };
 
   const calculateInvestment = () => {
-    const principal = parseFloat(investmentAmount) || 0;
-    const rate = parseFloat(investmentRate) / 100 / 12;
-    const years = parseFloat(investmentYears);
+    const principal = parseFloat(investmentAmount);
     const monthly = parseFloat(monthlyContribution) || 0;
-    const months = years * 12;
+    const rate = parseFloat(investmentRate) / 100;
+    const years = parseFloat(investmentYears);
 
-    if (rate && years) {
-      // Future value of lump sum
-      const fvLumpSum = principal * Math.pow(1 + rate, months);
-      
-      // Future value of monthly contributions
-      const fvMonthly = monthly * (Math.pow(1 + rate, months) - 1) / rate;
-      
-      const futureValue = fvLumpSum + fvMonthly;
-      const totalContributions = principal + (monthly * months);
-      const totalInterest = futureValue - totalContributions;
+    if (isNaN(principal) || isNaN(rate) || isNaN(years)) {
+      // toast({
+      //   title: "Invalid Input",
+      //   description: "Please enter valid numbers for all fields",
+      //   variant: "destructive",
+      // });
+      return;
+    }
 
-      setInvestmentResult({
-        futureValue,
-        totalContributions,
-        totalInterest
+    const monthlyRate = rate / 12;
+    const totalMonths = years * 12;
+
+    // Future value of initial investment
+    const futureValueInitial = principal * Math.pow(1 + rate, years);
+
+    // Future value of monthly contributions (annuity)
+    let futureValueMonthly = 0;
+    if (monthly > 0) {
+      futureValueMonthly = monthly * (Math.pow(1 + monthlyRate, totalMonths) - 1) / monthlyRate;
+    }
+
+    const totalFutureValue = futureValueInitial + futureValueMonthly;
+    const totalContributions = principal + (monthly * totalMonths);
+    const totalReturns = totalFutureValue - totalContributions;
+
+    // Year-by-year breakdown
+    const yearlyBreakdown = [];
+    for (let year = 1; year <= years; year++) {
+      const futureValueAtYear = principal * Math.pow(1 + rate, year);
+      const monthlyContributionsAtYear = monthly * (Math.pow(1 + monthlyRate, year * 12) - 1) / monthlyRate;
+      yearlyBreakdown.push({
+        year,
+        value: futureValueAtYear + monthlyContributionsAtYear,
+        contributions: principal + (monthly * year * 12)
       });
     }
+
+    setInvestmentResult({
+      futureValue: totalFutureValue,
+      totalContributions,
+      totalReturns,
+      returnOnInvestment: (totalReturns / totalContributions) * 100,
+      yearlyBreakdown
+    });
   };
 
-  const calculateSavings = () => {
-    const goal = parseFloat(savingsGoal);
-    const years = parseFloat(savingsYears);
-    const rate = parseFloat(savingsRate) / 100 / 12;
-    const months = years * 12;
+  const calculateMortgage = () => {
+    const price = parseFloat(homePrice);
+    const down = parseFloat(downPayment);
+    const rate = parseFloat(mortgageRate) / 100 / 12;
+    const years = parseFloat(mortgageYears);
 
-    if (goal && years && rate) {
-      const monthlyRequired = (goal * rate) / (Math.pow(1 + rate, months) - 1);
-      const totalContributions = monthlyRequired * months;
-      const interestEarned = goal - totalContributions;
-
-      setSavingsResult({
-        monthlyRequired,
-        totalContributions,
-        interestEarned
-      });
+    if (isNaN(price) || isNaN(down) || isNaN(rate) || isNaN(years)) {
+      // toast({
+      //   title: "Invalid Input",
+      //   description: "Please enter valid numbers for all fields",
+      //   variant: "destructive",
+      // });
+      return;
     }
+
+    const loanAmount = price - down;
+    const totalMonths = years * 12;
+
+    const monthlyPayment = loanAmount * (rate * Math.pow(1 + rate, totalMonths)) / (Math.pow(1 + rate, totalMonths) - 1);
+    const totalPayment = monthlyPayment * totalMonths;
+    const totalInterest = totalPayment - loanAmount;
+
+    setMortgageResult({
+      loanAmount,
+      monthlyPayment,
+      totalPayment,
+      totalInterest,
+      downPaymentPercent: (down / price) * 100
+    });
+  };
+
+  const calculateRetirement = () => {
+    const current = parseFloat(currentAge);
+    const retirement = parseFloat(retirementAge);
+    const savings = parseFloat(currentSavings);
+    const monthly = parseFloat(monthlyRetirementSavings);
+    const rate = parseFloat(expectedReturn) / 100;
+    const goal = parseFloat(retirementGoal);
+
+    if (isNaN(current) || isNaN(retirement) || isNaN(savings) || isNaN(monthly) || isNaN(rate)) {
+      // toast({
+      //   title: "Invalid Input",
+      //   description: "Please enter valid numbers for all fields",
+      //   variant: "destructive",
+      // });
+      return;
+    }
+
+    const yearsToRetirement = retirement - current;
+    const monthsToRetirement = yearsToRetirement * 12;
+    const monthlyRate = rate / 12;
+
+    // Future value of current savings
+    const futureCurrentSavings = savings * Math.pow(1 + rate, yearsToRetirement);
+
+    // Future value of monthly contributions
+    const futureMonthlySavings = monthly * (Math.pow(1 + monthlyRate, monthsToRetirement) - 1) / monthlyRate;
+
+    const totalRetirementFund = futureCurrentSavings + futureMonthlySavings;
+    const totalContributions = savings + (monthly * monthsToRetirement);
+
+    const shortfall = goal ? goal - totalRetirementFund : 0;
+    const onTrack = !goal || totalRetirementFund >= goal;
+
+    setRetirementResult({
+      totalRetirementFund,
+      totalContributions,
+      projectedIncome: totalRetirementFund * 0.04, // 4% withdrawal rule
+      yearsToRetirement,
+      shortfall: shortfall > 0 ? shortfall : 0,
+      onTrack
+    });
   };
 
   const formatCurrency = (amount: number) => {
@@ -141,10 +227,11 @@ export default function FinancialCalculator() {
         </div>
 
         <Tabs defaultValue="loan" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="loan">Loan Calculator</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="loan">Loan</TabsTrigger>
             <TabsTrigger value="investment">Investment</TabsTrigger>
-            <TabsTrigger value="savings">Savings Goal</TabsTrigger>
+            <TabsTrigger value="mortgage">Mortgage</TabsTrigger>
+            <TabsTrigger value="retirement">Retirement</TabsTrigger>
           </TabsList>
 
           {/* Loan Calculator */}
@@ -321,82 +408,223 @@ export default function FinancialCalculator() {
             </Card>
           </TabsContent>
 
-          {/* Savings Goal Calculator */}
-          <TabsContent value="savings" className="space-y-6">
+          {/* Mortgage Calculator */}
+          <TabsContent value="mortgage" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Home className="w-5 h-5" />
+                  Mortgage Payment Calculator
+                </CardTitle>
+                <CardDescription>
+                  Calculate monthly mortgage payments and total cost
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="homePrice">Home Price (KES)</Label>
+                    <Input
+                      id="homePrice"
+                      type="number"
+                      placeholder="5000000"
+                      value={homePrice}
+                      onChange={(e) => setHomePrice(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="downPayment">Down Payment (KES)</Label>
+                    <Input
+                      id="downPayment"
+                      type="number"
+                      placeholder="1000000"
+                      value={downPayment}
+                      onChange={(e) => setDownPayment(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="mortgageRate">Interest Rate (%)</Label>
+                    <Input
+                      id="mortgageRate"
+                      type="number"
+                      step="0.1"
+                      placeholder="10.5"
+                      value={mortgageRate}
+                      onChange={(e) => setMortgageRate(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="mortgageYears">Loan Term (Years)</Label>
+                    <Input
+                      id="mortgageYears"
+                      type="number"
+                      placeholder="25"
+                      value={mortgageYears}
+                      onChange={(e) => setMortgageYears(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <Button onClick={calculateMortgage} className="w-full bg-blue-600 hover:bg-blue-700">
+                  Calculate Mortgage
+                </Button>
+
+                {mortgageResult && (
+                  <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
+                    <h3 className="font-semibold mb-3 flex items-center gap-2">
+                      <Info className="w-4 h-4" />
+                      Mortgage Calculation Results
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="text-center">
+                        <p className="text-sm text-gray-600 dark:text-gray-300">Monthly Payment</p>
+                        <p className="text-xl font-bold text-blue-600">
+                          {formatCurrency(mortgageResult.monthlyPayment)}
+                        </p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-sm text-gray-600 dark:text-gray-300">Total Interest</p>
+                        <p className="text-xl font-bold text-red-600">
+                          {formatCurrency(mortgageResult.totalInterest)}
+                        </p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-sm text-gray-600 dark:text-gray-300">Loan Amount</p>
+                        <p className="text-xl font-bold text-green-600">
+                          {formatCurrency(mortgageResult.loanAmount)}
+                        </p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-sm text-gray-600 dark:text-gray-300">Down Payment %</p>
+                        <p className="text-xl font-bold text-purple-600">
+                          {mortgageResult.downPaymentPercent.toFixed(1)}%
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Retirement Calculator */}
+          <TabsContent value="retirement" className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <PiggyBank className="w-5 h-5" />
-                  Savings Goal Calculator
+                  Retirement Planning Calculator
                 </CardTitle>
                 <CardDescription>
-                  Calculate how much to save monthly to reach your financial goals
+                  Plan for your retirement and see if you're on track
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="savingsGoal">Savings Goal (KES)</Label>
+                    <Label htmlFor="currentAge">Current Age</Label>
                     <Input
-                      id="savingsGoal"
+                      id="currentAge"
                       type="number"
-                      placeholder="1000000"
-                      value={savingsGoal}
-                      onChange={(e) => setSavingsGoal(e.target.value)}
+                      placeholder="30"
+                      value={currentAge}
+                      onChange={(e) => setCurrentAge(e.target.value)}
                     />
                   </div>
                   <div>
-                    <Label htmlFor="savingsYears">Time to Goal (Years)</Label>
+                    <Label htmlFor="retirementAge">Retirement Age</Label>
                     <Input
-                      id="savingsYears"
+                      id="retirementAge"
                       type="number"
-                      placeholder="3"
-                      value={savingsYears}
-                      onChange={(e) => setSavingsYears(e.target.value)}
+                      placeholder="60"
+                      value={retirementAge}
+                      onChange={(e) => setRetirementAge(e.target.value)}
                     />
                   </div>
                   <div>
-                    <Label htmlFor="savingsRate">Annual Interest Rate (%)</Label>
+                    <Label htmlFor="currentSavings">Current Savings (KES)</Label>
                     <Input
-                      id="savingsRate"
+                      id="currentSavings"
+                      type="number"
+                      placeholder="500000"
+                      value={currentSavings}
+                      onChange={(e) => setCurrentSavings(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="monthlyRetirementSavings">Monthly Savings (KES)</Label>
+                    <Input
+                      id="monthlyRetirementSavings"
+                      type="number"
+                      placeholder="20000"
+                      value={monthlyRetirementSavings}
+                      onChange={(e) => setMonthlyRetirementSavings(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="expectedReturn">Expected Annual Return (%)</Label>
+                    <Input
+                      id="expectedReturn"
                       type="number"
                       step="0.1"
-                      placeholder="6.5"
-                      value={savingsRate}
-                      onChange={(e) => setSavingsRate(e.target.value)}
+                      placeholder="8.0"
+                      value={expectedReturn}
+                      onChange={(e) => setExpectedReturn(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="retirementGoal">Retirement Goal (KES)</Label>
+                    <Input
+                      id="retirementGoal"
+                      type="number"
+                      placeholder="10000000"
+                      value={retirementGoal}
+                      onChange={(e) => setRetirementGoal(e.target.value)}
                     />
                   </div>
                 </div>
-                <Button onClick={calculateSavings} className="w-full bg-purple-600 hover:bg-purple-700">
-                  Calculate Required Savings
+                <Button onClick={calculateRetirement} className="w-full bg-purple-600 hover:bg-purple-700">
+                  Calculate Retirement Plan
                 </Button>
 
-                {savingsResult && (
+                {retirementResult && (
                   <div className="mt-6 p-4 bg-purple-50 dark:bg-purple-900 rounded-lg">
                     <h3 className="font-semibold mb-3 flex items-center gap-2">
-                      <PiggyBank className="w-4 h-4" />
-                      Savings Plan
+                      <Info className="w-4 h-4" />
+                      Retirement Planning Results
                     </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="text-center">
-                        <p className="text-sm text-gray-600 dark:text-gray-300">Monthly Required</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-300">Projected Fund</p>
                         <p className="text-xl font-bold text-purple-600">
-                          {formatCurrency(savingsResult.monthlyRequired)}
+                          {formatCurrency(retirementResult.totalRetirementFund)}
                         </p>
                       </div>
                       <div className="text-center">
-                        <p className="text-sm text-gray-600 dark:text-gray-300">Total Saved</p>
-                        <p className="text-xl font-bold text-blue-600">
-                          {formatCurrency(savingsResult.totalContributions)}
-                        </p>
-                      </div>
-                      <div className="text-center">
-                        <p className="text-sm text-gray-600 dark:text-gray-300">Interest Earned</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-300">Annual Income</p>
                         <p className="text-xl font-bold text-green-600">
-                          {formatCurrency(savingsResult.interestEarned)}
+                          {formatCurrency(retirementResult.projectedIncome)}
+                        </p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-sm text-gray-600 dark:text-gray-300">Years to Retirement</p>
+                        <p className="text-xl font-bold text-blue-600">
+                          {retirementResult.yearsToRetirement}
+                        </p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-sm text-gray-600 dark:text-gray-300">Goal Status</p>
+                        <p className={`text-xl font-bold ${retirementResult.onTrack ? 'text-green-600' : 'text-red-600'}`}>
+                          {retirementResult.onTrack ? 'On Track!' : 'Shortfall'}
                         </p>
                       </div>
                     </div>
+                    {retirementResult.shortfall > 0 && (
+                      <div className="mt-4 p-3 bg-red-100 dark:bg-red-900 rounded">
+                        <p className="text-sm text-red-800 dark:text-red-200">
+                          You need an additional {formatCurrency(retirementResult.shortfall)} to reach your retirement goal.
+                        </p>
+                      </div>
+                    )}
                   </div>
                 )}
               </CardContent>

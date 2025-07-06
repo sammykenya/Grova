@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
@@ -28,15 +27,30 @@ interface UserLocation {
   longitude: number;
 }
 
+interface CashAgent {
+  id: string;
+  businessName: string;
+  location: string;
+  latitude: string;
+  longitude: string;
+  isOnline: boolean;
+  rating: number;
+  totalRatings: number;
+  services: string[];
+}
+
 export default function AgentLocator() {
   const [searchLocation, setSearchLocation] = useState("");
   const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
   const [locationError, setLocationError] = useState<string | null>(null);
-  const [selectedAgent, setSelectedAgent] = useState<any>(null);
+  const [selectedAgent, setSelectedAgent] = useState<CashAgent | null>(null);
   const [transactionType, setTransactionType] = useState<'cash_in' | 'cash_out'>('cash_in');
   const [transactionAmount, setTransactionAmount] = useState('');
   const { toast } = useToast();
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [serviceType, setServiceType] = useState("");
+  const [bookingNotes, setBookingNotes] = useState("");
 
   // Get user's current location
   useEffect(() => {
@@ -79,14 +93,14 @@ export default function AgentLocator() {
 
   const formatDistance = (agent: any) => {
     if (!userLocation || !agent.latitude || !agent.longitude) return "Distance unknown";
-    
+
     const distance = calculateDistance(
       userLocation.latitude,
       userLocation.longitude,
       parseFloat(agent.latitude),
       parseFloat(agent.longitude)
     );
-    
+
     if (distance < 1) {
       return `${Math.round(distance * 1000)}m away`;
     }
@@ -118,6 +132,54 @@ export default function AgentLocator() {
     setTransactionAmount('');
   };
 
+  const handleBookAgent = (agent: CashAgent) => {
+    setSelectedAgent(agent);
+    setShowBookingModal(true);
+  };
+
+  const handleConfirmBooking = async () => {
+    if (!selectedAgent || !serviceType) {
+      toast({
+        title: "Missing Information", 
+        description: "Please select a service type",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/cash-agents/booking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          agentId: selectedAgent.id,
+          serviceType,
+          notes: bookingNotes,
+          scheduledTime: new Date(Date.now() + 30 * 60 * 1000) // 30 minutes from now
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to create booking');
+
+      toast({
+        title: "Booking Confirmed",
+        description: `Your ${serviceType.replace('_', ' ')} appointment with ${selectedAgent.businessName} has been confirmed`,
+      });
+
+      setShowBookingModal(false);
+      setSelectedAgent(null);
+      setServiceType("");
+      setBookingNotes("");
+    } catch (error) {
+      toast({
+        title: "Booking Failed",
+        description: "Failed to create booking. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   const sortedAgents = agents
     .filter(agent => 
       searchLocation === '' || 
@@ -126,7 +188,7 @@ export default function AgentLocator() {
     )
     .sort((a, b) => {
       if (!userLocation) return 0;
-      
+
       const distanceA = calculateDistance(
         userLocation.latitude, userLocation.longitude,
         parseFloat(a.latitude || 0), parseFloat(a.longitude || 0)
@@ -135,7 +197,7 @@ export default function AgentLocator() {
         userLocation.latitude, userLocation.longitude,
         parseFloat(b.latitude || 0), parseFloat(b.longitude || 0)
       );
-      
+
       return distanceA - distanceB;
     });
 
@@ -255,7 +317,7 @@ export default function AgentLocator() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-2 mb-3">
                     <Dialog>
                       <DialogTrigger asChild>
@@ -306,7 +368,7 @@ export default function AgentLocator() {
                         </div>
                       </DialogContent>
                     </Dialog>
-                    
+
                     <Dialog>
                       <DialogTrigger asChild>
                         <Button
@@ -357,7 +419,7 @@ export default function AgentLocator() {
                       </DialogContent>
                     </Dialog>
                   </div>
-                  
+
                   {agent.services && (
                     <div className="flex flex-wrap gap-1">
                       {agent.services.map((service: string, index: number) => (

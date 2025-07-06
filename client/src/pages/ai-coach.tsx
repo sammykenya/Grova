@@ -31,6 +31,8 @@ export default function AICoach() {
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [isRecording, setIsRecording] = useState(false);
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState('en');
 
   // Fetch daily tip
   const { data: dailyTip, isLoading: tipLoading } = useQuery({
@@ -109,6 +111,91 @@ export default function AICoach() {
     });
   };
 
+    const handleAskQuestion = async () => {
+    if (!question.trim()) return;
+
+    setIsLoading(true);
+
+    // Add user message immediately
+    const userMessage = {
+      id: Date.now(),
+      type: 'user' as const,
+      content: question,
+      timestamp: new Date(),
+    };
+    setChatMessages(prev => [...prev, userMessage]);
+
+    try {
+      const response = await fetch('/api/ai-coach/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ question, language: selectedLanguage }),
+      });
+
+      let aiResponse = '';
+
+      if (!response.ok) {
+        // Fallback response when API fails
+        aiResponse = generateFallbackResponse(question);
+      } else {
+        const data = await response.json();
+        aiResponse = data.response;
+      }
+
+      const aiMessage = {
+        id: Date.now() + 1,
+        type: 'ai' as const,
+        content: aiResponse,
+        timestamp: new Date(),
+      };
+
+      setChatMessages(prev => [...prev, aiMessage]);
+      setQuestion('');
+    } catch (error) {
+      console.error('Error asking question:', error);
+
+      // Fallback response for errors
+      const fallbackMessage = {
+        id: Date.now() + 1,
+        type: 'ai' as const,
+        content: generateFallbackResponse(question),
+        timestamp: new Date(),
+      };
+
+      setChatMessages(prev => [...prev, fallbackMessage]);
+      setQuestion('');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const generateFallbackResponse = (userQuestion: string): string => {
+    const questionLower = userQuestion.toLowerCase();
+
+    if (questionLower.includes('save') || questionLower.includes('saving')) {
+      return "Great question about saving! Here are some practical tips:\n\n• Start with the 50/30/20 rule: 50% needs, 30% wants, 20% savings\n• Automate your savings to make it consistent\n• Set specific savings goals with deadlines\n• Consider high-yield savings accounts\n• Track your progress regularly\n\nWhat specific savings goal are you working towards?";
+    }
+
+    if (questionLower.includes('budget') || questionLower.includes('spending')) {
+      return "Budgeting is key to financial success! Here's how to get started:\n\n• Track all your income and expenses for a month\n• Use the envelope method for cash expenses\n• Review and adjust your budget monthly\n• Use budgeting apps to stay on track\n• Plan for unexpected expenses\n\nWould you like help creating a specific budget category?";
+    }
+
+    if (questionLower.includes('invest') || questionLower.includes('investment')) {
+      return "Smart thinking about investing! Here are beginner-friendly tips:\n\n• Start with an emergency fund first (3-6 months expenses)\n• Consider low-cost index funds for diversification\n• Invest regularly, not just when markets are up\n• Understand your risk tolerance\n• Think long-term (5+ years)\n\nRemember: Never invest money you can't afford to lose. What's your investment timeline?";
+    }
+
+    if (questionLower.includes('debt') || questionLower.includes('loan')) {
+      return "Managing debt is crucial for financial health:\n\n• List all debts with balances and interest rates\n• Try the debt snowball (smallest first) or avalanche (highest interest first) method\n• Consider debt consolidation if it lowers your rates\n• Stop creating new debt while paying off existing debt\n• Negotiate with creditors if you're struggling\n\nWhat type of debt are you dealing with?";
+    }
+
+    if (questionLower.includes('emergency') || questionLower.includes('fund')) {
+      return "An emergency fund is your financial safety net:\n\n• Start with KES 10,000-20,000 as a mini emergency fund\n• Build up to 3-6 months of living expenses\n• Keep it in a separate, easily accessible account\n• Only use for true emergencies (job loss, medical bills, major repairs)\n• Replenish it after any use\n\nHow much do you currently have set aside for emergencies?";
+    }
+
+    return "Thank you for your question! While I don't have a specific answer right now, here are some general financial tips:\n\n• Always spend less than you earn\n• Build an emergency fund before investing\n• Diversify your income sources\n• Continuously educate yourself about money\n• Review your financial goals regularly\n\nFor more personalized advice, consider speaking with a financial advisor. Is there a specific aspect of your finances you'd like to focus on?";
+  };
+
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Header */}
@@ -173,7 +260,7 @@ export default function AICoach() {
                 <PieChart className="w-5 h-5 mr-2" />
                 Spending Analysis
               </h3>
-              
+
               <div className="space-y-3 mb-4">
                 {spendingAnalysis.insights?.map((insight: string, index: number) => (
                   <div key={index} className="flex items-start space-x-2">
@@ -211,7 +298,7 @@ export default function AICoach() {
               </h3>
               <div className="text-sm text-slate-500">Available in 12 languages</div>
             </div>
-            
+
             <div className="mb-4">
               <Button 
                 onClick={startVoiceRecording}
@@ -226,7 +313,7 @@ export default function AICoach() {
                 {isRecording ? 'Recording...' : 'Tap to speak'}
               </Button>
             </div>
-            
+
             <div className="space-y-2 text-sm text-slate-600">
               <p><strong>Try saying:</strong></p>
               <p>• "How much did I spend on food this week?"</p>
@@ -243,7 +330,7 @@ export default function AICoach() {
               <Target className="w-5 h-5 mr-2" />
               Ask Your Coach
             </h3>
-            
+
             <div className="space-y-3 mb-4 max-h-48 overflow-y-auto custom-scrollbar">
               {chatMessages.map((message) => (
                 <div
@@ -260,7 +347,7 @@ export default function AICoach() {
                   {message.content}
                 </div>
               ))}
-              
+
               {chatMessages.length === 0 && (
                 <div className="bg-slate-100 p-3 rounded-lg text-sm">
                   <strong>AI Coach:</strong> Hello! I'm here to help you with your financial goals. 
@@ -268,7 +355,7 @@ export default function AICoach() {
                 </div>
               )}
             </div>
-            
+
             <form onSubmit={handleSubmitQuestion} className="flex space-x-2">
               <Input
                 type="text"
