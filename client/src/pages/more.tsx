@@ -319,10 +319,10 @@ export default function More() {
       {/* Bold Blue Header */}
       <div className="bg-grova-blue text-white px-6 py-8">
         <div className="max-w-4xl mx-auto">
-          <h1 className="grova-headline text-white text-3xl mb-2">
+          <h1 className="grova-headline text-white text-xl mb-2">
             More Services
           </h1>
-          <p className="grova-body text-white/90 text-lg">
+          <p className="grova-body text-white/90 text-sm">
             Explore all the powerful features that make Grova your complete financial companion
           </p>
         </div>
@@ -332,8 +332,8 @@ export default function More() {
 
         {/* Featured Services */}
         <div className="mb-8">
-          <h2 className="grova-headline text-black text-lg mb-6 flex items-center gap-2">
-            <Zap className="w-5 h-5 text-grova-orange" />
+          <h2 className="grova-headline text-black text-sm mb-6 flex items-center gap-2">
+            <Zap className="w-4 h-4 text-grova-orange" />
             Featured Services
           </h2>
           <div className="grid md:grid-cols-2 gap-4">
@@ -364,8 +364,8 @@ export default function More() {
 
         {/* Community & Social */}
         <div className="mb-8">
-          <h2 className="grova-headline text-black text-lg mb-6 flex items-center gap-2">
-            <Users className="w-5 h-5 text-grova-blue" />
+          <h2 className="grova-headline text-black text-sm mb-6 flex items-center gap-2">
+            <Users className="w-4 h-4 text-grova-blue" />
             Community & Social
           </h2>
           <div className="grid md:grid-cols-2 gap-4">
@@ -412,8 +412,8 @@ export default function More() {
 
         {/* Financial Tools */}
         <div className="mb-8">
-          <h2 className="grova-headline text-black text-lg mb-6 flex items-center gap-2">
-            <Calculator className="w-5 h-5 text-grova-orange" />
+          <h2 className="grova-headline text-black text-sm mb-6 flex items-center gap-2">
+            <Calculator className="w-4 h-4 text-grova-orange" />
             Financial Tools
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -435,8 +435,8 @@ export default function More() {
 
         {/* Quick Actions */}
         <div className="mb-8">
-          <h2 className="grova-headline text-black text-lg mb-6 flex items-center gap-2">
-            <Zap className="w-5 h-5 text-grova-orange" />
+          <h2 className="grova-headline text-black text-sm mb-6 flex items-center gap-2">
+            <Zap className="w-4 h-4 text-grova-orange" />
             Quick Actions
           </h2>
           <div className="grid grid-cols-2 gap-4">
@@ -465,8 +465,8 @@ export default function More() {
 
         {/* Account & Settings */}
         <div className="mb-8">
-          <h2 className="grova-headline text-black text-lg mb-6 flex items-center gap-2">
-            <Settings className="w-5 h-5 text-grova-blue" />
+          <h2 className="grova-headline text-black text-sm mb-6 flex items-center gap-2">
+            <Settings className="w-4 h-4 text-grova-blue" />
             Account & Settings
           </h2>
           <div className="space-y-4">
@@ -528,7 +528,7 @@ export default function More() {
 
         {/* App Info */}
         <div className="text-center text-sm text-black/50">
-          <p className="grova-body mb-2">Grova v1.0.0 - Revolutionary Financial Platform</p>
+          <p className="grova-body mb-2"><span className="grova-logo">Grova</span> v1.0.0 - Revolutionary Financial Platform</p>
           <div className="flex items-center justify-center gap-4 grova-body">
             <span>Terms of Service</span>
             <span>•</span>

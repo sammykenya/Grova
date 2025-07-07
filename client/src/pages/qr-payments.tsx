@@ -202,10 +202,10 @@ export default function QRPayments() {
       {/* Bold Blue Header */}
       <div className="bg-grova-blue text-white px-6 py-8">
         <div className="max-w-4xl mx-auto">
-          <h1 className="grova-headline text-white text-3xl mb-2">
+          <h1 className="grova-headline text-white text-xl mb-2">
             QR Payments
           </h1>
-          <p className="grova-body text-white/90 text-lg">
+          <p className="grova-body text-white/90 text-sm">
             Generate QR codes for instant payments or scan to pay others quickly and securely
           </p>
         </div>

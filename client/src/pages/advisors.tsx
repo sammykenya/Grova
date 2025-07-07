@@ -137,10 +137,10 @@ export default function Advisors() {
       {/* Bold Blue Header */}
       <div className="bg-grova-blue text-white px-6 py-8">
         <div className="max-w-6xl mx-auto">
-          <h1 className="grova-headline text-white text-3xl mb-2">
+          <h1 className="grova-headline text-white text-xl mb-2">
             Professional Financial Advisors
           </h1>
-          <p className="grova-body text-white/90 text-lg">
+          <p className="grova-body text-white/90 text-sm">
             Connect with certified financial experts who understand emerging markets and can guide your wealth journey
           </p>
         </div>

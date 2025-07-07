@@ -186,10 +186,10 @@ export default function Investments() {
       {/* Bold Blue Header */}
       <div className="bg-grova-blue text-white px-6 py-8">
         <div className="max-w-6xl mx-auto">
-          <h1 className="grova-headline text-white text-3xl mb-2">
+          <h1 className="grova-headline text-white text-xl mb-2">
             Investment Portfolio
           </h1>
-          <p className="grova-body text-white/90 text-lg">
+          <p className="grova-body text-white/90 text-sm">
             Build wealth through smart investments in stocks, bonds, and digital assets
           </p>
         </div>
