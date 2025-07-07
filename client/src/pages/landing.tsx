@@ -102,7 +102,6 @@ export default function Landing() {
       </div>
     </div>
   );
-  );
 
   const LoginScreen = () => (
     <div className="min-h-screen bg-white">
