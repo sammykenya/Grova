@@ -245,7 +245,7 @@ export default function QRPayments() {
               <Card className="border-0 shadow-lg bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <QrCode className="w-5 h-5 text-green-600" />
+                    <QrCode className="w-5 h-5 text-grova-orange" />
                     Create Payment QR
                   </CardTitle>
                   <CardDescription>

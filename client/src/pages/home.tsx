@@ -190,8 +190,8 @@ export default function Home() {
                 </Button>
               </div>
             </div>
-            <Button className="grova-button-secondary bg-white/20 border-white/30 text-white hover:bg-white/30">
-              <ArrowLeftRight className="w-4 h-4 mr-2" />
+            <Button className="grova-button-secondary bg-white/20 border-white/30 text-white hover:bg-white/30 px-3">
+              <ArrowLeftRight className="w-4 h-4 mr-1" />
               Switch
             </Button>
           </div>

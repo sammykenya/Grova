@@ -41,7 +41,8 @@ import {
   Target,
   Globe2,
   Coins,
-  LogOut
+  LogOut,
+  Mic
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -209,6 +210,14 @@ export default function More() {
       icon: MapPin,
       path: "/agent-locator", 
       color: "text-grova-orange"
+    },
+    {
+      title: "Voice Assistant",
+      description: "Hands-free navigation for accessibility",
+      icon: Mic,
+      path: "#",
+      color: "text-grova-blue",
+      action: () => setActiveModal("voice-assistant")
     }
   ];
 
@@ -323,26 +332,26 @@ export default function More() {
 
         {/* Featured Services */}
         <div className="mb-8">
-          <h2 className="grova-headline text-black text-xl mb-6 flex items-center gap-2">
+          <h2 className="grova-headline text-black text-lg mb-6 flex items-center gap-2">
             <Zap className="w-5 h-5 text-grova-orange" />
             Featured Services
           </h2>
           <div className="grid md:grid-cols-2 gap-4">
             {mainFeatures.map((feature, index) => (
               <Link key={index} href={feature.path}>
-                <Card className="group hover:shadow-xl transition-all duration-300 cursor-pointer border-0 overflow-hidden bg-white rounded-2xl">
-                  <CardHeader className="p-6">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-2xl bg-grova-blue flex items-center justify-center text-white group-hover:scale-110 transition-transform">
+                <Card className="group hover:shadow-xl transition-all duration-300 cursor-pointer border-0 overflow-hidden bg-white rounded-2xl h-full">
+                  <CardHeader className="p-6 h-full flex flex-col">
+                    <div className="flex items-center justify-between flex-1">
+                      <div className="flex items-center gap-4 flex-1">
+                        <div className="w-12 h-12 rounded-2xl bg-grova-blue flex items-center justify-center text-white group-hover:scale-110 transition-transform flex-shrink-0">
                           <feature.icon className="w-6 h-6" />
                         </div>
-                        <div>
-                          <CardTitle className="grova-headline text-black text-lg">{feature.title}</CardTitle>
+                        <div className="flex-1">
+                          <CardTitle className="grova-headline text-black text-base mb-1">{feature.title}</CardTitle>
                           <CardDescription className="grova-body text-black/70 text-sm">{feature.description}</CardDescription>
                         </div>
                       </div>
-                      <Badge className="bg-grova-orange text-black grova-data text-xs px-3 py-1">
+                      <Badge className="bg-grova-orange text-black grova-data text-xs px-3 py-1 ml-2 whitespace-nowrap">
                         {feature.badge}
                       </Badge>
                     </div>
@@ -355,34 +364,55 @@ export default function More() {
 
         {/* Community & Social */}
         <div className="mb-8">
-          <h2 className="grova-headline text-black text-xl mb-6 flex items-center gap-2">
+          <h2 className="grova-headline text-black text-lg mb-6 flex items-center gap-2">
             <Users className="w-5 h-5 text-grova-blue" />
             Community & Social
           </h2>
           <div className="grid md:grid-cols-2 gap-4">
             {communityFeatures.map((feature, index) => (
-              <Link key={index} href={feature.path}>
-                <Card className="hover:shadow-lg transition-shadow cursor-pointer bg-white rounded-2xl border-0">
-                  <CardContent className="p-6">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-2xl bg-grova-blue flex items-center justify-center">
-                        <feature.icon className="w-6 h-6 text-white" />
+              <div key={index}>
+                {feature.action ? (
+                  <Card 
+                    className="hover:shadow-lg transition-shadow cursor-pointer bg-white rounded-2xl border-0 h-full"
+                    onClick={feature.action}
+                  >
+                    <CardContent className="p-6">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-2xl bg-grova-blue flex items-center justify-center">
+                          <feature.icon className="w-6 h-6 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="grova-headline text-black text-base">{feature.title}</h3>
+                          <p className="grova-body text-black/70 text-sm">{feature.description}</p>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="grova-headline text-black text-base">{feature.title}</h3>
-                        <p className="grova-body text-black/70 text-sm">{feature.description}</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <Link href={feature.path}>
+                    <Card className="hover:shadow-lg transition-shadow cursor-pointer bg-white rounded-2xl border-0 h-full">
+                      <CardContent className="p-6">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 rounded-2xl bg-grova-blue flex items-center justify-center">
+                            <feature.icon className="w-6 h-6 text-white" />
+                          </div>
+                          <div>
+                            <h3 className="grova-headline text-black text-base">{feature.title}</h3>
+                            <p className="grova-body text-black/70 text-sm">{feature.description}</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                )}
+              </div>
             ))}
           </div>
         </div>
 
         {/* Financial Tools */}
         <div className="mb-8">
-          <h2 className="grova-headline text-black text-xl mb-6 flex items-center gap-2">
+          <h2 className="grova-headline text-black text-lg mb-6 flex items-center gap-2">
             <Calculator className="w-5 h-5 text-grova-orange" />
             Financial Tools
           </h2>
@@ -405,7 +435,7 @@ export default function More() {
 
         {/* Quick Actions */}
         <div className="mb-8">
-          <h2 className="grova-headline text-black text-xl mb-6 flex items-center gap-2">
+          <h2 className="grova-headline text-black text-lg mb-6 flex items-center gap-2">
             <Zap className="w-5 h-5 text-grova-orange" />
             Quick Actions
           </h2>
@@ -413,18 +443,20 @@ export default function More() {
             {quickActions.map((action, index) => (
               <Card 
                 key={index} 
-                className="hover:shadow-lg transition-shadow cursor-pointer bg-white rounded-2xl border-0"
+                className="hover:shadow-lg transition-shadow cursor-pointer bg-white rounded-2xl border-0 h-full"
                 onClick={action.action}
               >
-                <CardContent className="p-6">
+                <CardContent className="p-6 h-full flex flex-col">
                   <div className="flex items-center justify-between mb-3">
                     <div className="w-10 h-10 rounded-2xl bg-grova-blue flex items-center justify-center">
                       <action.icon className="w-5 h-5 text-white" />
                     </div>
-                    <Badge className="bg-grova-orange text-black grova-data text-xs px-2 py-1">{action.badge}</Badge>
+                    <Badge className="bg-grova-orange text-black grova-data text-xs px-2 py-1 whitespace-nowrap">{action.badge}</Badge>
                   </div>
-                  <h3 className="grova-headline text-black text-sm mb-1">{action.title}</h3>
-                  <p className="grova-body text-black/70 text-xs">{action.description}</p>
+                  <div className="flex-1">
+                    <h3 className="grova-headline text-black text-sm mb-1">{action.title}</h3>
+                    <p className="grova-body text-black/70 text-xs">{action.description}</p>
+                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -433,7 +465,7 @@ export default function More() {
 
         {/* Account & Settings */}
         <div className="mb-8">
-          <h2 className="grova-headline text-black text-xl mb-6 flex items-center gap-2">
+          <h2 className="grova-headline text-black text-lg mb-6 flex items-center gap-2">
             <Settings className="w-5 h-5 text-grova-blue" />
             Account & Settings
           </h2>
@@ -740,6 +772,61 @@ export default function More() {
               Cancel
             </Button>
             <Button onClick={handleSupportSubmit}>Submit</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Voice Assistant Modal */}
+      <Dialog open={activeModal === "voice-assistant"} onOpenChange={(open) => open ? setActiveModal("voice-assistant") : setActiveModal(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="grova-headline text-grova-blue">Voice Assistant</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="text-center py-8">
+              <div className="w-20 h-20 mx-auto mb-4 bg-grova-blue rounded-full flex items-center justify-center">
+                <Mic className="w-10 h-10 text-white" />
+              </div>
+              <p className="grova-body text-black/70 mb-4">
+                Voice Assistant is designed to help users with disabilities navigate Grova hands-free.
+              </p>
+              <p className="grova-body text-black/70 mb-6">
+                Say commands like "Check my balance", "Send money", or "Show transactions"
+              </p>
+              <Button 
+                className="bg-grova-orange hover:bg-grova-orange/90 text-black px-8 py-3 rounded-2xl"
+                onClick={() => {
+                  // Basic voice recognition implementation
+                  if ('webkitSpeechRecognition' in window) {
+                    const recognition = new (window as any).webkitSpeechRecognition();
+                    recognition.continuous = true;
+                    recognition.interimResults = false;
+                    recognition.lang = 'en-US';
+                    recognition.start();
+                    recognition.onresult = (event: any) => {
+                      const transcript = event.results[0][0].transcript;
+                      toast({
+                        title: "Voice Command Received",
+                        description: `You said: "${transcript}"`,
+                      });
+                    };
+                  } else {
+                    toast({
+                      title: "Voice Recognition Not Supported",
+                      description: "Your browser doesn't support voice recognition",
+                      variant: "destructive",
+                    });
+                  }
+                }}
+              >
+                Start Voice Assistant
+              </Button>
+            </div>
+          </div>
+          <div className="flex justify-end gap-2 mt-4">
+            <Button variant="secondary" onClick={() => setActiveModal(null)}>
+              Close
+            </Button>
           </div>
         </DialogContent>
       </Dialog>

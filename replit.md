@@ -142,11 +142,16 @@ Grova is a revolutionary financial application designed to compete with global f
 10. **Universal Color Rules** - Applied blue background = white text, orange background = black text consistently
 
 ### Page-Specific Transformations:
-- **Home Page**: Bold blue hero zone with orange accent on Mesh action, clean white activity cards
-- **QR Payments**: Bold tab navigation with orange active states, clean geometric forms
+- **Home Page**: Bold blue hero zone with orange accent on Mesh action, clean white activity cards, reduced switch button length
+- **QR Payments**: Bold tab navigation with orange active states, clean geometric forms, fixed QR code color to orange
 - **Investments**: Orange gains card, blue portfolio value, white active investments with geometric design
 - **Advisors**: Bold blue header with consistent spacing and typography
-- **More**: Clean header design with organized feature sections
+- **More**: Clean header design with organized feature sections, reduced font sizes, equal button lengths, voice assistant for accessibility
+
+### Accessibility Features:
+- **Voice Assistant**: Added hands-free navigation feature for disabled users with Web Speech API integration
+- **Equal Button Lengths**: Standardized Featured Services and Quick Actions button dimensions for consistent interaction
+- **Reduced Font Sizes**: Optimized section title typography for better visual hierarchy
 
 ## Previous Updates (July 01, 2025)
 
