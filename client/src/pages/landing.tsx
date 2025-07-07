@@ -101,38 +101,7 @@ export default function Landing() {
         </div>
       </div>
     </div>
-
-      <div className="space-y-4 mb-8">
-        <div className="flex items-center text-left bg-white/10 p-4 rounded-xl">
-          <Wifi className="w-6 h-6 mr-4" />
-          <span>Works offline & online globally</span>
-        </div>
-        <div className="flex items-center text-left bg-white/10 p-4 rounded-xl">
-          <Wallet className="w-6 h-6 mr-4" />
-          <span>Fiat, Crypto & Credits in one app</span>
-        </div>
-        <div className="flex items-center text-left bg-white/10 p-4 rounded-xl">
-          <Mic className="w-6 h-6 mr-4" />
-          <span>Voice interface in local languages</span>
-        </div>
-      </div>
-
-      <div className="space-y-3">
-        <Button 
-          onClick={() => setCurrentScreen('login')}
-          className="w-full bg-white text-[hsl(207,90%,54%)] py-4 rounded-xl font-semibold text-lg shadow-lg hover:bg-gray-50"
-        >
-          Get Started
-        </Button>
-        <Button 
-          onClick={() => setCurrentScreen('login')}
-          variant="outline"
-          className="w-full border-2 border-white text-white py-4 rounded-xl font-semibold text-lg bg-transparent hover:bg-white/10"
-        >
-          Log In
-        </Button>
-      </div>
-    </div>
+  );
   );
 
   const LoginScreen = () => (
