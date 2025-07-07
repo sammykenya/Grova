@@ -347,7 +347,7 @@ export default function More() {
                           <feature.icon className="w-6 h-6" />
                         </div>
                         <div className="flex-1">
-                          <CardTitle className="grova-headline text-black text-base mb-1">{feature.title}</CardTitle>
+                          <CardTitle className="grova-headline text-black text-sm mb-1">{feature.title}</CardTitle>
                           <CardDescription className="grova-body text-black/70 text-sm">{feature.description}</CardDescription>
                         </div>
                       </div>
@@ -382,7 +382,7 @@ export default function More() {
                           <feature.icon className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                          <h3 className="grova-headline text-black text-base">{feature.title}</h3>
+                          <h3 className="grova-headline text-black text-sm">{feature.title}</h3>
                           <p className="grova-body text-black/70 text-sm">{feature.description}</p>
                         </div>
                       </div>
@@ -397,7 +397,7 @@ export default function More() {
                             <feature.icon className="w-6 h-6 text-white" />
                           </div>
                           <div>
-                            <h3 className="grova-headline text-black text-base">{feature.title}</h3>
+                            <h3 className="grova-headline text-black text-sm">{feature.title}</h3>
                             <p className="grova-body text-black/70 text-sm">{feature.description}</p>
                           </div>
                         </div>
@@ -505,7 +505,7 @@ export default function More() {
                     {user ? (user as any).firstName?.[0] || 'U' : 'U'}
                   </div>
                   <div>
-                    <h3 className="grova-headline text-white text-base">
+                    <h3 className="grova-headline text-white text-sm">
                       {user ? `${(user as any).firstName || 'User'} ${(user as any).lastName || ''}` : 'User Account'}
                     </h3>
                     <p className="grova-body text-white/80 text-sm">
