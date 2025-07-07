@@ -42,7 +42,9 @@ import {
   Globe2,
   Coins,
   LogOut,
-  Mic
+  Mic,
+  Receipt,
+  Banknote
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -830,6 +832,55 @@ export default function More() {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Voice Assistant for Accessibility */}
+      <button
+        onClick={() => {
+          toast({
+            title: "Voice Assistant",
+            description: "Voice assistant activated. How can I help you navigate?",
+          });
+        }}
+        className="voice-assistant-button"
+        aria-label="Voice Assistant for accessibility"
+      >
+        <Mic className="w-6 h-6" />
+      </button>
+
+      <style>
+        {`
+        .grova-section-title {
+          font-size: 1.1rem; /* Reduced font size */
+          font-weight: bold;
+          color: #333;
+          margin-bottom: 0.75rem;
+        }
+
+        .grova-button-equal {
+          width: 100%;
+          padding: 0.6rem 1rem; /* Reduced padding */
+          font-size: 0.9rem; /* Reduced font size */
+          font-weight: 500;
+        }
+
+        .voice-assistant-button {
+            position: fixed;
+            bottom: 60px;
+            right: 20px;
+            background-color: #2196F3;
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            z-index: 100;
+        }
+        `}
+      </style>
 
       <BottomNavigation currentPage="more" />
     </div>

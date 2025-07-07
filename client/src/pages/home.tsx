@@ -38,7 +38,27 @@ export default function Home() {
   const [requestModalOpen, setRequestModalOpen] = useState(false);
   const [convertModalOpen, setConvertModalOpen] = useState(false);
   const [isVoiceEnabled, setIsVoiceEnabled] = useState(false);
+  const [voiceAssistantActive, setVoiceAssistantActive] = useState(false);
   const { toast } = useToast();
+
+  const handleVoiceAssistant = () => {
+    if (!voiceAssistantActive) {
+      setVoiceAssistantActive(true);
+      toast({
+        title: "Voice Assistant",
+        description: "Listening... Say 'send money', 'check balance', or 'help'",
+      });
+      
+      // Simulate voice recognition
+      setTimeout(() => {
+        setVoiceAssistantActive(false);
+        toast({
+          title: "Voice Command",
+          description: "How can I help you today?",
+        });
+      }, 3000);
+    }
+  };
 
   // Initialize wallets on first load
   const initWalletsMutation = useMutation({
@@ -149,8 +169,7 @@ export default function Home() {
             </Button>
 
             <div className="flex items-center space-x-3">
-              <Globe className="w-6 h-6" />
-              <span className="grova-headline text-white text-xl">Grova</span>
+              <span className="grova-logo text-white text-2xl font-black">Grova</span>
               <span className="grova-body text-white/80 text-xs">by BoldStreet Partners</span>
             </div>
 
@@ -190,7 +209,7 @@ export default function Home() {
                 </Button>
               </div>
             </div>
-            <Button className="grova-button-secondary bg-white/20 border-white/30 text-white hover:bg-white/30 px-3">
+            <Button className="grova-button-compact bg-white/20 border-white/30 text-white hover:bg-white/30">
               <ArrowLeftRight className="w-4 h-4 mr-1" />
               Switch
             </Button>
@@ -333,6 +352,15 @@ export default function Home() {
           </Card>
         )}
       </div>
+
+      {/* Voice Assistant for Accessibility */}
+      <button
+        onClick={handleVoiceAssistant}
+        className={`voice-assistant-button ${voiceAssistantActive ? 'listening' : ''}`}
+        aria-label="Voice Assistant for accessibility"
+      >
+        <Mic className="w-6 h-6" />
+      </button>
 
       {/* Bottom Navigation */}
       <BottomNavigation currentPage="home" />
