@@ -182,56 +182,53 @@ export default function Investments() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900">
-      <div className="max-w-6xl mx-auto px-4 py-6 pb-20">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-4">
+    <div className="min-h-screen bg-white">
+      {/* Bold Blue Header */}
+      <div className="bg-grova-blue text-white px-6 py-8">
+        <div className="max-w-6xl mx-auto">
+          <h1 className="grova-headline text-white text-3xl mb-2">
             Investment Portfolio
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          <p className="grova-body text-white/90 text-lg">
             Build wealth through smart investments in stocks, bonds, and digital assets
           </p>
         </div>
+      </div>
 
-        {/* Portfolio Summary */}
+      <div className="max-w-6xl mx-auto px-6 py-8 pb-20">
+        {/* Portfolio Summary - Bold Color Blocks */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-purple-500 to-purple-600 text-white">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-purple-100 text-sm">Total Portfolio Value</p>
-                  <p className="text-3xl font-bold">KSh {portfolioData.totalValue.toLocaleString()}</p>
-                </div>
-                <PieChart className="w-8 h-8" />
+          <div className="bg-grova-blue text-white p-6 rounded-2xl">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="grova-body text-white/80 mb-2">Total Portfolio Value</p>
+                <p className="grova-data text-white text-3xl font-black">KSh {portfolioData.totalValue.toLocaleString()}</p>
               </div>
-            </CardContent>
-          </Card>
+              <PieChart className="w-8 h-8" />
+            </div>
+          </div>
 
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-green-500 to-green-600 text-white">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-green-100 text-sm">Total Gains</p>
-                  <p className="text-3xl font-bold">+KSh {portfolioData.totalChange.toLocaleString()}</p>
-                  <p className="text-green-100 text-sm">+{portfolioData.totalChangePercent}%</p>
-                </div>
-                <TrendingUp className="w-8 h-8" />
+          <div className="bg-grova-orange text-white p-6 rounded-2xl">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="grova-body text-white/80 mb-2">Total Gains</p>
+                <p className="grova-data text-white text-3xl font-black">+KSh {portfolioData.totalChange.toLocaleString()}</p>
+                <p className="grova-body text-white/80 text-sm">+{portfolioData.totalChangePercent}%</p>
               </div>
-            </CardContent>
-          </Card>
+              <TrendingUp className="w-8 h-8" />
+            </div>
+          </div>
 
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-500 to-blue-600 text-white">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-blue-100 text-sm">Active Investments</p>
-                  <p className="text-3xl font-bold">{portfolioData.investments.length}</p>
-                  <p className="text-blue-100 text-sm">Diversified Portfolio</p>
-                </div>
-                <Target className="w-8 h-8" />
+          <div className="bg-white border-2 border-gray-200 text-gray-900 p-6 rounded-2xl">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="grova-body text-gray-600 mb-2">Active Investments</p>
+                <p className="grova-data text-gray-900 text-3xl font-black">{portfolioData.investments.length}</p>
+                <p className="grova-body text-gray-600 text-sm">Diversified Portfolio</p>
               </div>
-            </CardContent>
-          </Card>
+              <Target className="w-8 h-8 text-gray-600" />
+            </div>
+          </div>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">

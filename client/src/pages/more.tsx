@@ -306,17 +306,20 @@ export default function More() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900">
-      <div className="max-w-4xl mx-auto px-4 py-6 pb-20">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
-            More Features
+    <div className="min-h-screen bg-white">
+      {/* Bold Blue Header */}
+      <div className="bg-grova-blue text-white px-6 py-8">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="grova-headline text-white text-3xl mb-2">
+            More Services
           </h1>
-          <p className="text-gray-600 dark:text-gray-300">
-            Discover all the powerful tools UniFi has to offer
+          <p className="grova-body text-white/90 text-lg">
+            Explore all the powerful features that make Grova your complete financial companion
           </p>
         </div>
+      </div>
+
+      <div className="max-w-4xl mx-auto px-6 py-8 pb-20">
 
         {/* Main Features */}
         <div className="mb-8">

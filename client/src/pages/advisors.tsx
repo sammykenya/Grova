@@ -133,16 +133,20 @@ export default function Advisors() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900">
-      <div className="max-w-6xl mx-auto px-4 py-6 pb-20">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+    <div className="min-h-screen bg-white">
+      {/* Bold Blue Header */}
+      <div className="bg-grova-blue text-white px-6 py-8">
+        <div className="max-w-6xl mx-auto">
+          <h1 className="grova-headline text-white text-3xl mb-2">
             Professional Financial Advisors
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          <p className="grova-body text-white/90 text-lg">
             Connect with certified financial experts who understand emerging markets and can guide your wealth journey
           </p>
         </div>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-6 py-8 pb-20">
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
           <TabsList className="grid w-full grid-cols-4 mb-6">

@@ -22,6 +22,7 @@ import {
   Send,
   QrCode,
   ArrowLeftRight,
+  ArrowRight,
   Wifi,
   Play,
   Users,
@@ -237,74 +238,69 @@ export default function Home() {
 
       {/* Main Content */}
       <div className="p-4 space-y-6 pb-20">
-        {/* AI Coach Card */}
+        {/* AI Coach Card - Bold Orange Block */}
         {dailyTip && (
-          <Card className="ai-coach-gradient text-white">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="font-semibold flex items-center">
-                  <Lightbulb className="w-4 h-4 mr-2" />
-                  Today's Tip
-                </h3>
-                <Button
-                  variant="ghost"
-                  className="text-purple-200 p-0"
-                  onClick={() => {
-                    // TODO: Implement text-to-speech
-                    toast({
-                      title: "Voice Tip",
-                      description: "Playing audio advice...",
-                    });
-                  }}
-                >
-                  <Play className="w-5 h-5" />
-                </Button>
+          <div className="bg-grova-orange text-white p-6 rounded-2xl">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="grova-headline text-white flex items-center">
+                <Lightbulb className="w-6 h-6 mr-3" />
+                Today's Financial Tip
+              </h3>
+              <Button
+                variant="ghost"
+                className="text-white p-0 hover:bg-white/20"
+                onClick={() => {
+                  toast({
+                    title: "Voice Tip",
+                    description: "Playing audio advice...",
+                  });
+                }}
+              >
+                <Play className="w-6 h-6" />
+              </Button>
+            </div>
+            <p className="grova-body text-white mb-4 text-base leading-relaxed">
+              {dailyTip.tip}
+            </p>
+            <Link href="/ai-coach">
+              <div className="grova-button-secondary bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-xl inline-flex items-center">
+                <span className="grova-body">Get More AI Coaching</span>
+                <ArrowRight className="w-4 h-4 ml-2" />
               </div>
-              <p className="text-purple-100 text-sm mb-3">
-                {dailyTip.tip}
-              </p>
-              <Link href="/ai-coach">
-                <span className="text-xs text-purple-200 font-medium cursor-pointer">
-                  View AI Coach →
-                </span>
-              </Link>
-            </CardContent>
-          </Card>
+            </Link>
+          </div>
         )}
 
-        {/* Recent Activity */}
-        <Card>
-          <CardContent className="p-0">
-            <div className="p-4 border-b border-slate-200">
-              <div className="flex items-center justify-between">
-                <h3 className="font-semibold">Recent Activity</h3>
-                <Button variant="ghost" className="text-[hsl(207,90%,54%)] text-sm p-0">
-                  View All
-                </Button>
-              </div>
-            </div>
+        {/* Recent Activity - Clean White Block */}
+        <div className="bg-white p-6 rounded-2xl border-2 border-gray-100">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="grova-headline text-gray-900">Recent Activity</h3>
+            <Button variant="ghost" className="text-grova-blue grova-body p-0 hover:bg-grova-blue/10">
+              View All
+            </Button>
+          </div>
 
-            <div className="space-y-1">
-              {transactions.length > 0 ? (
-                transactions.slice(0, 3).map((transaction: any) => (
-                  <TransactionCard 
-                    key={transaction.id} 
-                    transaction={transaction}
-                  />
-                ))
-              ) : (
-                <div className="p-4 text-center text-slate-500">
-                  <p>No transactions yet</p>
-                  <Link href="/send">
-                    <Button variant="outline" className="mt-2">
-                      Send Your First Payment
-                    </Button>
-                  </Link>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
+          <div className="space-y-4">
+            {transactions.length > 0 ? (
+              transactions.slice(0, 3).map((transaction: any) => (
+                <TransactionCard 
+                  key={transaction.id} 
+                  transaction={transaction}
+                />
+              ))
+            ) : (
+              <div className="py-8 text-center">
+                <p className="grova-body text-gray-600 mb-4">Ready to start your financial journey?</p>
+                <Link href="/send">
+                  <div className="bg-grova-orange hover:bg-orange-600 text-white px-6 py-3 rounded-2xl inline-flex items-center transition-all">
+                    <Send className="w-5 h-5 mr-2" />
+                    <span className="grova-body">Send Your First Payment</span>
+                  </div>
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
 
         {/* Community Treasury Preview */}
         {communityGroups.length > 0 && (

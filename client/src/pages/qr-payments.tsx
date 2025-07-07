@@ -198,28 +198,47 @@ export default function QRPayments() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900">
-      <div className="max-w-4xl mx-auto px-4 py-6 pb-20">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-4">
+    <div className="min-h-screen bg-white">
+      {/* Bold Blue Header */}
+      <div className="bg-grova-blue text-white px-6 py-8">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="grova-headline text-white text-3xl mb-2">
             QR Payments
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          <p className="grova-body text-white/90 text-lg">
             Generate QR codes for instant payments or scan to pay others quickly and securely
           </p>
         </div>
+      </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="generate" className="flex items-center gap-2">
-              <QrCode className="w-4 h-4" />
-              Generate QR
-            </TabsTrigger>
-            <TabsTrigger value="scan" className="flex items-center gap-2">
-              <Scan className="w-4 h-4" />
-              Scan & Pay
-            </TabsTrigger>
-          </TabsList>
+      <div className="max-w-4xl mx-auto px-6 py-8 pb-20">
+
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
+          {/* Bold Tab Navigation */}
+          <div className="grid grid-cols-2 gap-4">
+            <button
+              onClick={() => setActiveTab("generate")}
+              className={`p-4 rounded-2xl transition-all ${
+                activeTab === "generate"
+                  ? "bg-grova-orange text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              <QrCode className="w-6 h-6 mx-auto mb-2" />
+              <span className="grova-body">Generate QR</span>
+            </button>
+            <button
+              onClick={() => setActiveTab("scan")}
+              className={`p-4 rounded-2xl transition-all ${
+                activeTab === "scan"
+                  ? "bg-grova-orange text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              <Scan className="w-6 h-6 mx-auto mb-2" />
+              <span className="grova-body">Scan & Pay</span>
+            </button>
+          </div>
 
           <TabsContent value="generate">
             <div className="grid md:grid-cols-2 gap-6">
