@@ -304,7 +304,7 @@ export default function BudgetPlanner() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-green-600" />
+                <CheckCircle className="w-5 h-5 text-grova-blue" />
                 Budget Health
               </CardTitle>
             </CardHeader>
@@ -322,7 +322,7 @@ export default function BudgetPlanner() {
                 </div>
                 <div className="flex justify-between">
                   <span>Savings Rate</span>
-                  <span className="font-medium text-green-600">
+                  <span className="font-medium text-grova-orange">
                     {((actualRemaining / parseFloat(monthlyIncome)) * 100).toFixed(1)}%
                   </span>
                 </div>

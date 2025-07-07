@@ -278,11 +278,11 @@ export default function Advisors() {
               <div className="text-sm text-blue-600 dark:text-blue-400">Success Rate</div>
             </CardContent>
           </Card>
-          <Card className="text-center bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900 dark:to-green-800 border-0">
+          <Card className="text-center bg-grova-orange text-black rounded-2xl border-0">
             <CardContent className="pt-6">
-              <Award className="w-8 h-8 text-green-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-green-700 dark:text-green-300">500+</div>
-              <div className="text-sm text-green-600 dark:text-green-400">Clients Served</div>
+              <Award className="w-8 h-8 text-black mx-auto mb-2" />
+              <div className="text-2xl font-bold text-black">500+</div>
+              <div className="text-sm text-black/80">Clients Served</div>
             </CardContent>
           </Card>
           <Card className="text-center bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900 dark:to-purple-800 border-0">

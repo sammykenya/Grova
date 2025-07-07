@@ -238,17 +238,17 @@ export default function CryptoTracker() {
             </CardContent>
           </Card>
           
-          <Card className={`bg-gradient-to-r ${portfolioChange >= 0 ? 'from-green-500 to-green-600' : 'from-red-500 to-red-600'} text-white border-0`}>
+          <Card className={`bg-gradient-to-r ${portfolioChange >= 0 ? 'from-grova-orange to-grova-orange' : 'from-red-500 to-red-600'} text-white border-0`}>
             <CardContent className="pt-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-green-100">24h Change</p>
+                  <p className="text-white/80">24h Change</p>
                   <p className="text-2xl font-bold">
                     {portfolioChange >= 0 ? '+' : ''}{formatCurrency(portfolioChange)}
                   </p>
                 </div>
                 {portfolioChange >= 0 ? 
-                  <TrendingUp className="w-8 h-8 text-green-200" /> : 
+                  <TrendingUp className="w-8 h-8 text-black" /> : 
                   <TrendingDown className="w-8 h-8 text-red-200" />
                 }
               </div>
@@ -333,11 +333,11 @@ export default function CryptoTracker() {
                         </p>
                         <div className="flex items-center gap-1 justify-end">
                           {crypto.price_change_percentage_24h >= 0 ? (
-                            <TrendingUp className="w-3 h-3 text-green-500" />
+                            <TrendingUp className="w-3 h-3 text-grova-orange" />
                           ) : (
                             <TrendingDown className="w-3 h-3 text-red-500" />
                           )}
-                          <span className={`text-sm ${crypto.price_change_percentage_24h >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                          <span className={`text-sm ${crypto.price_change_percentage_24h >= 0 ? 'text-grova-orange' : 'text-red-600'}`}>
                             {crypto.price_change_percentage_24h >= 0 ? '+' : ''}{crypto.price_change_percentage_24h.toFixed(2)}%
                           </span>
                         </div>
@@ -403,11 +403,11 @@ export default function CryptoTracker() {
                               <p className="font-semibold">{formatCurrency(currentValue)}</p>
                               <div className="flex items-center gap-1 justify-end">
                                 {pnl >= 0 ? (
-                                  <TrendingUp className="w-3 h-3 text-green-500" />
+                                  <TrendingUp className="w-3 h-3 text-grova-orange" />
                                 ) : (
                                   <TrendingDown className="w-3 h-3 text-red-500" />
                                 )}
-                                <span className={`text-sm ${pnl >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                <span className={`text-sm ${pnl >= 0 ? 'text-grova-orange' : 'text-red-600'}`}>
                                   {pnl >= 0 ? '+' : ''}{formatCurrency(pnl)} ({pnlPercent.toFixed(2)}%)
                                 </span>
                               </div>
@@ -483,11 +483,11 @@ export default function CryptoTracker() {
                           </p>
                           <div className="flex items-center gap-1 justify-end">
                             {crypto.price_change_percentage_24h >= 0 ? (
-                              <TrendingUp className="w-3 h-3 text-green-500" />
+                              <TrendingUp className="w-3 h-3 text-grova-orange" />
                             ) : (
                               <TrendingDown className="w-3 h-3 text-red-500" />
                             )}
-                            <span className={`text-sm ${crypto.price_change_percentage_24h >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                            <span className={`text-sm ${crypto.price_change_percentage_24h >= 0 ? 'text-grova-orange' : 'text-red-600'}`}>
                               {crypto.price_change_percentage_24h >= 0 ? '+' : ''}{crypto.price_change_percentage_24h.toFixed(2)}%
                             </span>
                           </div>

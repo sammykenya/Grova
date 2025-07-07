@@ -152,7 +152,7 @@ export default function More() {
       description: "Submit ideas, get funding, connect with investors",
       icon: Zap,
       path: "/founders-room",
-      color: "from-purple-500 to-purple-600",
+      color: "from-grova-orange to-grova-orange",
       badge: "Hot"
     },
     {
@@ -160,7 +160,7 @@ export default function More() {
       description: "Connect with banks, SACCOs, and financial institutions",
       icon: Building,
       path: "/banking",
-      color: "from-blue-500 to-blue-600",
+      color: "from-grova-blue to-grova-blue",
       badge: "Trusted"
     },
     {
@@ -168,7 +168,7 @@ export default function More() {
       description: "Instant payments with QR code scanning",
       icon: QrCode,
       path: "/qr-payments",
-      color: "from-green-500 to-green-600",
+      color: "from-grova-orange to-grova-orange",
       badge: "Fast"
     },
     {
@@ -176,7 +176,7 @@ export default function More() {
       description: "Build wealth with smart investments",
       icon: TrendingUp,
       path: "/investments",
-      color: "from-indigo-500 to-indigo-600",
+      color: "from-grova-blue to-grova-blue",
       badge: "Grow"
     }
   ];
@@ -187,28 +187,28 @@ export default function More() {
       description: "Connect with certified professionals",
       icon: UserCheck,
       path: "/advisors",
-      color: "text-orange-600"
+      color: "text-grova-orange"
     },
     {
       title: "AI Financial Coach",
       description: "Get personalized financial advice powered by AI",
       icon: Bot,
       path: "/ai-coach",
-      color: "text-purple-600"
+      color: "text-grova-blue"
     },
     {
       title: "Community Treasury",
       description: "Join savings groups and community funds",
       icon: Users,
       path: "/community-treasury",
-      color: "text-blue-600"
+      color: "text-grova-blue"
     },
     {
       title: "Cash Agents",
       description: "Find nearby agents for cash transactions",
       icon: MapPin,
       path: "/agent-locator", 
-      color: "text-green-600"
+      color: "text-grova-orange"
     }
   ];
 
@@ -218,28 +218,28 @@ export default function More() {
       description: "Calculate loans, investments, and savings",
       icon: Calculator,
       path: "/financial-calculator",
-      color: "text-purple-600"
+      color: "text-grova-blue"
     },
     {
       title: "Budget Planner",
       description: "Plan and track your monthly budget",
       icon: Target,
       path: "/budget-planner",
-      color: "text-indigo-600"
+      color: "text-grova-orange"
     },
     {
       title: "Currency Exchange",
       description: "Real-time exchange rates and conversion",
       icon: Globe2,
       path: "/currency-exchange",
-      color: "text-yellow-600"
+      color: "text-grova-blue"
     },
     {
       title: "Crypto Tracker",
       description: "Track cryptocurrency prices and portfolio",
       icon: Coins,
       path: "/crypto-tracker",
-      color: "text-orange-600"
+      color: "text-grova-orange"
     }
   ];
 
@@ -249,28 +249,28 @@ export default function More() {
       description: "Manage passwords and two-factor authentication",
       icon: Shield,
       action: () => setActiveModal("security"),
-      color: "text-red-600"
+      color: "text-grova-blue"
     },
     {
       title: "Notifications",
       description: "Control your notification preferences",
       icon: Bell,
       action: () => setActiveModal("notifications"),
-      color: "text-blue-600"
+      color: "text-grova-orange"
     },
     {
       title: "App Settings",
       description: "Customize your app experience",
       icon: Settings,
       action: () => setActiveModal("app"),
-      color: "text-gray-600"
+      color: "text-black"
     },
     {
       title: "Help & Support",
       description: "Get help and contact support",
       icon: HelpCircle,
       action: () => setActiveModal("support"),
-      color: "text-green-600"
+      color: "text-grova-blue"
     }
   ];
 
@@ -321,29 +321,28 @@ export default function More() {
 
       <div className="max-w-4xl mx-auto px-6 py-8 pb-20">
 
-        {/* Main Features */}
+        {/* Featured Services */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-            <Zap className="w-5 h-5 text-yellow-500" />
+          <h2 className="grova-headline text-black text-xl mb-6 flex items-center gap-2">
+            <Zap className="w-5 h-5 text-grova-orange" />
             Featured Services
           </h2>
           <div className="grid md:grid-cols-2 gap-4">
             {mainFeatures.map((feature, index) => (
               <Link key={index} href={feature.path}>
-                <Card className="group hover:shadow-xl transition-all duration-300 cursor-pointer border-0 overflow-hidden">
-                  <div className={`h-2 bg-gradient-to-r ${feature.color}`}></div>
-                  <CardHeader className="pb-3">
+                <Card className="group hover:shadow-xl transition-all duration-300 cursor-pointer border-0 overflow-hidden bg-white rounded-2xl">
+                  <CardHeader className="p-6">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className={`w-12 h-12 rounded-xl bg-gradient-to-r ${feature.color} flex items-center justify-center text-white group-hover:scale-110 transition-transform`}>
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-2xl bg-grova-blue flex items-center justify-center text-white group-hover:scale-110 transition-transform">
                           <feature.icon className="w-6 h-6" />
                         </div>
                         <div>
-                          <CardTitle className="text-lg">{feature.title}</CardTitle>
-                          <CardDescription className="text-sm">{feature.description}</CardDescription>
+                          <CardTitle className="grova-headline text-black text-lg">{feature.title}</CardTitle>
+                          <CardDescription className="grova-body text-black/70 text-sm">{feature.description}</CardDescription>
                         </div>
                       </div>
-                      <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
+                      <Badge className="bg-grova-orange text-black grova-data text-xs px-3 py-1">
                         {feature.badge}
                       </Badge>
                     </div>
@@ -354,22 +353,24 @@ export default function More() {
           </div>
         </div>
 
-        {/* Community Features */}
+        {/* Community & Social */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-            <Users className="w-5 h-5 text-blue-500" />
+          <h2 className="grova-headline text-black text-xl mb-6 flex items-center gap-2">
+            <Users className="w-5 h-5 text-grova-blue" />
             Community & Social
           </h2>
           <div className="grid md:grid-cols-2 gap-4">
             {communityFeatures.map((feature, index) => (
               <Link key={index} href={feature.path}>
-                <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-                  <CardContent className="pt-6">
-                    <div className="flex items-center gap-3">
-                      <feature.icon className={`w-8 h-8 ${feature.color}`} />
+                <Card className="hover:shadow-lg transition-shadow cursor-pointer bg-white rounded-2xl border-0">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-2xl bg-grova-blue flex items-center justify-center">
+                        <feature.icon className="w-6 h-6 text-white" />
+                      </div>
                       <div>
-                        <h3 className="font-medium">{feature.title}</h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">{feature.description}</p>
+                        <h3 className="grova-headline text-black text-base">{feature.title}</h3>
+                        <p className="grova-body text-black/70 text-sm">{feature.description}</p>
                       </div>
                     </div>
                   </CardContent>
@@ -379,20 +380,22 @@ export default function More() {
           </div>
         </div>
 
-        {/* Tools & Utilities */}
+        {/* Financial Tools */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-            <Calculator className="w-5 h-5 text-purple-500" />
+          <h2 className="grova-headline text-black text-xl mb-6 flex items-center gap-2">
+            <Calculator className="w-5 h-5 text-grova-orange" />
             Financial Tools
           </h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {toolsAndUtilities.map((tool, index) => (
               <Link key={index} href={tool.path}>
-                <Card className="hover:shadow-lg transition-shadow cursor-pointer text-center">
-                  <CardContent className="pt-6 pb-4">
-                    <tool.icon className={`w-8 h-8 ${tool.color} mx-auto mb-2`} />
-                    <h3 className="font-medium text-sm mb-1">{tool.title}</h3>
-                    <p className="text-xs text-gray-600 dark:text-gray-400">{tool.description}</p>
+                <Card className="hover:shadow-lg transition-shadow cursor-pointer text-center bg-white rounded-2xl border-0">
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 rounded-2xl bg-grova-blue flex items-center justify-center mx-auto mb-3">
+                      <tool.icon className="w-6 h-6 text-white" />
+                    </div>
+                    <h3 className="grova-headline text-black text-sm mb-1">{tool.title}</h3>
+                    <p className="grova-body text-black/70 text-xs">{tool.description}</p>
                   </CardContent>
                 </Card>
               </Link>
@@ -402,24 +405,26 @@ export default function More() {
 
         {/* Quick Actions */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-            <Zap className="w-5 h-5 text-green-500" />
+          <h2 className="grova-headline text-black text-xl mb-6 flex items-center gap-2">
+            <Zap className="w-5 h-5 text-grova-orange" />
             Quick Actions
           </h2>
           <div className="grid grid-cols-2 gap-4">
             {quickActions.map((action, index) => (
               <Card 
                 key={index} 
-                className="hover:shadow-lg transition-shadow cursor-pointer"
+                className="hover:shadow-lg transition-shadow cursor-pointer bg-white rounded-2xl border-0"
                 onClick={action.action}
               >
-                <CardContent className="pt-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <action.icon className="w-6 h-6 text-blue-600" />
-                    <Badge variant="outline" className="text-xs">{action.badge}</Badge>
+                <CardContent className="p-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="w-10 h-10 rounded-2xl bg-grova-blue flex items-center justify-center">
+                      <action.icon className="w-5 h-5 text-white" />
+                    </div>
+                    <Badge className="bg-grova-orange text-black grova-data text-xs px-2 py-1">{action.badge}</Badge>
                   </div>
-                  <h3 className="font-medium text-sm mb-1">{action.title}</h3>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">{action.description}</p>
+                  <h3 className="grova-headline text-black text-sm mb-1">{action.title}</h3>
+                  <p className="grova-body text-black/70 text-xs">{action.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -428,25 +433,29 @@ export default function More() {
 
         {/* Account & Settings */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-            <Settings className="w-5 h-5 text-gray-500" />
+          <h2 className="grova-headline text-black text-xl mb-6 flex items-center gap-2">
+            <Settings className="w-5 h-5 text-grova-blue" />
             Account & Settings
           </h2>
-          <div className="space-y-3">
+          <div className="space-y-4">
             {accountSettings.map((setting, index) => (
               <Card 
                 key={index} 
-                className="hover:shadow-md transition-shadow cursor-pointer"
+                className="hover:shadow-md transition-shadow cursor-pointer bg-white rounded-2xl border-0"
                 onClick={setting.action}
               >
-                <CardContent className="py-4">
-                  <div className="flex items-center gap-3">
-                    <setting.icon className={`w-5 h-5 ${setting.color}`} />
-                    <div className="flex-1">
-                      <h3 className="font-medium text-sm">{setting.title}</h3>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">{setting.description}</p>
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-2xl bg-grova-blue flex items-center justify-center">
+                      <setting.icon className="w-5 h-5 text-white" />
                     </div>
-                    <Badge variant="outline" className="text-gray-400">→</Badge>
+                    <div className="flex-1">
+                      <h3 className="grova-headline text-black text-sm">{setting.title}</h3>
+                      <p className="grova-body text-black/70 text-xs">{setting.description}</p>
+                    </div>
+                    <div className="w-6 h-6 rounded-full bg-grova-orange flex items-center justify-center">
+                      <span className="text-black text-xs font-bold">→</span>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -456,29 +465,28 @@ export default function More() {
 
         {/* User Info & Logout */}
         <div className="mb-8">
-          <Card className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900 dark:to-purple-900 border-0">
-            <CardContent className="pt-6">
+          <Card className="bg-grova-blue text-white rounded-2xl border-0">
+            <CardContent className="p-6">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-grova-orange flex items-center justify-center text-black font-bold">
                     {user ? (user as any).firstName?.[0] || 'U' : 'U'}
                   </div>
                   <div>
-                    <h3 className="font-medium">
+                    <h3 className="grova-headline text-white text-base">
                       {user ? `${(user as any).firstName || 'User'} ${(user as any).lastName || ''}` : 'User Account'}
                     </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {user ? (user as any).email || 'user@unifi.app' : 'user@unifi.app'}
+                    <p className="grova-body text-white/80 text-sm">
+                      {user ? (user as any).email || 'user@grova.app' : 'user@grova.app'}
                     </p>
                   </div>
                 </div>
                 <Button 
-                  variant="outline" 
+                  className="bg-grova-orange text-black hover:bg-grova-orange/90 grova-body border-0"
                   size="sm"
                   onClick={() => window.location.href = '/api/logout'}
-                  className="flex items-center gap-2"
                 >
-                  <LogOut className="w-4 h-4" />
+                  <LogOut className="w-4 h-4 mr-2" />
                   Logout
                 </Button>
               </div>
@@ -487,9 +495,9 @@ export default function More() {
         </div>
 
         {/* App Info */}
-        <div className="text-center text-sm text-gray-500 dark:text-gray-400">
-          <p className="mb-2">UniFi v1.0.0 - Revolutionary Financial Platform</p>
-          <div className="flex items-center justify-center gap-4">
+        <div className="text-center text-sm text-black/50">
+          <p className="grova-body mb-2">Grova v1.0.0 - Revolutionary Financial Platform</p>
+          <div className="flex items-center justify-center gap-4 grova-body">
             <span>Terms of Service</span>
             <span>•</span>
             <span>Privacy Policy</span>

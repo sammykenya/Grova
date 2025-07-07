@@ -276,11 +276,11 @@ export default function CurrencyExchange() {
                     </p>
                     <div className="flex items-center gap-1 justify-end">
                       {rate.change24h >= 0 ? (
-                        <TrendingUp className="w-3 h-3 text-green-500" />
+                        <TrendingUp className="w-3 h-3 text-grova-orange" />
                       ) : (
                         <TrendingDown className="w-3 h-3 text-red-500" />
                       )}
-                      <span className={`text-xs ${rate.change24h >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                      <span className={`text-xs ${rate.change24h >= 0 ? 'text-grova-orange' : 'text-red-600'}`}>
                         {rate.change24h >= 0 ? '+' : ''}{rate.change24h.toFixed(2)}%
                       </span>
                     </div>
