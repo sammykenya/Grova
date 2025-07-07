@@ -52,7 +52,7 @@ export default function Landing() {
         <header className="px-6 py-4">
           <div className="flex items-center justify-center">
             <div className="flex items-center space-x-3">
-              <span className="grova-logo text-white text-2xl font-black">Grova</span>
+              <span className="text-white text-2xl font-black" style={{ fontFamily: 'Lufga, sans-serif', fontWeight: 900 }}>Grova</span>
               <span className="grova-body text-white/80 text-xs">by BoldStreet Partners</span>
             </div>
           </div>
@@ -116,7 +116,7 @@ export default function Landing() {
             <ArrowLeft className="w-5 h-5" />
           </Button>
           <div className="flex items-center space-x-3">
-            <span className="grova-logo text-white text-xl font-black">Grova</span>
+            <span className="text-white text-xl font-black" style={{ fontFamily: 'Lufga, sans-serif', fontWeight: 900 }}>Grova</span>
           </div>
           <div className="w-6"></div> {/* Spacer for center alignment */}
         </div>
