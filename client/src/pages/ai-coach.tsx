@@ -25,7 +25,8 @@ import {
   Clock,
   DollarSign,
   Shield,
-  Zap
+  Zap,
+  PiggyBank
 } from "lucide-react";
 import { 
   LineChart, 

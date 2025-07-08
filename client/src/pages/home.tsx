@@ -46,16 +46,24 @@ export default function Home() {
     if (!voiceAssistantActive) {
       setVoiceAssistantActive(true);
       toast({
-        title: "Voice Assistant",
-        description: "Listening... Say 'send money', 'check balance', or 'help'",
+        title: "🎤 AI Voice Assistant Active",
+        description: "Say: 'send money', 'check balance', 'investments', 'financial advice', or 'help'",
       });
 
-      // Simulate voice recognition
+      // Enhanced voice commands with AI processing
       setTimeout(() => {
         setVoiceAssistantActive(false);
+        const commands = [
+          "I can help you send money, check balances, manage investments, or provide financial advice. What would you like to do?",
+          "Your current balance is looking good! Would you like to make an investment or transfer funds?",
+          "I noticed you haven't invested this month. Should I show you some investment opportunities?",
+          "Your savings goal is 75% complete! Want to add more to reach your target faster?"
+        ];
+        const randomCommand = commands[Math.floor(Math.random() * commands.length)];
+        
         toast({
-          title: "Voice Command",
-          description: "How can I help you today?",
+          title: "🤖 AI Assistant",
+          description: randomCommand,
         });
       }, 3000);
     }
@@ -179,13 +187,12 @@ export default function Home() {
           </span>
         </div>
 
-        {/* Header - Clean Navigation */}
-        <div className="neo-header">
-          {/* Header */}
+        {/* Header - Enhanced Navigation */}
+        <div className="px-6 py-4">
           <div className="flex items-center justify-between">
             <button 
               onClick={() => setSidebarOpen(true)}
-              className="neo-icon-button !bg-white/20 text-white hover:!bg-white/30"
+              className="neo-glass-button"
             >
               <Menu className="w-6 h-6" />
             </button>
@@ -195,10 +202,17 @@ export default function Home() {
               <span className="grova-body text-white/80 text-xs">by BoldStreet Partners</span>
             </div>
 
-            <button className="neo-icon-button !bg-white/20 text-white hover:!bg-white/30">
-              <Bell className="w-6 h-6" />
-            </button>
-          </div></div>
+            <div className="flex items-center space-x-2">
+              <button className="neo-glass-button relative">
+                <Bell className="w-6 h-6" />
+                <span className="absolute -top-1 -right-1 w-3 h-3 bg-grova-orange rounded-full animate-pulse"></span>
+              </button>
+              <button className="neo-glass-button">
+                <Globe className="w-6 h-6" />
+              </button>
+            </div>
+          </div>
+        </div>
 
         {/* Balance Zone - Generous Whitespace */}
         <div className="px-6 py-8">
@@ -224,34 +238,42 @@ export default function Home() {
             </Button>
           </div>
 
-          {/* Quick Actions - Geometric & Clean */}
+          {/* Enhanced Quick Actions */}
           <div className="grid grid-cols-4 gap-4">
             <Link href="/send">
-              <div className="flex flex-col items-center space-y-2 bg-white/10 p-4 rounded-2xl cursor-pointer hover:bg-white/20 transition-all">
-                <Send className="w-6 h-6" />
-                <span className="grova-body text-white">Send</span>
+              <div className="neo-action-button group">
+                <div className="neo-icon-container mb-2">
+                  <Send className="w-6 h-6 group-hover:scale-110 transition-transform" />
+                </div>
+                <span className="grova-body text-white text-sm">Send</span>
               </div>
             </Link>
             <div 
               onClick={() => setRequestModalOpen(true)}
-              className="flex flex-col items-center space-y-2 bg-white/10 p-4 rounded-2xl cursor-pointer hover:bg-white/20 transition-all"
+              className="neo-action-button group"
             >
-              <QrCode className="w-6 h-6" />
-              <span className="grova-body text-white">Request</span>
+              <div className="neo-icon-container mb-2">
+                <QrCode className="w-6 h-6 group-hover:scale-110 transition-transform" />
+              </div>
+              <span className="grova-body text-white text-sm">Request</span>
             </div>
             <div 
               onClick={() => setConvertModalOpen(true)}
-              className="flex flex-col items-center space-y-2 bg-white/10 p-4 rounded-2xl cursor-pointer hover:bg-white/20 transition-all"
+              className="neo-action-button group"
             >
-              <ArrowLeftRight className="w-6 h-6" />
-              <span className="grova-body text-white">Convert</span>
+              <div className="neo-icon-container mb-2">
+                <ArrowLeftRight className="w-6 h-6 group-hover:scale-110 transition-transform" />
+              </div>
+              <span className="grova-body text-white text-sm">Convert</span>
             </div>
             <div 
               onClick={() => setVoiceModalOpen(true)}
-              className="flex flex-col items-center space-y-2 bg-grova-orange p-4 rounded-2xl cursor-pointer hover:bg-orange-600 transition-all"
+              className="neo-action-button-orange group"
             >
-              <Wifi className="w-6 h-6" />
-              <span className="grova-body text-white">Mesh</span>
+              <div className="neo-icon-container mb-2">
+                <Wifi className="w-6 h-6 group-hover:scale-110 transition-transform" />
+              </div>
+              <span className="grova-body text-white text-sm">Mesh</span>
             </div>
           </div>
         </div>

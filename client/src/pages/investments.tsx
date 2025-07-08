@@ -191,19 +191,43 @@ export default function Investments() {
 
   return (
     <div className="min-h-screen neo-base">
-      {/* Header */}
-      <div className="neo-card" style={{ borderRadius: '0 0 24px 24px', margin: '0' }}>
-        <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 rounded-2xl">
-          <div className="flex items-center justify-between">
+      {/* Enhanced Header */}
+      <div className="bg-grova-blue text-white" style={{ borderRadius: '0 0 24px 24px' }}>
+        <div className="px-6 py-6">
+          <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-3">
               <Link href="/more">
-                <Button variant="ghost" className="text-white p-0 hover:bg-white/20">
+                <button className="neo-glass-button">
                   <ArrowLeft className="w-6 h-6" />
-                </Button>
+                </button>
               </Link>
               <div>
-                <h2 className="text-xl font-semibold">Investment Portfolio</h2>
-                <p className="text-sm text-blue-100">Build wealth with smart investments</p>
+                <h2 className="grova-headline text-white text-xl">Investment Portfolio</h2>
+                <p className="grova-body text-white/80 text-sm">Build wealth with smart investments</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="neo-glass-button relative">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-xs ml-2">Live</span>
+              </div>
+            </div>
+          </div>
+          
+          {/* Market Status Bar */}
+          <div className="bg-white/10 backdrop-filter backdrop-blur-lg rounded-2xl p-4">
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div>
+                <p className="text-white/80 text-xs">NSE 20</p>
+                <p className="text-white font-bold">+2.3%</p>
+              </div>
+              <div>
+                <p className="text-white/80 text-xs">USD/KES</p>
+                <p className="text-white font-bold">131.45</p>
+              </div>
+              <div>
+                <p className="text-white/80 text-xs">Bitcoin</p>
+                <p className="text-white font-bold">$67,432</p>
               </div>
             </div>
           </div>

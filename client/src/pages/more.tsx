@@ -332,6 +332,97 @@ export default function More() {
 
       <div className="max-w-4xl mx-auto px-6 py-8 pb-20">
 
+        {/* Enhanced User Profile Section */}
+        <div className="neo-card p-6 mb-8">
+          <div className="flex items-center space-x-4">
+            <div className="relative">
+              <Avatar className="w-16 h-16 neo-floating">
+                <AvatarFallback className="bg-grova-blue text-white text-lg font-bold">
+                  {user?.name?.charAt(0) || 'U'}
+                </AvatarFallback>
+              </Avatar>
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
+                <CheckCircle className="w-3 h-3 text-white" />
+              </div>
+            </div>
+            <div className="flex-1">
+              <h2 className="grova-headline text-lg">{user?.name || 'Welcome'}</h2>
+              <p className="grova-body text-gray-600 text-sm">{user?.email}</p>
+              <div className="flex items-center mt-2 space-x-3">
+                <Badge variant="outline" className="text-xs neo-pulse">
+                  <Star className="w-3 h-3 mr-1 text-grova-orange" />
+                  Premium
+                </Badge>
+                <Badge variant="outline" className="text-xs">
+                  <Shield className="w-3 h-3 mr-1 text-green-600" />
+                  Verified
+                </Badge>
+                <span className="text-grova-blue text-xs">Level 5</span>
+              </div>
+            </div>
+            <Button 
+              onClick={() => setProfileModalOpen(true)}
+              className="neo-button-primary"
+            >
+              Edit
+            </Button>
+          </div>
+
+          {/* Professional Stats */}
+          <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-gray-200">
+            <div className="text-center">
+              <p className="grova-data text-grova-blue text-xl">4.9</p>
+              <p className="grova-body text-gray-600 text-xs">Trust Score</p>
+            </div>
+            <div className="text-center">
+              <p className="grova-data text-grova-orange text-xl">127</p>
+              <p className="grova-body text-gray-600 text-xs">Transactions</p>
+            </div>
+            <div className="text-center">
+              <p className="grova-data text-green-600 text-xl">2.3k</p>
+              <p className="grova-body text-gray-600 text-xs">Network</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Professional Services Section */}
+        <div className="neo-card p-6 mb-8">
+          <h3 className="grova-section-title mb-6 flex items-center">
+            <Building className="w-5 h-5 mr-2 text-grova-blue" />
+            Professional Services
+          </h3>
+          <div className="grid grid-cols-2 gap-4">
+            <Link href="/advisors">
+              <div className="neo-action-button p-4">
+                <UserCheck className="w-8 h-8 text-grova-blue mb-2" />
+                <p className="grova-body text-sm font-semibold">Expert Advisors</p>
+                <p className="text-xs text-gray-600">Professional consultation</p>
+              </div>
+            </Link>
+            <Link href="/mentorship">
+              <div className="neo-action-button p-4">
+                <Users className="w-8 h-8 text-grova-orange mb-2" />
+                <p className="grova-body text-sm font-semibold">Mentorship</p>
+                <p className="text-xs text-gray-600">Learn from experts</p>
+              </div>
+            </Link>
+            <Link href="/banking">
+              <div className="neo-action-button p-4">
+                <Landmark className="w-8 h-8 text-grova-blue mb-2" />
+                <p className="grova-body text-sm font-semibold">Banking Hub</p>
+                <p className="text-xs text-gray-600">Connect institutions</p>
+              </div>
+            </Link>
+            <Link href="/founders-room">
+              <div className="neo-action-button p-4 neo-pulse">
+                <Zap className="w-8 h-8 text-grova-orange mb-2" />
+                <p className="grova-body text-sm font-semibold">Funding</p>
+                <p className="text-xs text-gray-600">Investor matching</p>
+              </div>
+            </Link>
+          </div>
+        </div>
+
         {/* Featured Services */}
         <div className="mb-8">
           <h2 className="grova-headline text-black text-sm mb-6 flex items-center gap-2">
