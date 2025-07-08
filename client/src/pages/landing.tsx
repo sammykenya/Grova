@@ -53,14 +53,6 @@ export default function Landing() {
 
         {/* Header */}
         <header className="px-6 py-6">
-          <div className="flex items-center justify-center">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                <Wallet className="w-6 h-6 text-white" />
-              </div>
-              <span className="text-white text-3xl font-black tracking-tight" style={{ fontFamily: 'Lufga, sans-serif', fontWeight: 900 }}>Grova</span>
-            </div>
-          </div>
         </header>
 
         {/* Welcome Content */}
