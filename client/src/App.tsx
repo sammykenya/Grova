@@ -21,6 +21,7 @@ import FinancialCalculator from "@/pages/financial-calculator";
 import BudgetPlanner from "@/pages/budget-planner";
 import CurrencyExchange from "@/pages/currency-exchange";
 import CryptoTracker from "@/pages/crypto-tracker";
+import FinancialDashboardPage from "@/pages/financial-dashboard-page";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -50,6 +51,7 @@ function Router() {
           <Route path="/budget-planner" component={BudgetPlanner} />
           <Route path="/currency-exchange" component={CurrencyExchange} />
           <Route path="/crypto-tracker" component={CryptoTracker} />
+          <Route path="/financial-dashboard" component={FinancialDashboardPage} />
         </>
       )}
       <Route component={NotFound} />
@@ -61,7 +63,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <div className="mobile-container bg-slate-50">
+        <div className="mobile-container neo-base">
           <Toaster />
           <Router />
         </div>

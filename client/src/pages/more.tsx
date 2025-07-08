@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import BottomNavigation from "@/components/bottom-navigation";
+import EnhancedVoiceAssistant from "@/components/enhanced-voice-assistant";
 import { useToast } from "@/hooks/use-toast";
 import { 
   ArrowLeft, 
@@ -65,7 +66,20 @@ export default function More() {
   const [biometricEnabled, setBiometricEnabled] = useState(false);
   const [supportMessage, setSupportMessage] = useState("");
   const [profileModalOpen, setProfileModalOpen] = useState(false);
+  const [animateCards, setAnimateCards] = useState(false);
+  const [featuredServiceIndex, setFeaturedServiceIndex] = useState(0);
   const { toast } = useToast();
+
+  useEffect(() => {
+    setAnimateCards(true);
+    
+    // Auto-rotate featured services
+    const interval = setInterval(() => {
+      setFeaturedServiceIndex((prev) => (prev + 1) % mainFeatures.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleCopyReferralCode = () => {
     navigator.clipboard.writeText(referralCode);
@@ -320,51 +334,119 @@ export default function More() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Bold Blue Header */}
-      <div className="bg-grova-blue text-white px-6 py-8">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="grova-headline text-white text-xl mb-2">
-            More Services
-          </h1>
-          <p className="grova-body text-white/90 text-sm">
-            Explore all the powerful features that make Grova your complete financial companion
-          </p>
+      {/* Enhanced Header with Neomorphism */}
+      <div className="relative bg-gradient-to-br from-[hsl(207,90%,54%)] via-[hsl(207,80%,58%)] to-[hsl(207,70%,62%)] text-white overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-32 translate-x-32 animate-pulse"></div>
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full translate-y-24 -translate-x-24 animate-pulse" style={{animationDelay: '1s'}}></div>
+        </div>
+        
+        <div className="relative px-6 py-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="flex items-center justify-between mb-6">
+              <Link href="/">
+                <Button variant="ghost" size="icon" className="neo-glass-button">
+                  <ArrowLeft className="w-6 h-6" />
+                </Button>
+              </Link>
+              
+              <h1 className="grova-headline text-white text-xl">More Services</h1>
+              
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setActiveModal("voice-assistant")}
+                className="neo-glass-button"
+              >
+                <Mic className="w-6 h-6" />
+              </Button>
+            </div>
+
+            <p className="grova-body text-white/90 text-sm mb-4">
+              Explore all the powerful features that make Grova your complete financial companion
+            </p>
+
+            {/* Featured Service Carousel */}
+            <div className="neo-card-small bg-white/10 backdrop-blur-sm border border-white/20">
+              <div className="p-4">
+                <h3 className="text-white/80 text-sm mb-3">Featured Service</h3>
+                <div className="relative overflow-hidden rounded-xl">
+                  {mainFeatures.map((feature, index) => (
+                    <div 
+                      key={feature.title}
+                      className={`transition-all duration-500 ${
+                        index === featuredServiceIndex 
+                          ? 'transform translate-x-0 opacity-100' 
+                          : 'transform translate-x-full opacity-0 absolute top-0 left-0 w-full'
+                      }`}
+                    >
+                      <Link href={feature.path}>
+                        <div className="flex items-center space-x-3 p-3 rounded-xl bg-white/10 hover:bg-white/20 transition-all neo-ripple">
+                          <feature.icon className="w-8 h-8 text-[hsl(25,85%,53%)]" />
+                          <div>
+                            <h4 className="text-white font-semibold">{feature.title}</h4>
+                            <p className="text-white/80 text-sm">{feature.description}</p>
+                          </div>
+                        </div>
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Carousel indicators */}
+                <div className="flex justify-center space-x-2 mt-3">
+                  {mainFeatures.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setFeaturedServiceIndex(index)}
+                      className={`w-2 h-2 rounded-full transition-all neo-ripple ${
+                        index === featuredServiceIndex 
+                          ? 'bg-[hsl(25,85%,53%)]' 
+                          : 'bg-white/30'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       <div className="max-w-4xl mx-auto px-6 py-8 pb-20">
 
-        {/* Enhanced User Profile Section */}
-        <div className="neo-card p-6 mb-8">
+        {/* Enhanced User Profile Section with Advanced Neomorphism */}
+        <div className="neo-card-interactive p-6 mb-8" style={{animationDelay: '0.1s'}}>
           <div className="flex items-center space-x-4">
             <div className="relative">
-              <Avatar className="w-16 h-16 neo-floating">
-                <AvatarFallback className="bg-grova-blue text-white text-lg font-bold">
+              <Avatar className="w-16 h-16 neo-icon">
+                <AvatarFallback className="bg-gradient-to-br from-[hsl(207,90%,54%)] to-[hsl(207,70%,62%)] text-white text-lg font-bold">
                   {user?.name?.charAt(0) || 'U'}
                 </AvatarFallback>
               </Avatar>
-              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white flex items-center justify-center animate-pulse">
                 <CheckCircle className="w-3 h-3 text-white" />
               </div>
             </div>
             <div className="flex-1">
-              <h2 className="grova-headline text-lg">{user?.name || 'Welcome'}</h2>
+              <h2 className="grova-headline text-lg gradient-text-primary">{user?.name || 'Welcome'}</h2>
               <p className="grova-body text-gray-600 text-sm">{user?.email}</p>
               <div className="flex items-center mt-2 space-x-3">
-                <Badge variant="outline" className="text-xs neo-pulse">
-                  <Star className="w-3 h-3 mr-1 text-grova-orange" />
+                <Badge variant="outline" className="text-xs neo-card-small border-[hsl(25,85%,53%)] text-[hsl(25,85%,53%)]">
+                  <Star className="w-3 h-3 mr-1" />
                   Premium
                 </Badge>
-                <Badge variant="outline" className="text-xs">
-                  <Shield className="w-3 h-3 mr-1 text-green-600" />
+                <Badge variant="outline" className="text-xs neo-card-small border-green-500 text-green-600">
+                  <Shield className="w-3 h-3 mr-1" />
                   Verified
                 </Badge>
-                <span className="text-grova-blue text-xs">Level 5</span>
+                <span className="gradient-text-primary text-xs font-bold">Level 5</span>
               </div>
             </div>
             <Button 
               onClick={() => setProfileModalOpen(true)}
-              className="neo-button-primary"
+              className="neo-button-primary neo-ripple"
             >
               Edit
             </Button>
@@ -387,39 +469,78 @@ export default function More() {
           </div>
         </div>
 
-        {/* Professional Services Section */}
-        <div className="neo-card p-6 mb-8">
+        {/* Premium Features Section */}
+        <div className="neo-card-interactive p-6 mb-8" style={{animationDelay: '0.2s'}}>
           <h3 className="grova-section-title mb-6 flex items-center">
-            <Building className="w-5 h-5 mr-2 text-grova-blue" />
+            <Zap className="w-5 h-5 mr-2 text-[hsl(25,85%,53%)]" />
+            Premium Features
+          </h3>
+          <div className="grid grid-cols-2 gap-4">
+            <Link href="/financial-dashboard">
+              <div className="neo-action-button p-4 group">
+                <TrendingUp className="w-8 h-8 text-[hsl(207,90%,54%)] mb-2 group-hover:scale-110 transition-transform" />
+                <p className="grova-body text-sm font-semibold">Advanced Dashboard</p>
+                <p className="text-xs text-gray-600">Comprehensive analytics</p>
+              </div>
+            </Link>
+            <div 
+              onClick={() => setActiveModal("enhanced-voice")}
+              className="neo-action-button-orange p-4 group cursor-pointer"
+            >
+              <Bot className="w-8 h-8 text-white mb-2 group-hover:scale-110 transition-transform" />
+              <p className="grova-body text-sm font-semibold text-white">AI Assistant Pro</p>
+              <p className="text-xs text-white/80">Advanced voice features</p>
+            </div>
+            <Link href="/crypto-tracker">
+              <div className="neo-action-button p-4 group">
+                <Coins className="w-8 h-8 text-[hsl(25,85%,53%)] mb-2 group-hover:scale-110 transition-transform" />
+                <p className="grova-body text-sm font-semibold">Crypto Tracker</p>
+                <p className="text-xs text-gray-600">Portfolio management</p>
+              </div>
+            </Link>
+            <Link href="/currency-exchange">
+              <div className="neo-action-button p-4 group">
+                <Globe2 className="w-8 h-8 text-[hsl(207,90%,54%)] mb-2 group-hover:scale-110 transition-transform" />
+                <p className="grova-body text-sm font-semibold">Live Exchange</p>
+                <p className="text-xs text-gray-600">Real-time rates</p>
+              </div>
+            </Link>
+          </div>
+        </div>
+
+        {/* Professional Services Section */}
+        <div className="neo-card-interactive p-6 mb-8" style={{animationDelay: '0.3s'}}>
+          <h3 className="grova-section-title mb-6 flex items-center">
+            <Building className="w-5 h-5 mr-2 text-[hsl(207,90%,54%)]" />
             Professional Services
           </h3>
           <div className="grid grid-cols-2 gap-4">
             <Link href="/advisors">
-              <div className="neo-action-button p-4">
-                <UserCheck className="w-8 h-8 text-grova-blue mb-2" />
+              <div className="neo-action-button p-4 group">
+                <UserCheck className="w-8 h-8 text-[hsl(207,90%,54%)] mb-2 group-hover:scale-110 transition-transform" />
                 <p className="grova-body text-sm font-semibold">Expert Advisors</p>
                 <p className="text-xs text-gray-600">Professional consultation</p>
               </div>
             </Link>
             <Link href="/mentorship">
-              <div className="neo-action-button p-4">
-                <Users className="w-8 h-8 text-grova-orange mb-2" />
+              <div className="neo-action-button p-4 group">
+                <Users className="w-8 h-8 text-[hsl(25,85%,53%)] mb-2 group-hover:scale-110 transition-transform" />
                 <p className="grova-body text-sm font-semibold">Mentorship</p>
                 <p className="text-xs text-gray-600">Learn from experts</p>
               </div>
             </Link>
             <Link href="/banking">
-              <div className="neo-action-button p-4">
-                <Landmark className="w-8 h-8 text-grova-blue mb-2" />
+              <div className="neo-action-button p-4 group">
+                <Landmark className="w-8 h-8 text-[hsl(207,90%,54%)] mb-2 group-hover:scale-110 transition-transform" />
                 <p className="grova-body text-sm font-semibold">Banking Hub</p>
                 <p className="text-xs text-gray-600">Connect institutions</p>
               </div>
             </Link>
             <Link href="/founders-room">
-              <div className="neo-action-button p-4 neo-pulse">
-                <Zap className="w-8 h-8 text-grova-orange mb-2" />
-                <p className="grova-body text-sm font-semibold">Funding</p>
-                <p className="text-xs text-gray-600">Investor matching</p>
+              <div className="neo-action-button-orange p-4 group">
+                <Zap className="w-8 h-8 text-white mb-2 group-hover:scale-110 transition-transform" />
+                <p className="grova-body text-sm font-semibold text-white">Funding</p>
+                <p className="text-xs text-white/80">Investor matching</p>
               </div>
             </Link>
           </div>
@@ -974,6 +1095,12 @@ export default function More() {
         }
         `}
       </style>
+
+      {/* Enhanced Voice Assistant Modal */}
+      <EnhancedVoiceAssistant 
+        isOpen={activeModal === "enhanced-voice"} 
+        onClose={() => setActiveModal(null)} 
+      />
 
       <BottomNavigation currentPage="more" />
     </div>
