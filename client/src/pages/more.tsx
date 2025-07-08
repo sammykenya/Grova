@@ -345,26 +345,29 @@ export default function More() {
         <div className="relative px-6 py-8">
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center justify-between mb-6">
-              <Link href="/">
+              <Link to="/home">
                 <Button variant="ghost" size="icon" className="neo-glass-button">
                   <ArrowLeft className="w-6 h-6" />
                 </Button>
               </Link>
               
-              <h1 className="grova-headline text-white text-xl">More Services</h1>
+              <div className="text-center">
+                <h1 className="grova-headline text-white text-lg font-bold">More Services</h1>
+                <p className="text-white/70 text-xs">Explore comprehensive features</p>
+              </div>
               
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => setActiveModal("voice-assistant")}
+                onClick={() => setActiveModal("enhanced-voice")}
                 className="neo-glass-button"
               >
                 <Mic className="w-6 h-6" />
               </Button>
             </div>
 
-            <p className="grova-body text-white/90 text-sm mb-4">
-              Explore all the powerful features that make Grova your complete financial companion
+            <p className="grova-body text-white/90 text-sm mb-6 leading-relaxed">
+              Unlock the full potential of your financial journey with our comprehensive suite of world-class features
             </p>
 
             {/* Featured Service Carousel */}
@@ -548,10 +551,15 @@ export default function More() {
 
         {/* Featured Services */}
         <div className="mb-8">
-          <h2 className="grova-headline text-black text-sm mb-6 flex items-center gap-2 fade-in">
-            <Zap className="w-4 h-4 text-grova-orange icon-bounce" />
-            Featured Services
-          </h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-sm font-bold text-gray-800 flex items-center gap-2">
+              <Zap className="w-4 h-4 text-grova-orange animate-pulse" />
+              Featured Services
+            </h2>
+            <Badge className="bg-gradient-to-r from-grova-orange to-orange-500 text-white text-xs px-3 py-1 rounded-full">
+              Premium
+            </Badge>
+          </div>
           <div className="grid md:grid-cols-2 gap-4">
             {mainFeatures.map((feature, index) => (
               <Link key={index} href={feature.path}>
@@ -580,10 +588,16 @@ export default function More() {
 
         {/* Community & Social */}
         <div className="mb-8">
-          <h2 className="grova-headline text-black text-sm mb-6 flex items-center gap-2">
-            <Users className="w-4 h-4 text-grova-blue" />
-            Community & Social
-          </h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-sm font-bold text-gray-800 flex items-center gap-2">
+              <Users className="w-4 h-4 text-grova-blue" />
+              Community & Social
+            </h2>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span className="text-xs text-gray-600">Active</span>
+            </div>
+          </div>
           <div className="grid md:grid-cols-2 gap-4">
             {communityFeatures.map((feature, index) => (
               <div key={index}>
