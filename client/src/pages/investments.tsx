@@ -190,20 +190,23 @@ export default function Investments() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen neo-base">
       {/* Header */}
-      <div className="bg-grova-blue text-white px-6 py-8">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <Link href="/more">
-            <Button variant="ghost" className="text-white p-0 hover:bg-white/20">
-              <ArrowLeft className="w-6 h-6" />
-            </Button>
-          </Link>
-          <div className="text-center">
-            <h1 className="grova-headline text-white text-xl mb-2">Investment Portfolio</h1>
-            <p className="grova-body text-white/90 text-sm">Build wealth with smart investments</p>
+      <div className="neo-card" style={{ borderRadius: '0 0 24px 24px', margin: '0' }}>
+        <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 rounded-2xl">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <Link href="/more">
+                <Button variant="ghost" className="text-white p-0 hover:bg-white/20">
+                  <ArrowLeft className="w-6 h-6" />
+                </Button>
+              </Link>
+              <div>
+                <h2 className="text-xl font-semibold">Investment Portfolio</h2>
+                <p className="text-sm text-blue-100">Build wealth with smart investments</p>
+              </div>
+            </div>
           </div>
-          <div className="w-6"></div>
         </div>
       </div>
 

@@ -163,7 +163,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen neo-base">
       {/* Hero Zone - Bold Blue Background */}
       <div className="bg-grova-blue text-white">
         {/* Status Bar */}
@@ -383,7 +383,7 @@ export default function Home() {
       {/* Request Money Modal */}
       <RequestMoneyModal
         isOpen={requestModalOpen}
-        onClose={() => setRequestModalOpen(false)}
+        onClose={() => setRequestMoneyOpen(false)}
         userWallets={wallets}
       />
 

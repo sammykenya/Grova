@@ -68,7 +68,8 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    background: #f0f4f8;
+    color: var(--grova-navy);
     font-family: 'Lato', sans-serif;
   }
 }
@@ -121,22 +122,273 @@
     color: var(--grova-navy);
   }
 
-  /* Card Styling - Generous padding and 16px radius */
-  .grova-card {
-    border-radius: 1rem; /* 16px */
-    padding: 1rem; /* 16px */
-    background: var(--grova-white);
-    border: 1px solid var(--border);
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  /* NEOMORPHISM DESIGN SYSTEM */
+  
+  /* Base neomorphism background */
+  .neo-base {
+    background: #f0f4f8;
+    border-radius: 20px;
   }
 
-  /* Button Styling - Full width with proper spacing */
-  .grova-button-primary {
-    background-color: var(--grova-blue);
-    color: var(--grova-white);
+  /* Main card - raised appearance */
+  .neo-card {
+    background: #f0f4f8;
+    border-radius: 20px;
+    box-shadow: 
+      20px 20px 40px rgba(0, 0, 0, 0.1),
+      -20px -20px 40px rgba(255, 255, 255, 0.8);
     border: none;
-    border-radius: 0.75rem; /* 12px */
-    padding: 0.75rem 1.5rem; /* 12px top/bottom, 24px left/right */
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .neo-card:hover {
+    box-shadow: 
+      25px 25px 50px rgba(0, 0, 0, 0.12),
+      -25px -25px 50px rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+  }
+
+  /* Pressed/inset appearance */
+  .neo-inset {
+    background: #f0f4f8;
+    border-radius: 20px;
+    box-shadow: 
+      inset 10px 10px 20px rgba(0, 0, 0, 0.1),
+      inset -10px -10px 20px rgba(255, 255, 255, 0.8);
+    border: none;
+    padding: 1rem;
+  }
+
+  /* Button neomorphism */
+  .neo-button {
+    background: #f0f4f8;
+    border-radius: 16px;
+    box-shadow: 
+      8px 8px 16px rgba(0, 0, 0, 0.1),
+      -8px -8px 16px rgba(255, 255, 255, 0.8);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-family: 'Lato', sans-serif;
+    font-weight: 600;
+    color: var(--grova-navy);
+    transition: all 0.2s ease;
+  }
+
+  .neo-button:hover {
+    box-shadow: 
+      6px 6px 12px rgba(0, 0, 0, 0.12),
+      -6px -6px 12px rgba(255, 255, 255, 0.9);
+    transform: translateY(-1px);
+  }
+
+  .neo-button:active {
+    box-shadow: 
+      inset 4px 4px 8px rgba(0, 0, 0, 0.1),
+      inset -4px -4px 8px rgba(255, 255, 255, 0.8);
+    transform: translateY(0);
+  }
+
+  /* Primary button with blue */
+  .neo-button-primary {
+    background: linear-gradient(135deg, var(--grova-blue), #2563eb);
+    color: white;
+    border-radius: 16px;
+    box-shadow: 
+      8px 8px 16px rgba(29, 78, 216, 0.3),
+      -8px -8px 16px rgba(255, 255, 255, 0.1);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-family: 'Lato', sans-serif;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+
+  .neo-button-primary:hover {
+    box-shadow: 
+      10px 10px 20px rgba(29, 78, 216, 0.4),
+      -10px -10px 20px rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+  }
+
+  /* Secondary button with orange */
+  .neo-button-secondary {
+    background: linear-gradient(135deg, var(--grova-orange), #f97316);
+    color: white;
+    border-radius: 16px;
+    box-shadow: 
+      8px 8px 16px rgba(234, 88, 12, 0.3),
+      -8px -8px 16px rgba(255, 255, 255, 0.1);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-family: 'Lato', sans-serif;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+
+  .neo-button-secondary:hover {
+    box-shadow: 
+      10px 10px 20px rgba(234, 88, 12, 0.4),
+      -10px -10px 20px rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+  }
+
+  /* Input fields neomorphism */
+  .neo-input {
+    background: #f0f4f8;
+    border-radius: 12px;
+    box-shadow: 
+      inset 6px 6px 12px rgba(0, 0, 0, 0.1),
+      inset -6px -6px 12px rgba(255, 255, 255, 0.8);
+    border: none;
+    padding: 0.75rem 1rem;
+    font-family: 'Lato', sans-serif;
+    color: var(--grova-navy);
+    outline: none;
+    transition: all 0.2s ease;
+  }
+
+  .neo-input:focus {
+    box-shadow: 
+      inset 8px 8px 16px rgba(0, 0, 0, 0.12),
+      inset -8px -8px 16px rgba(255, 255, 255, 0.9),
+      0 0 0 2px rgba(29, 78, 216, 0.2);
+  }
+
+  /* Small card variant */
+  .neo-card-small {
+    background: #f0f4f8;
+    border-radius: 16px;
+    box-shadow: 
+      12px 12px 24px rgba(0, 0, 0, 0.08),
+      -12px -12px 24px rgba(255, 255, 255, 0.9);
+    border: none;
+    padding: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .neo-card-small:hover {
+    box-shadow: 
+      15px 15px 30px rgba(0, 0, 0, 0.1),
+      -15px -15px 30px rgba(255, 255, 255, 1);
+    transform: translateY(-1px);
+  }
+
+  /* Icon containers */
+  .neo-icon {
+    background: #f0f4f8;
+    border-radius: 12px;
+    box-shadow: 
+      6px 6px 12px rgba(0, 0, 0, 0.1),
+      -6px -6px 12px rgba(255, 255, 255, 0.8);
+    padding: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .neo-icon:hover {
+    box-shadow: 
+      8px 8px 16px rgba(0, 0, 0, 0.12),
+      -8px -8px 16px rgba(255, 255, 255, 0.9);
+    transform: translateY(-1px);
+  }
+
+  /* Progress bars */
+  .neo-progress-track {
+    background: #f0f4f8;
+    border-radius: 20px;
+    box-shadow: 
+      inset 6px 6px 12px rgba(0, 0, 0, 0.1),
+      inset -6px -6px 12px rgba(255, 255, 255, 0.8);
+    height: 12px;
+    overflow: hidden;
+  }
+
+  .neo-progress-fill {
+    background: linear-gradient(90deg, var(--grova-blue), var(--grova-orange));
+    border-radius: 20px;
+    height: 100%;
+    box-shadow: 
+      2px 2px 4px rgba(29, 78, 216, 0.3);
+    transition: width 0.3s ease;
+  }
+
+  /* Navigation items */
+  .neo-nav-item {
+    background: transparent;
+    border-radius: 12px;
+    padding: 0.5rem;
+    transition: all 0.2s ease;
+    border: none;
+  }
+
+  .neo-nav-item:hover {
+    background: #f0f4f8;
+    box-shadow: 
+      4px 4px 8px rgba(0, 0, 0, 0.08),
+      -4px -4px 8px rgba(255, 255, 255, 0.8);
+  }
+
+  .neo-nav-item.active {
+    background: #f0f4f8;
+    box-shadow: 
+      inset 4px 4px 8px rgba(0, 0, 0, 0.1),
+      inset -4px -4px 8px rgba(255, 255, 255, 0.8);
+    color: var(--grova-blue);
+  }
+
+  /* Modal/Dialog styling */
+  .neo-modal {
+    background: #f0f4f8;
+    border-radius: 24px;
+    box-shadow: 
+      20px 20px 60px rgba(0, 0, 0, 0.1),
+      -20px -20px 60px rgba(255, 255, 255, 0.8);
+    border: none;
+  }
+
+  /* Chart containers */
+  .neo-chart {
+    background: #f0f4f8;
+    border-radius: 20px;
+    box-shadow: 
+      15px 15px 30px rgba(0, 0, 0, 0.08),
+      -15px -15px 30px rgba(255, 255, 255, 0.9);
+    padding: 1.5rem;
+    border: none;
+  }
+
+  /* Card Styling - Updated with neomorphism */
+  .grova-card {
+    background: #f0f4f8;
+    border-radius: 20px;
+    box-shadow: 
+      20px 20px 40px rgba(0, 0, 0, 0.1),
+      -20px -20px 40px rgba(255, 255, 255, 0.8);
+    border: none;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .grova-card:hover {
+    box-shadow: 
+      25px 25px 50px rgba(0, 0, 0, 0.12),
+      -25px -25px 50px rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+  }
+
+  /* Button Styling - Updated with neomorphism */
+  .grova-button-primary {
+    background: linear-gradient(135deg, var(--grova-blue), #2563eb);
+    color: white;
+    border-radius: 16px;
+    box-shadow: 
+      8px 8px 16px rgba(29, 78, 216, 0.3),
+      -8px -8px 16px rgba(255, 255, 255, 0.1);
+    border: none;
+    padding: 0.75rem 1.5rem;
     font-family: 'Lato', sans-serif;
     font-weight: 700;
     font-size: 1rem;
@@ -145,17 +397,21 @@
   }
 
   .grova-button-primary:hover {
-    background-color: #1E40AF; /* Darker blue on hover */
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(29, 78, 216, 0.4);
+    box-shadow: 
+      10px 10px 20px rgba(29, 78, 216, 0.4),
+      -10px -10px 20px rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
   }
 
-  /* Secondary Button - Orange accent */
+  /* Secondary Button - Orange accent with neomorphism */
   .grova-button-secondary {
-    background-color: var(--grova-orange);
-    color: var(--grova-white);
+    background: linear-gradient(135deg, var(--grova-orange), #f97316);
+    color: white;
+    border-radius: 16px;
+    box-shadow: 
+      8px 8px 16px rgba(234, 88, 12, 0.3),
+      -8px -8px 16px rgba(255, 255, 255, 0.1);
     border: none;
-    border-radius: 0.75rem;
     padding: 0.75rem 1.5rem;
     font-family: 'Lato', sans-serif;
     font-weight: 700;
@@ -164,26 +420,32 @@
   }
 
   .grova-button-secondary:hover {
-    background-color: #C2410C; /* Darker orange on hover */
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.4);
+    box-shadow: 
+      10px 10px 20px rgba(234, 88, 12, 0.4),
+      -10px -10px 20px rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
   }
 
-  /* Compact Button for smaller spaces */
+  /* Compact Button for smaller spaces with neomorphism */
   .grova-button-compact {
-    background-color: var(--grova-blue);
-    color: var(--grova-white);
-    border: 1px solid transparent;
-    border-radius: 0.5rem; /* 8px */
-    padding: 0.5rem 1rem; /* 8px top/bottom, 16px left/right */
+    background: #f0f4f8;
+    color: var(--grova-navy);
+    border-radius: 12px;
+    box-shadow: 
+      6px 6px 12px rgba(0, 0, 0, 0.1),
+      -6px -6px 12px rgba(255, 255, 255, 0.8);
+    border: none;
+    padding: 0.5rem 1rem;
     font-family: 'Lato', sans-serif;
     font-weight: 600;
-    font-size: 0.875rem; /* 14px */
+    font-size: 0.875rem;
     transition: all 0.2s ease;
   }
 
   .grova-button-compact:hover {
-    background-color: #1E40AF;
+    box-shadow: 
+      8px 8px 16px rgba(0, 0, 0, 0.12),
+      -8px -8px 16px rgba(255, 255, 255, 0.9);
     transform: translateY(-1px);
   }
 

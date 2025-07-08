@@ -59,7 +59,7 @@ export default function BottomNavigation({ currentPage }: BottomNavigationProps)
   };
 
   return (
-    <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-white border-t border-slate-200 z-30">
+    <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md neo-card z-30" style={{ borderRadius: '24px 24px 0 0', margin: '0' }}>
       <div className="grid grid-cols-5">
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -71,7 +71,7 @@ export default function BottomNavigation({ currentPage }: BottomNavigationProps)
                 variant="ghost"
                 className={`neo-nav-item flex flex-col items-center py-3 px-2 rounded-none h-auto ${
                   active 
-                    ? 'text-[hsl(207,90%,54%)] border-t-2 border-[hsl(207,90%,54%)]' 
+                    ? 'active text-[hsl(207,90%,54%)]' 
                     : 'text-slate-500 hover:text-slate-700'
                 }`}
               >
