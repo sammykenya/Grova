@@ -146,11 +146,11 @@
 
   /* Main card - raised appearance */
   .neo-card {
-    background: #f0f4f8;
+    background: #e2e8f0;
     border-radius: 20px;
     box-shadow: 
-      20px 20px 40px rgba(0, 0, 0, 0.1),
-      -20px -20px 40px rgba(255, 255, 255, 0.8);
+      20px 20px 40px rgba(0, 0, 0, 0.3),
+      -20px -20px 40px rgba(255, 255, 255, 0.7);
     border: none;
     padding: 1.5rem;
     transition: all 0.3s ease;
@@ -158,8 +158,8 @@
 
   .neo-card:hover {
     box-shadow: 
-      25px 25px 50px rgba(0, 0, 0, 0.12),
-      -25px -25px 50px rgba(255, 255, 255, 0.9);
+      25px 25px 50px rgba(0, 0, 0, 0.35),
+      -25px -25px 50px rgba(255, 255, 255, 0.8);
     transform: translateY(-2px);
   }
 
@@ -430,10 +430,10 @@
 
   /* Modal/Dialog styling */
   .neo-modal {
-    background: #f0f4f8;
+    background: linear-gradient(145deg, #f1f5f9, #e2e8f0);
     border-radius: 24px;
     box-shadow: 
-      20px 20px 60px rgba(0, 0, 0, 0.1),
+      20px 20px 60px rgba(0, 0, 0, 0.3),
       -20px -20px 60px rgba(255, 255, 255, 0.8);
     border: none;
   }
@@ -586,13 +586,13 @@
 
   /* Enhanced card hover effects */
   .neo-card-interactive {
-    background: linear-gradient(145deg, rgba(248, 250, 252, 0.85), rgba(241, 245, 249, 0.8));
+    background: linear-gradient(145deg, rgba(226, 232, 240, 0.9), rgba(203, 213, 225, 0.85));
     border-radius: 20px;
     box-shadow: 
-      12px 12px 24px rgba(163, 177, 198, 0.3),
-      -12px -12px 24px rgba(255, 255, 255, 0.7),
-      inset 1px 1px 2px rgba(255, 255, 255, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.6);
+      12px 12px 24px rgba(163, 177, 198, 0.4),
+      -12px -12px 24px rgba(255, 255, 255, 0.6),
+      inset 1px 1px 2px rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     position: relative;
     z-index: 1;
@@ -603,9 +603,9 @@
   .neo-card-interactive:hover {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 
-      20px 20px 40px rgba(163, 177, 198, 0.4),
-      -20px -20px 40px rgba(255, 255, 255, 0.8),
-      0 10px 30px rgba(29, 78, 216, 0.08);
+      20px 20px 40px rgba(163, 177, 198, 0.5),
+      -20px -20px 40px rgba(255, 255, 255, 0.7),
+      0 10px 30px rgba(29, 78, 216, 0.1);
   }
 
   /* Ripple effect for buttons */
@@ -662,6 +662,7 @@
   }
 
   /* Notification slide-in animation */
+```text
   .notification-slide-in {
     animation: slideInFromRight 0.5s ease-out;
   }
@@ -794,13 +795,13 @@
 
   /* Advanced transaction cards */
   .neo-transaction-card {
-    background: linear-gradient(145deg, rgba(248, 250, 252, 0.9), rgba(241, 245, 249, 0.85));
+    background: linear-gradient(145deg, #f8fafc, #e2e8f0);
     border-radius: 16px;
-    border: 1px solid rgba(29, 78, 216, 0.15);
+    border: 1px solid rgba(29, 78, 216, 0.25);
     box-shadow: 
-      0 4px 15px rgba(0, 0, 0, 0.08),
-      0 1px 3px rgba(0, 0, 0, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      0 4px 15px rgba(0, 0, 0, 0.2),
+      0 1px 3px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
@@ -823,23 +824,23 @@
   }
 
   .neo-transaction-card:hover {
-    background: linear-gradient(145deg, rgba(241, 245, 249, 0.95), rgba(248, 250, 252, 0.9));
-    border-color: rgba(29, 78, 216, 0.25);
+    background: linear-gradient(145deg, #e2e8f0, #f8fafc);
+    border-color: rgba(29, 78, 216, 0.35);
     transform: translateY(-2px);
     box-shadow: 
-      0 8px 25px rgba(0, 0, 0, 0.12),
-      0 2px 8px rgba(0, 0, 0, 0.18),
-      inset 0 1px 0 rgba(255, 255, 255, 0.7);
+      0 8px 25px rgba(0, 0, 0, 0.25),
+      0 2px 8px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
   }
 
   /* Floating elements */
   .neo-floating {
-    background: linear-gradient(145deg, rgba(248, 250, 252, 0.85), rgba(240, 244, 248, 0.8));
+    background: linear-gradient(145deg, #f1f5f9, #e2e8f0);
     border-radius: 24px;
     box-shadow: 
-      0 20px 40px rgba(0, 0, 0, 0.15),
-      0 8px 16px rgba(0, 0, 0, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      0 20px 40px rgba(0, 0, 0, 0.3),
+      0 8px 16px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
     border: 1px solid rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(20px);
   }
@@ -879,7 +880,7 @@
 
   .grova-card:hover {
     box-shadow: 
-      25px 25px 50px rgba(0, 0, 0, 0.18),
+      25px 25px 50px rgba(0, 0, 0, 0.35),
       -25px -25px 50px rgba(255, 255, 255, 0.8);
     transform: translateY(-2px);
   }
@@ -1238,13 +1239,13 @@
 
 /* Enhanced card interactions */
 .neo-card-interactive {
-    background: linear-gradient(145deg, rgba(248, 250, 252, 0.85), rgba(241, 245, 249, 0.8));
+    background: linear-gradient(145deg, rgba(226, 232, 240, 0.9), rgba(203, 213, 225, 0.85));
     border-radius: 20px;
     box-shadow: 
-      12px 12px 24px rgba(163, 177, 198, 0.3),
-      -12px -12px 24px rgba(255, 255, 255, 0.7),
-      inset 1px 1px 2px rgba(255, 255, 255, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.6);
+      12px 12px 24px rgba(163, 177, 198, 0.4),
+      -12px -12px 24px rgba(255, 255, 255, 0.6),
+      inset 1px 1px 2px rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     position: relative;
     z-index: 1;
@@ -1255,9 +1256,9 @@
 .neo-card-interactive:hover {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 
-      20px 20px 40px rgba(163, 177, 198, 0.4),
-      -20px -20px 40px rgba(255, 255, 255, 0.8),
-      0 10px 30px rgba(29, 78, 216, 0.08);
+      20px 20px 40px rgba(163, 177, 198, 0.5),
+      -20px -20px 40px rgba(255, 255, 255, 0.7),
+      0 10px 30px rgba(29, 78, 216, 0.1);
   }
 
 /* Premium glass effects */
@@ -1305,7 +1306,7 @@
 
 /* Sophisticated modal styling */
 .neo-modal {
-  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  background: linear-gradient(145deg, #f1f5f9, #e2e8f0);
   border-radius: 24px;
   box-shadow: 
     0 25px 50px rgba(0, 0, 0, 0.15),
