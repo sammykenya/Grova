@@ -132,7 +132,7 @@ export default function Investments() {
   const allocationData = [
     { name: "Stocks", value: 45, amount: 128439 },
     { name: "Bonds", value: 25, amount: 71355 },
-    { name: "Crypto", value: 20, value: 57084 },
+    { name: "Crypto", value: 20, amount: 57084 },
     { name: "Real Estate", value: 10, amount: 28542 }
   ];
 
