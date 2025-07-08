@@ -64,12 +64,12 @@ export default function BottomNavigation({ currentPage }: BottomNavigationProps)
         {navItems.map((item) => {
           const Icon = item.icon;
           const active = isActive(item.path, item.key);
-          
+
           return (
             <Link key={item.key} href={item.path}>
               <Button
                 variant="ghost"
-                className={`nav-item flex flex-col items-center py-3 px-2 rounded-none h-auto ${
+                className={`neo-nav-item flex flex-col items-center py-3 px-2 rounded-none h-auto ${
                   active 
                     ? 'text-[hsl(207,90%,54%)] border-t-2 border-[hsl(207,90%,54%)]' 
                     : 'text-slate-500 hover:text-slate-700'

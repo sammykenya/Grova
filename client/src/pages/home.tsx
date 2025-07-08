@@ -48,7 +48,7 @@ export default function Home() {
         title: "Voice Assistant",
         description: "Listening... Say 'send money', 'check balance', or 'help'",
       });
-      
+
       // Simulate voice recognition
       setTimeout(() => {
         setVoiceAssistantActive(false);
@@ -140,6 +140,29 @@ export default function Home() {
 
   const currentWalletData = getCurrentWalletData();
 
+  const formatCurrency = (amount: number, currency: string) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: currency,
+    }).format(amount);
+  };
+
+  const navigate = (url: string) => {
+    window.location.href = url;
+  };
+
+  const setConvertMoneyOpen = (isOpen: boolean) => {
+    console.log('setConvertMoneyOpen', isOpen);
+  };
+  const setRequestMoneyOpen = (isOpen: boolean) => {
+    console.log("setRequestMoneyOpen", isOpen);
+  };
+  const setBluetoothTransferOpen = (isOpen: boolean) => {
+    console.log("setBluetoothTransferOpen", isOpen)
+  }
+
+  const transactions = [{ id: 1, description: "Sample Transaction", amount: 10 }]
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Zone - Bold Blue Background */}
@@ -158,38 +181,25 @@ export default function Home() {
         </div>
 
         {/* Header - Clean Navigation */}
-        <header className="px-6 py-4">
+        <div className="neo-header">
+          {/* Header */}
           <div className="flex items-center justify-between">
-            <Button
-              variant="ghost"
+            <button 
               onClick={() => setSidebarOpen(true)}
-              className="text-white p-0 hover:bg-white/10"
+              className="neo-icon-button !bg-white/20 text-white hover:!bg-white/30"
             >
               <Menu className="w-6 h-6" />
-            </Button>
+            </button>
 
             <div className="flex items-center space-x-3">
               <span className="text-white text-2xl font-black" style={{ fontFamily: 'Lufga, sans-serif', fontWeight: 900 }}>Grova</span>
               <span className="grova-body text-white/80 text-xs">by BoldStreet Partners</span>
             </div>
 
-            <div className="flex items-center space-x-4">
-              <Button
-                variant="ghost"
-                onClick={() => setIsVoiceEnabled(!isVoiceEnabled)}
-                className={`p-0 hover:bg-white/10 ${isVoiceEnabled ? 'text-grova-orange' : 'text-white/70'}`}
-              >
-                <Mic className="w-5 h-5" />
-              </Button>
-              <Button variant="ghost" className="text-white relative p-0 hover:bg-white/10">
-                <Bell className="w-5 h-5" />
-                <span className="absolute -top-1 -right-1 bg-grova-orange text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  2
-                </span>
-              </Button>
-            </div>
-          </div>
-        </header>
+            <button className="neo-icon-button !bg-white/20 text-white hover:!bg-white/30">
+              <Bell className="w-6 h-6" />
+            </button>
+          </div></div>
 
         {/* Balance Zone - Generous Whitespace */}
         <div className="px-6 py-8">
@@ -291,35 +301,32 @@ export default function Home() {
         )}
 
         {/* Recent Activity - Clean White Block */}
-        <div className="bg-white p-6 rounded-2xl border-2 border-gray-100">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="grova-headline text-gray-900">Recent Activity</h3>
-            <Button variant="ghost" className="text-grova-blue grova-body p-0 hover:bg-grova-blue/10">
-              View All
-            </Button>
-          </div>
+        <div className="neo-card p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="grova-section-title text-sm font-bold text-gray-900">Recent Transactions</h3>
+              <button className="text-[hsl(207,90%,54%)] hover:text-[hsl(207,90%,48%)] text-sm font-medium">
+                View All
+              </button>
+            </div>
 
-          <div className="space-y-4">
-            {transactions.length > 0 ? (
-              transactions.slice(0, 3).map((transaction: any) => (
-                <TransactionCard 
-                  key={transaction.id} 
-                  transaction={transaction}
-                />
-              ))
+            {transactions.length === 0 ? (
+              <div className="text-center py-8">
+                <div className="neo-icon-button w-16 h-16 mx-auto mb-4 !bg-gray-100">
+                  <Receipt className="w-8 h-8 text-gray-400" />
+                </div>
+                <p className="grova-body text-gray-500">No transactions yet</p>
+                <p className="grova-body text-gray-400 text-xs mt-1">Your recent transactions will appear here</p>
+              </div>
             ) : (
-              <div className="py-8 text-center">
-                <p className="grova-body text-gray-600 mb-4">Ready to start your financial journey?</p>
-                <Link href="/send">
-                  <div className="bg-grova-orange hover:bg-orange-600 text-white px-6 py-3 rounded-2xl inline-flex items-center transition-all">
-                    <Send className="w-5 h-5 mr-2" />
-                    <span className="grova-body">Send Your First Payment</span>
+              <div className="space-y-3">
+                {transactions.slice(0, 3).map((transaction) => (
+                  <div key={transaction.id} className="neo-transaction-card">
+                    <TransactionCard transaction={transaction} />
                   </div>
-                </Link>
+                ))}
               </div>
             )}
           </div>
-        </div>
 
         {/* Community Treasury Preview */}
         {communityGroups.length > 0 && (
