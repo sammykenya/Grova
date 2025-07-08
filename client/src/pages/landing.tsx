@@ -61,7 +61,10 @@ export default function Landing() {
         {/* Welcome Content */}
         <div className="px-6 py-8 pb-12">
           <div className="text-center mb-12">
-            <Globe className="w-20 h-20 mx-auto mb-6 text-white" />
+            <div className="mb-8">
+              <span className="text-white text-6xl font-black block mb-2" style={{ fontFamily: 'Lufga, sans-serif', fontWeight: 900 }}>Grova</span>
+              <span className="grova-body text-white/80 text-lg">by BoldStreet Partners</span>
+            </div>
             <p className="text-xl text-white leading-relaxed">
               Finance without Borders.<br />
               Access without Limits.

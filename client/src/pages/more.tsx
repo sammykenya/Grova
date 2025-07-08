@@ -44,7 +44,8 @@ import {
   LogOut,
   Mic,
   Receipt,
-  Banknote
+  Banknote,
+  Landmark
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -63,6 +64,7 @@ export default function More() {
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
   const [biometricEnabled, setBiometricEnabled] = useState(false);
   const [supportMessage, setSupportMessage] = useState("");
+  const [profileModalOpen, setProfileModalOpen] = useState(false);
   const { toast } = useToast();
 
   const handleCopyReferralCode = () => {
@@ -425,14 +427,14 @@ export default function More() {
 
         {/* Featured Services */}
         <div className="mb-8">
-          <h2 className="grova-headline text-black text-sm mb-6 flex items-center gap-2">
-            <Zap className="w-4 h-4 text-grova-orange" />
+          <h2 className="grova-headline text-black text-sm mb-6 flex items-center gap-2 fade-in">
+            <Zap className="w-4 h-4 text-grova-orange icon-bounce" />
             Featured Services
           </h2>
           <div className="grid md:grid-cols-2 gap-4">
             {mainFeatures.map((feature, index) => (
               <Link key={index} href={feature.path}>
-                <Card className="group hover:shadow-xl transition-all duration-300 cursor-pointer border-0 overflow-hidden bg-white rounded-2xl h-full">
+                <Card className="group hover:shadow-xl transition-all duration-300 cursor-pointer border-0 overflow-hidden bg-white rounded-2xl h-full stagger-animation enhanced-button floating-card">
                   <CardHeader className="p-6 h-full flex flex-col">
                     <div className="flex items-center justify-between flex-1">
                       <div className="flex items-center gap-4 flex-1">

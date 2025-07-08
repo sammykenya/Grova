@@ -60,7 +60,7 @@ export default function Home() {
           "Your savings goal is 75% complete! Want to add more to reach your target faster?"
         ];
         const randomCommand = commands[Math.floor(Math.random() * commands.length)];
-        
+
         toast({
           title: "🤖 AI Assistant",
           description: randomCommand,
@@ -171,13 +171,13 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen neo-base">
+    <div className="min-h-screen neo-base page-transition">
       {/* Hero Zone - Bold Blue Background */}
       <div className="bg-grova-blue text-white">
         {/* Status Bar */}
-        <div className="text-white text-xs px-6 py-2 flex justify-between items-center opacity-90">
+        <div className="text-white text-xs px-6 py-2 flex justify-between items-center opacity-90 fade-in">
           <span className="flex items-center gap-1">
-            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+            <div className="w-2 h-2 bg-green-400 rounded-full icon-bounce"></div>
             <span>Online</span>
           </span>
           <span>9:41 AM</span>
@@ -331,7 +331,7 @@ export default function Home() {
             </div>
 
             {transactions.length === 0 ? (
-              <div className="text-center py-8">
+              <div className="text-center py-8 fade-in">
                 <div className="neo-icon-button w-16 h-16 mx-auto mb-4 !bg-gray-100">
                   <Receipt className="w-8 h-8 text-gray-400" />
                 </div>
@@ -341,7 +341,7 @@ export default function Home() {
             ) : (
               <div className="space-y-3">
                 {transactions.slice(0, 3).map((transaction) => (
-                  <div key={transaction.id} className="neo-transaction-card">
+                  <div key={transaction.id} className="neo-transaction-card stagger-animation enhanced-button">
                     <TransactionCard transaction={transaction} />
                   </div>
                 ))}
@@ -412,7 +412,7 @@ export default function Home() {
       {/* Convert Money Modal */}
       <ConvertMoneyModal
         isOpen={convertModalOpen}
-        onClose={() => setConvertModalOpen(false)}
+        onClose={() => setConvertMoneyOpen(false)}
         userWallets={wallets}
       />
     </div>
