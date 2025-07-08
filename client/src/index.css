@@ -1,185 +1,96 @@
-@import url('https://fonts.googleapis.com/css2?family=Lufga:wght@400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lufga:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* Base colors - Bold & Flat */
-  --background: hsl(0, 0%, 100%);
-  --foreground: hsl(210, 100%, 8%); /* Dark navy for text */
-  --muted: hsl(210, 40%, 95%);
-  --muted-foreground: hsl(210, 10%, 45%);
-  --popover: hsl(0, 0%, 100%);
-  --popover-foreground: hsl(210, 100%, 8%);
-  --card: hsl(0, 0%, 100%);
-  --card-foreground: hsl(210, 100%, 8%);
-  --border: hsl(214, 15%, 91%);
-  --input: hsl(214, 15%, 91%);
-  
-  /* Grova Brand Colors - Bold & Geometric */
-  --primary: hsl(207, 90%, 54%); /* Signature Blue */
-  --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(25, 95%, 53%); /* Bold Orange Accent */
-  --secondary-foreground: hsl(0, 0%, 100%);
-  --accent: hsl(210, 40%, 95%);
-  --accent-foreground: hsl(210, 100%, 8%);
-  --destructive: hsl(0, 84%, 60%);
-  --destructive-foreground: hsl(0, 0%, 100%);
-  --ring: hsl(207, 90%, 54%);
-  --radius: 1rem; /* 16px radius for cards */
+@layer base {
+  :root {
+    /* Core Grova Color System - Blue, Orange, Black, White Only */
+    --grova-blue: #1D4ED8;      /* Primary Blue */
+    --grova-orange: #EA580C;    /* Accent Orange */
+    --grova-navy: #1E293B;      /* Dark Navy for text */
+    --grova-white: #FFFFFF;     /* Pure White */
+    --grova-gray-50: #F8FAFC;   /* Lightest gray for backgrounds */
+    --grova-gray-100: #F1F5F9;  /* Light gray for subtle backgrounds */
+    --grova-gray-200: #E2E8F0;  /* Border gray */
+    --grova-gray-500: #64748B;  /* Medium gray for secondary text */
+    --grova-gray-900: #0F172A;  /* Almost black for primary text */
 
-  /* Grova Brand System */
-  --grova-blue: hsl(207, 90%, 54%); /* Primary signature blue */
-  --grova-orange: hsl(25, 95%, 53%); /* Bright orange accent */
-  --grova-navy: hsl(210, 100%, 8%); /* Dark navy text */
-  --grova-white: hsl(0, 0%, 100%); /* Pure white */
-  --grova-gray: hsl(210, 10%, 45%); /* Muted gray for inactive states */
-  
-  /* Wallet Types */
-  --fiat-green: hsl(155, 89%, 38%);
-  --crypto-amber: hsl(42, 96%, 48%);
-  --credits-purple: hsl(263, 79%, 65%);
-}
+    /* Base Theme Variables */
+    --background: var(--grova-white);
+    --foreground: var(--grova-navy);
+    --card: var(--grova-white);
+    --card-foreground: var(--grova-navy);
+    --popover: var(--grova-white);
+    --popover-foreground: var(--grova-navy);
+    --primary: var(--grova-blue);
+    --primary-foreground: var(--grova-white);
+    --secondary: var(--grova-gray-100);
+    --secondary-foreground: var(--grova-navy);
+    --muted: var(--grova-gray-100);
+    --muted-foreground: var(--grova-gray-500);
+    --accent: var(--grova-orange);
+    --accent-foreground: var(--grova-white);
+    --destructive: #DC2626;
+    --destructive-foreground: var(--grova-white);
+    --border: var(--grova-gray-200);
+    --input: var(--grova-gray-200);
+    --ring: var(--grova-blue);
+    --radius: 0.75rem;
+  }
 
-.dark {
-  --background: hsl(240, 10%, 3.9%);
-  --foreground: hsl(0, 0%, 98%);
-  --muted: hsl(240, 3.7%, 15.9%);
-  --muted-foreground: hsl(240, 5%, 64.9%);
-  --popover: hsl(240, 10%, 3.9%);
-  --popover-foreground: hsl(0, 0%, 98%);
-  --card: hsl(240, 10%, 3.9%);
-  --card-foreground: hsl(0, 0%, 98%);
-  --border: hsl(240, 3.7%, 15.9%);
-  --input: hsl(240, 3.7%, 15.9%);
-  --primary: hsl(207, 90%, 54%);
-  --primary-foreground: hsl(211, 100%, 99%);
-  --secondary: hsl(240, 3.7%, 15.9%);
-  --secondary-foreground: hsl(0, 0%, 98%);
-  --accent: hsl(240, 3.7%, 15.9%);
-  --accent-foreground: hsl(0, 0%, 98%);
-  --destructive: hsl(0, 62.8%, 30.6%);
-  --destructive-foreground: hsl(0, 0%, 98%);
-  --ring: hsl(240, 4.9%, 83.9%);
-  --radius: 0.5rem;
+  .dark {
+    --background: var(--grova-gray-900);
+    --foreground: var(--grova-white);
+    --card: var(--grova-gray-900);
+    --card-foreground: var(--grova-white);
+    --popover: var(--grova-gray-900);
+    --popover-foreground: var(--grova-white);
+    --primary: var(--grova-blue);
+    --primary-foreground: var(--grova-white);
+    --secondary: var(--grova-gray-100);
+    --secondary-foreground: var(--grova-navy);
+    --muted: var(--grova-gray-100);
+    --muted-foreground: var(--grova-gray-500);
+    --accent: var(--grova-orange);
+    --accent-foreground: var(--grova-white);
+    --destructive: #DC2626;
+    --destructive-foreground: var(--grova-white);
+    --border: var(--grova-gray-200);
+    --input: var(--grova-gray-200);
+    --ring: var(--grova-blue);
+  }
 }
 
 @layer base {
   * {
     @apply border-border;
   }
-
   body {
-    @apply font-sans antialiased bg-background text-foreground;
-    font-family: 'Lato', system-ui, Avenir, Helvetica, Arial, sans-serif;
+    @apply bg-background text-foreground;
+    font-family: 'Lato', sans-serif;
   }
 }
 
 @layer utilities {
-  .unifi-blue {
-    color: var(--unifi-blue);
-  }
+  /* Typography System - Lato Font Family with Proper Hierarchy */
 
-  .bg-unifi-blue {
-    background-color: var(--unifi-blue);
-  }
-
-  .border-unifi-blue {
-    border-color: var(--unifi-blue);
-  }
-
-  .text-fiat-green {
-    color: var(--fiat-green);
-  }
-
-  .bg-fiat-green {
-    background-color: var(--fiat-green);
-  }
-
-  .border-fiat-green {
-    border-color: var(--fiat-green);
-  }
-
-  .text-crypto-amber {
-    color: var(--crypto-amber);
-  }
-
-  .bg-crypto-amber {
-    background-color: var(--crypto-amber);
-  }
-
-  .border-crypto-amber {
-    border-color: var(--crypto-amber);
-  }
-
-  .text-credits-purple {
-    color: var(--credits-purple);
-  }
-
-  .bg-credits-purple {
-    background-color: var(--credits-purple);
-  }
-
-  .border-credits-purple {
-    border-color: var(--credits-purple);
-  }
-
-  /* Grova Brand Classes */
-  .text-grova-blue {
-    color: var(--grova-blue);
-  }
-
-  .bg-grova-blue {
-    background-color: var(--grova-blue);
-  }
-
-  .text-grova-orange {
-    color: var(--grova-orange);
-  }
-
-  .bg-grova-orange {
-    background-color: var(--grova-orange);
-  }
-
-  .text-grova-navy {
-    color: var(--grova-navy);
-  }
-
-  .text-grova-gray {
-    color: var(--grova-gray);
-  }
-
-  /* Lato Typography System */
-  body {
-    font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-    font-weight: 400;
-    line-height: 1.25;
-  }
-
-  /* Headlines - Lato Bold, reduced by 35% */
+  /* Headlines - Lato Bold, larger for impact */
   .grova-headline {
     font-family: 'Lato', sans-serif;
     font-weight: 700;
-    font-size: 1.14rem; /* 18.2px - 35% reduction from 28px */
+    font-size: 1.5rem; /* 24px */
     line-height: 1.2;
     color: var(--grova-navy);
   }
 
-  /* Subheads - Lato Regular, reduced by 35% */
-  .grova-subhead {
-    font-family: 'Lato', sans-serif;
-    font-weight: 400;
-    font-size: 0.73rem; /* 11.7px - 35% reduction from 18px */
-    line-height: 1.3;
-    color: var(--grova-navy);
-  }
-
-  /* Body - Lato Regular, 14px */
+  /* Body Text - Lato Regular, optimized for readability */
   .grova-body {
     font-family: 'Lato', sans-serif;
     font-weight: 400;
-    font-size: 0.875rem; /* 14px */
-    line-height: 1.43; /* 20px */
+    font-size: 1rem; /* 16px */
+    line-height: 1.5;
     color: var(--grova-navy);
   }
 
@@ -233,75 +144,14 @@
     transition: all 0.2s ease;
   }
 
-  /* Equal length buttons for Featured Services and Quick Actions */
-  .grova-button-equal {
-    background-color: var(--grova-blue);
-    color: var(--grova-white);
-    border: none;
-    border-radius: 0.75rem;
-    padding: 0.75rem 1rem;
-    font-family: 'Lato', sans-serif;
-    font-weight: 600;
-    font-size: 0.875rem;
-    width: 200px; /* Fixed equal width */
-    height: 48px; /* Fixed equal height */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    transition: all 0.2s ease;
-  }
-
-  .grova-button-equal:hover {
-    background-color: hsl(207, 90%, 48%);
-    transform: translateY(-1px);
-  }
-
-  /* Compact switch button */
-  .grova-button-compact {
-    background-color: var(--grova-white);
-    color: var(--grova-blue);
-    border: 2px solid var(--grova-blue);
-    border-radius: 0.75rem;
-    padding: 0.5rem 1rem; /* Reduced padding */
-    font-family: 'Lato', sans-serif;
-    font-weight: 700;
-    font-size: 0.875rem;
-    width: auto; /* Auto width instead of 100% */
-    min-width: 80px; /* Minimum width */
-    transition: all 0.2s ease;
-  }
-
-  .grova-button-compact:hover {
-    background-color: var(--grova-blue);
-    color: var(--grova-white);
-  }
-
   .grova-button-primary:hover {
-    background-color: hsl(207, 90%, 48%);
+    background-color: #1E40AF; /* Darker blue on hover */
     transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(29, 78, 216, 0.4);
   }
 
+  /* Secondary Button - Orange accent */
   .grova-button-secondary {
-    background-color: var(--grova-white);
-    color: var(--grova-blue);
-    border: 2px solid var(--grova-blue);
-    border-radius: 0.75rem;
-    padding: 0.75rem 1.5rem;
-    font-family: 'Lato', sans-serif;
-    font-weight: 700;
-    font-size: 1rem;
-    width: 100%;
-    transition: all 0.2s ease;
-  }
-
-  .grova-button-secondary:hover {
-    background-color: var(--grova-blue);
-    color: var(--grova-white);
-  }
-
-  /* Orange accent button for CTAs */
-  .grova-button-cta {
     background-color: var(--grova-orange);
     color: var(--grova-white);
     border: none;
@@ -313,406 +163,288 @@
     transition: all 0.2s ease;
   }
 
-  .grova-button-cta:hover {
-    background-color: hsl(25, 95%, 48%);
+  .grova-button-secondary:hover {
+    background-color: #C2410C; /* Darker orange on hover */
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(234, 88, 12, 0.4);
+  }
+
+  /* Compact Button for smaller spaces */
+  .grova-button-compact {
+    background-color: var(--grova-blue);
+    color: var(--grova-white);
+    border: 1px solid transparent;
+    border-radius: 0.5rem; /* 8px */
+    padding: 0.5rem 1rem; /* 8px top/bottom, 16px left/right */
+    font-family: 'Lato', sans-serif;
+    font-weight: 600;
+    font-size: 0.875rem; /* 14px */
+    transition: all 0.2s ease;
+  }
+
+  .grova-button-compact:hover {
+    background-color: #1E40AF;
     transform: translateY(-1px);
   }
 
-  /* Spacing System - Generous whitespace */
-  .grova-section-spacing {
-    margin-bottom: 1.5rem; /* 24px between major sections */
+  /* Enhanced Chart Styling */
+  .chart-container {
+    border-radius: 1rem;
+    padding: 1.5rem;
+    background: var(--grova-white);
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   }
 
-  .grova-card-spacing {
-    padding: 1rem; /* 16px inside cards */
+  .chart-tooltip {
+    background: var(--grova-white) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 0.75rem !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
+    padding: 1rem !important;
+    font-family: 'Lato', sans-serif !important;
   }
 
-  /* Bottom Navigation - Clean geometric icons */
-  .grova-nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0.75rem;
-    color: var(--grova-gray);
-    transition: color 0.2s ease;
+  .chart-legend {
+    font-family: 'Lato', sans-serif !important;
+    font-size: 0.875rem !important;
+    color: var(--grova-gray-500) !important;
   }
 
-  .grova-nav-item.active {
-    color: var(--grova-blue);
+  /* Recharts Custom Styling */
+  .recharts-cartesian-grid-horizontal line,
+  .recharts-cartesian-grid-vertical line {
+    stroke: var(--grova-gray-200) !important;
+    stroke-width: 1 !important;
   }
 
-  .grova-nav-item:hover {
-    color: var(--grova-blue);
+  .recharts-cartesian-axis-tick text {
+    fill: var(--grova-gray-500) !important;
+    font-family: 'Lato', sans-serif !important;
+    font-size: 12px !important;
   }
 
-  .mobile-container {
-    max-width: 448px; /* 28rem */
-    margin: 0 auto;
-    min-height: 100vh;
-    position: relative;
+  .recharts-tooltip-wrapper {
+    outline: none !important;
   }
 
-  .wallet-tab-active {
-    border-bottom: 2px solid;
+  .recharts-surface {
+    outline: none !important;
   }
 
-  .nav-item-active {
-    border-top: 2px solid var(--unifi-blue);
+  /* Progress Bar Enhancements */
+  .progress-bar-enhanced {
+    height: 0.75rem;
+    border-radius: 0.375rem;
+    background-color: var(--grova-gray-100);
+    overflow: hidden;
   }
-}
 
-/* Loading animations */
-.animate-pulse-slow {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-/* Voice recording animation */
-.voice-recording {
-  animation: voice-pulse 1.5s ease-in-out infinite;
-}
-
-@keyframes voice-pulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.8;
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--grova-blue), var(--grova-orange));
+    border-radius: 0.375rem;
+    transition: width 0.5s ease;
   }
-  50% {
-    transform: scale(1.1);
-    opacity: 1;
-  }
-}
 
-/* Status bar styles */
-.status-bar {
-  background: linear-gradient(135deg, hsl(240, 10%, 3.9%) 0%, hsl(0, 0%, 0%) 100%);
-}
-
-/* Balance card gradient */
-.balance-gradient {
-  background: linear-gradient(135deg, var(--unifi-blue) 0%, var(--unifi-purple) 100%);
-}
-
-/* Community card gradient */
-.community-gradient {
-  background: linear-gradient(135deg, var(--unifi-purple) 0%, var(--unifi-blue) 100%);
-}
-
-/* AI coach gradient */
-.ai-coach-gradient {
-  background: linear-gradient(135deg, var(--unifi-purple) 0%, hsl(323, 83%, 57%) 100%);
-}
-
-/* Glassmorphism effect for cards */
-.glass-card {
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-/* Transaction status indicators */
-.status-completed {
-  color: var(--fiat-green);
-}
-
-.status-pending {
-  color: var(--crypto-amber);
-}
-
-.status-failed {
-  color: var(--destructive);
-}
-
-/* Offline indicator */
-.offline-mode {
-  background: linear-gradient(45deg, hsl(0, 84%, 60%) 0%, hsl(42, 96%, 48%) 100%);
-}
-
-/* Voice button states */
-.voice-inactive {
-  color: hsl(0, 0%, 64%);
-}
-
-.voice-active {
-  color: var(--grova-orange);
-  animation: voice-pulse 2s ease-in-out infinite;
-}
-
-/* Voice Assistant Accessibility */
-.voice-assistant-button {
-  position: fixed;
-  bottom: 100px;
-  right: 20px;
-  background-color: var(--grova-orange);
-  color: white;
-  border: none;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  transition: all 0.3s ease;
-}
-
-.voice-assistant-button:hover {
-  background-color: hsl(25, 95%, 48%);
-  transform: scale(1.1);
-}
-
-.voice-assistant-button.listening {
-  animation: voice-pulse 1.5s ease-in-out infinite;
-  background-color: var(--grova-blue);
-}
-
-/* Mesh network indicator */
-.mesh-active {
-  color: var(--unifi-emerald);
-}
-
-.mesh-inactive {
-  color: hsl(0, 0%, 64%);
-}
-
-/* Neomorphism Design System */
+  /* Enhanced Neo-morphism Components */
   .neo-card {
-    background: linear-gradient(145deg, #ffffff, #f0f0f0);
-    border-radius: 20px;
+    background: var(--grova-white);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    border: 1px solid var(--grova-gray-200);
     box-shadow: 
-      20px 20px 40px #d1d1d1,
-      -20px -20px 40px #ffffff;
-    border: none;
-    transition: all 0.3s ease;
+      0 1px 3px rgba(0, 0, 0, 0.1),
+      0 1px 2px rgba(0, 0, 0, 0.06);
+    transition: all 0.2s ease;
   }
 
   .neo-card:hover {
-    box-shadow: 
-      25px 25px 50px #d1d1d1,
-      -25px -25px 50px #ffffff;
     transform: translateY(-2px);
-  }
-
-  .neo-card-dark {
-    background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
-    border-radius: 20px;
     box-shadow: 
-      20px 20px 40px #0d0d0d,
-      -20px -20px 40px #474747;
-    border: none;
-  }
-
-  .neo-button {
-    background: linear-gradient(145deg, var(--grova-blue), hsl(207, 90%, 48%));
-    border-radius: 15px;
-    box-shadow: 
-      8px 8px 16px hsl(207, 90%, 40%),
-      -8px -8px 16px hsl(207, 90%, 60%);
-    border: none;
-    color: white;
-    font-weight: 600;
-    transition: all 0.3s ease;
-  }
-
-  .neo-button:hover {
-    box-shadow: 
-      4px 4px 8px hsl(207, 90%, 40%),
-      -4px -4px 8px hsl(207, 90%, 60%);
-    transform: translateY(2px);
-  }
-
-  .neo-button:active {
-    box-shadow: inset 4px 4px 8px hsl(207, 90%, 40%);
-  }
-
-  .neo-button-orange {
-    background: linear-gradient(145deg, var(--grova-orange), hsl(25, 95%, 48%));
-    box-shadow: 
-      8px 8px 16px hsl(25, 95%, 40%),
-      -8px -8px 16px hsl(25, 95%, 60%);
-  }
-
-  .neo-button-orange:hover {
-    box-shadow: 
-      4px 4px 8px hsl(25, 95%, 40%),
-      -4px -4px 8px hsl(25, 95%, 60%);
-  }
-
-  .neo-input {
-    background: linear-gradient(145deg, #f8f8f8, #e8e8e8);
-    border-radius: 12px;
-    box-shadow: 
-      inset 6px 6px 12px #d1d1d1,
-      inset -6px -6px 12px #ffffff;
-    border: none;
-    padding: 12px 16px;
-    color: var(--grova-navy);
-    font-family: 'Lufga', sans-serif;
-  }
-
-  .neo-input:focus {
-    outline: none;
-    box-shadow: 
-      inset 8px 8px 16px #d1d1d1,
-      inset -8px -8px 16px #ffffff,
-      0 0 0 2px var(--grova-blue);
-  }
-
-  .neo-wallet-card {
-    background: linear-gradient(145deg, #ffffff, #f5f5f5);
-    border-radius: 24px;
-    box-shadow: 
-      15px 15px 30px #e0e0e0,
-      -15px -15px 30px #ffffff;
-    padding: 24px;
-    border: none;
-    transition: all 0.3s ease;
-  }
-
-  .neo-wallet-card:hover {
-    box-shadow: 
-      20px 20px 40px #e0e0e0,
-      -20px -20px 40px #ffffff;
-    transform: translateY(-3px);
-  }
-
-  .neo-balance-display {
-    background: linear-gradient(135deg, var(--grova-blue), hsl(207, 90%, 60%));
-    border-radius: 20px;
-    box-shadow: 
-      12px 12px 24px hsl(207, 90%, 35%),
-      -12px -12px 24px hsl(207, 90%, 65%);
-    color: white;
-    padding: 20px;
-    margin: 16px 0;
-  }
-
-  .neo-feature-card {
-    background: linear-gradient(145deg, #ffffff, #f8f8f8);
-    border-radius: 18px;
-    box-shadow: 
-      10px 10px 20px #e5e5e5,
-      -10px -10px 20px #ffffff;
-    padding: 20px;
-    border: none;
-    transition: all 0.3s ease;
-    cursor: pointer;
-  }
-
-  .neo-feature-card:hover {
-    box-shadow: 
-      6px 6px 12px #e5e5e5,
-      -6px -6px 12px #ffffff;
-    transform: translateY(2px);
-  }
-
-  .neo-icon-button {
-    background: linear-gradient(145deg, #ffffff, #f0f0f0);
-    border-radius: 50%;
-    box-shadow: 
-      6px 6px 12px #d5d5d5,
-      -6px -6px 12px #ffffff;
-    width: 48px;
-    height: 48px;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-  }
-
-  .neo-icon-button:hover {
-    box-shadow: 
-      3px 3px 6px #d5d5d5,
-      -3px -3px 6px #ffffff;
-    transform: translateY(1px);
-  }
-
-  .neo-icon-button:active {
-    box-shadow: inset 3px 3px 6px #d5d5d5;
-  }
-
-  .neo-nav-item {
-    background: linear-gradient(145deg, #ffffff, #f5f5f5);
-    border-radius: 16px;
-    box-shadow: 
-      8px 8px 16px #e0e0e0,
-      -8px -8px 16px #ffffff;
-    padding: 12px;
-    margin: 4px;
-    transition: all 0.3s ease;
-  }
-
-  .neo-nav-item.active {
-    background: linear-gradient(145deg, var(--grova-blue), hsl(207, 90%, 50%));
-    color: white;
-    box-shadow: 
-      inset 4px 4px 8px hsl(207, 90%, 40%),
-      inset -4px -4px 8px hsl(207, 90%, 60%);
-  }
-
-  .neo-transaction-card {
-    background: linear-gradient(145deg, #ffffff, #f9f9f9);
-    border-radius: 16px;
-    box-shadow: 
-      8px 8px 16px #eeeeee,
-      -8px -8px 16px #ffffff;
-    padding: 16px;
-    margin: 8px 0;
-    border: none;
+      0 4px 12px rgba(0, 0, 0, 0.1),
+      0 2px 4px rgba(0, 0, 0, 0.06);
   }
 
   .neo-header {
-    background: linear-gradient(145deg, var(--grova-blue), hsl(207, 90%, 50%));
-    border-radius: 0 0 24px 24px;
-    box-shadow: 
-      0 12px 24px hsl(207, 90%, 30%);
-    color: white;
-    padding: 20px;
+    padding: 1.5rem;
+    background: transparent;
   }
 
-  .neo-floating-button {
-    background: linear-gradient(145deg, var(--grova-orange), hsl(25, 95%, 50%));
-    border-radius: 50%;
-    box-shadow: 
-      10px 10px 20px hsl(25, 95%, 35%),
-      -10px -10px 20px hsl(25, 95%, 65%);
-    width: 64px;
-    height: 64px;
-    border: none;
-    color: white;
+  .neo-icon-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.75rem;
+    background: var(--grova-gray-100);
+    border: 1px solid var(--grova-gray-200);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    color: var(--grova-gray-500);
+  }
+
+  .neo-icon-button:hover {
+    background: var(--grova-gray-200);
+    transform: translateY(-1px);
+    color: var(--grova-blue);
+  }
+
+  .neo-transaction-card {
+    background: var(--grova-white);
+    border-radius: 0.75rem;
+    border: 1px solid var(--grova-gray-200);
+    transition: all 0.2s ease;
+  }
+
+  .neo-transaction-card:hover {
+    border-color: var(--grova-blue);
+    background: var(--grova-gray-50);
+  }
+
+  /* Voice Assistant Styling */
+  .voice-assistant-button {
     position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 1000;
+    bottom: 6rem;
+    right: 1.5rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--grova-blue), var(--grova-orange));
+    border: none;
+    color: var(--grova-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(29, 78, 216, 0.3);
+    cursor: pointer;
     transition: all 0.3s ease;
+    z-index: 1000;
   }
 
-  .neo-floating-button:hover {
-    box-shadow: 
-      6px 6px 12px hsl(25, 95%, 35%),
-      -6px -6px 12px hsl(25, 95%, 65%);
-    transform: translateY(-2px);
+  .voice-assistant-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(29, 78, 216, 0.4);
   }
 
-  .neo-floating-button:active {
-    box-shadow: inset 4px 4px 8px hsl(25, 95%, 35%);
+  .voice-assistant-button.listening {
+    animation: pulse 1.5s infinite;
+    background: linear-gradient(135deg, #DC2626, #EF4444);
   }
 
-  /* Custom scrollbar */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.15);
+    }
+  }
+
+  /* Gradient Backgrounds for Charts */
+  .chart-gradient-blue {
+    background: linear-gradient(135deg, #1D4ED8 0%, #3B82F6 100%);
+  }
+
+  .chart-gradient-orange {
+    background: linear-gradient(135deg, #EA580C 0%, #F97316 100%);
+  }
+
+  .chart-gradient-green {
+    background: linear-gradient(135deg, #059669 0%, #10B981 100%);
+  }
+
+  .chart-gradient-purple {
+    background: linear-gradient(135deg, #7C3AED 0%, #8B5CF6 100%);
+  }
+
+  /* Enhanced Animation Classes */
+  .fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  /* Chart Data Point Hover Effects */
+  .recharts-dot:hover {
+    filter: drop-shadow(0 0 6px rgba(29, 78, 216, 0.6));
+    transform: scale(1.2);
+  }
+
+  .recharts-bar:hover {
+    filter: brightness(1.1);
+  }
+
+  /* Custom Scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: var(--grova-gray-100);
+    border-radius: 4px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--grova-gray-500);
+    border-radius: 4px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--grova-blue);
+  }
 }
 
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: var(--muted);
-}
+/* Color Utility Classes for Charts */
+.text-chart-blue { color: #1D4ED8; }
+.text-chart-orange { color: #EA580C; }
+.text-chart-green { color: #059669; }
+.text-chart-purple { color: #7C3AED; }
+.text-chart-red { color: #DC2626; }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 3px;
-}
+.bg-chart-blue { background-color: #1D4ED8; }
+.bg-chart-orange { background-color: #EA580C; }
+.bg-chart-green { background-color: #059669; }
+.bg-chart-purple { background-color: #7C3AED; }
+.bg-chart-red { background-color: #DC2626; }
 
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: var(--muted-foreground);
+/* Chart container responsive utilities */
+@media (max-width: 768px) {
+  .chart-container {
+    padding: 1rem;
+  }
+
+  .neo-card {
+    padding: 1rem;
+  }
+
+  .grova-data {
+    font-size: 1.75rem;
+  }
+
+  .grova-headline {
+    font-size: 1.25rem;
+  }
 }
