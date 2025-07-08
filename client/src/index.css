@@ -137,7 +137,7 @@
   }
 
   /* NEOMORPHISM DESIGN SYSTEM */
-  
+
   /* Base neomorphism background */
   .neo-base {
     background: #f0f4f8;
@@ -586,16 +586,26 @@
 
   /* Enhanced card hover effects */
   .neo-card-interactive {
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: linear-gradient(145deg, rgba(248, 250, 252, 0.85), rgba(241, 245, 249, 0.8));
+    border-radius: 20px;
+    box-shadow: 
+      12px 12px 24px rgba(163, 177, 198, 0.3),
+      -12px -12px 24px rgba(255, 255, 255, 0.7),
+      inset 1px 1px 2px rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    z-index: 1;
+    backdrop-filter: blur(10px);
+    animation: fadeInUp 0.6s ease-out;
   }
 
   .neo-card-interactive:hover {
-    transform: translateY(-8px) rotateX(5deg);
+    transform: translateY(-8px) scale(1.02);
     box-shadow: 
-      25px 25px 50px rgba(0, 0, 0, 0.15),
-      -25px -25px 50px rgba(255, 255, 255, 1),
-      0 20px 40px rgba(29, 78, 216, 0.1);
+      20px 20px 40px rgba(163, 177, 198, 0.4),
+      -20px -20px 40px rgba(255, 255, 255, 0.8),
+      0 10px 30px rgba(29, 78, 216, 0.08);
   }
 
   /* Ripple effect for buttons */
@@ -784,16 +794,17 @@
 
   /* Advanced transaction cards */
   .neo-transaction-card {
-    background: linear-gradient(145deg, #ffffff, #f8fafc);
+    background: linear-gradient(145deg, rgba(248, 250, 252, 0.9), rgba(241, 245, 249, 0.85));
     border-radius: 16px;
-    border: 1px solid rgba(29, 78, 216, 0.08);
+    border: 1px solid rgba(29, 78, 216, 0.15);
     box-shadow: 
-      0 4px 15px rgba(0, 0, 0, 0.05),
-      0 1px 3px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      0 4px 15px rgba(0, 0, 0, 0.08),
+      0 1px 3px rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    backdrop-filter: blur(8px);
   }
 
   .neo-transaction-card::before {
@@ -812,24 +823,24 @@
   }
 
   .neo-transaction-card:hover {
-    background: linear-gradient(145deg, #f8fafc, #ffffff);
-    border-color: rgba(29, 78, 216, 0.15);
+    background: linear-gradient(145deg, rgba(241, 245, 249, 0.95), rgba(248, 250, 252, 0.9));
+    border-color: rgba(29, 78, 216, 0.25);
     transform: translateY(-2px);
     box-shadow: 
-      0 8px 25px rgba(0, 0, 0, 0.08),
-      0 2px 8px rgba(0, 0, 0, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 1);
+      0 8px 25px rgba(0, 0, 0, 0.12),
+      0 2px 8px rgba(0, 0, 0, 0.18),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7);
   }
 
   /* Floating elements */
   .neo-floating {
-    background: linear-gradient(145deg, #ffffff, #f0f4f8);
+    background: linear-gradient(145deg, rgba(248, 250, 252, 0.85), rgba(240, 244, 248, 0.8));
     border-radius: 24px;
     box-shadow: 
-      0 20px 40px rgba(0, 0, 0, 0.1),
-      0 8px 16px rgba(0, 0, 0, 0.05),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.8);
+      0 20px 40px rgba(0, 0, 0, 0.15),
+      0 8px 16px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(20px);
   }
 
@@ -855,20 +866,21 @@
 
   /* Card Styling - Updated with neomorphism */
   .grova-card {
-    background: #f0f4f8;
+    background: rgba(240, 244, 248, 0.85);
     border-radius: 20px;
     box-shadow: 
-      20px 20px 40px rgba(0, 0, 0, 0.1),
-      -20px -20px 40px rgba(255, 255, 255, 0.8);
+      20px 20px 40px rgba(0, 0, 0, 0.15),
+      -20px -20px 40px rgba(255, 255, 255, 0.7);
     border: none;
     padding: 1.5rem;
     transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
   }
 
   .grova-card:hover {
     box-shadow: 
-      25px 25px 50px rgba(0, 0, 0, 0.12),
-      -25px -25px 50px rgba(255, 255, 255, 0.9);
+      25px 25px 50px rgba(0, 0, 0, 0.18),
+      -25px -25px 50px rgba(255, 255, 255, 0.8);
     transform: translateY(-2px);
   }
 
@@ -1226,27 +1238,27 @@
 
 /* Enhanced card interactions */
 .neo-card-interactive {
-  background: linear-gradient(145deg, #ffffff, #f8fafc);
-  border-radius: 20px;
-  box-shadow: 
-    12px 12px 24px rgba(163, 177, 198, 0.5),
-    -12px -12px 24px rgba(255, 255, 255, 1),
-    inset 1px 1px 2px rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  position: relative;
-  z-index: 1;
-  backdrop-filter: blur(10px);
-  animation: fadeInUp 0.6s ease-out;
-}
+    background: linear-gradient(145deg, rgba(248, 250, 252, 0.85), rgba(241, 245, 249, 0.8));
+    border-radius: 20px;
+    box-shadow: 
+      12px 12px 24px rgba(163, 177, 198, 0.3),
+      -12px -12px 24px rgba(255, 255, 255, 0.7),
+      inset 1px 1px 2px rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    z-index: 1;
+    backdrop-filter: blur(10px);
+    animation: fadeInUp 0.6s ease-out;
+  }
 
 .neo-card-interactive:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 
-    20px 20px 40px rgba(163, 177, 198, 0.6),
-    -20px -20px 40px rgba(255, 255, 255, 1),
-    0 10px 30px rgba(29, 78, 216, 0.1);
-}
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 
+      20px 20px 40px rgba(163, 177, 198, 0.4),
+      -20px -20px 40px rgba(255, 255, 255, 0.8),
+      0 10px 30px rgba(29, 78, 216, 0.08);
+  }
 
 /* Premium glass effects */
 .neo-glass-button {
@@ -1376,7 +1388,7 @@
 .neo-button-primary:hover {
   transform: translateY(-3px);
   box-shadow: 
-    0 15px 35px rgba(29, 78, 216, 0.4),
+    0 15px 35px rgba(29,78, 216, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
@@ -1417,12 +1429,12 @@
     border: 2px solid #000;
     box-shadow: none;
   }
-  
+
   .neo-button-primary {
     background: #000;
     border: 2px solid #000;
   }
-  
+
   .neo-button-secondary {
     background: #fff;
     border: 2px solid #000;
