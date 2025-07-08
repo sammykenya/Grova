@@ -26,7 +26,8 @@ import {
   Wifi,
   Play,
   Users,
-  Lightbulb
+  Lightbulb,
+  Receipt
 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 
@@ -160,8 +161,6 @@ export default function Home() {
   const setBluetoothTransferOpen = (isOpen: boolean) => {
     console.log("setBluetoothTransferOpen", isOpen)
   }
-
-  const transactions = [{ id: 1, description: "Sample Transaction", amount: 10 }]
 
   return (
     <div className="min-h-screen bg-white">
