@@ -589,26 +589,26 @@
 
   /* Enhanced card hover effects */
   .neo-card-interactive {
-    background: linear-gradient(145deg, rgba(226, 232, 240, 0.9), rgba(203, 213, 225, 0.85));
+    background: linear-gradient(145deg, rgba(203, 213, 225, 0.77), rgba(148, 163, 184, 0.72));
     border-radius: 20px;
     box-shadow: 
-      12px 12px 24px rgba(163, 177, 198, 0.4),
-      -12px -12px 24px rgba(255, 255, 255, 0.6),
-      inset 1px 1px 2px rgba(255, 255, 255, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+      12px 12px 24px rgba(163, 177, 198, 0.34),
+      -12px -12px 24px rgba(255, 255, 255, 0.51),
+      inset 1px 1px 2px rgba(255, 255, 255, 0.34);
+    border: 1px solid rgba(255, 255, 255, 0.43);
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     position: relative;
     z-index: 1;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(14px);
     animation: fadeInUp 0.6s ease-out;
   }
 
   .neo-card-interactive:hover {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 
-      20px 20px 40px rgba(163, 177, 198, 0.5),
-      -20px -20px 40px rgba(255, 255, 255, 0.7),
-      0 10px 30px rgba(29, 78, 216, 0.1);
+      20px 20px 40px rgba(163, 177, 198, 0.43),
+      -20px -20px 40px rgba(255, 255, 255, 0.6),
+      0 10px 30px rgba(29, 78, 216, 0.085);
   }
 
   /* Ripple effect for buttons */
@@ -1242,26 +1242,26 @@
 
 /* Enhanced card interactions */
 .neo-card-interactive {
-    background: linear-gradient(145deg, rgba(226, 232, 240, 0.9), rgba(203, 213, 225, 0.85));
+    background: linear-gradient(145deg, rgba(203, 213, 225, 0.77), rgba(148, 163, 184, 0.72));
     border-radius: 20px;
     box-shadow: 
-      12px 12px 24px rgba(163, 177, 198, 0.4),
-      -12px -12px 24px rgba(255, 255, 255, 0.6),
-      inset 1px 1px 2px rgba(255, 255, 255, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+      12px 12px 24px rgba(163, 177, 198, 0.34),
+      -12px -12px 24px rgba(255, 255, 255, 0.51),
+      inset 1px 1px 2px rgba(255, 255, 255, 0.34);
+    border: 1px solid rgba(255, 255, 255, 0.43);
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     position: relative;
     z-index: 1;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(14px);
     animation: fadeInUp 0.6s ease-out;
   }
 
 .neo-card-interactive:hover {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 
-      20px 20px 40px rgba(163, 177, 198, 0.5),
-      -20px -20px 40px rgba(255, 255, 255, 0.7),
-      0 10px 30px rgba(29, 78, 216, 0.1);
+      20px 20px 40px rgba(163, 177, 198, 0.43),
+      -20px -20px 40px rgba(255, 255, 255, 0.6),
+      0 10px 30px rgba(29, 78, 216, 0.085);
   }
 
 /* Premium glass effects */
